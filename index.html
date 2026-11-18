@@ -168,6 +168,23 @@ section{position:relative}
 .alert{display:grid;grid-template-columns:24px 1fr;gap:10px;background:rgba(196,85,59,.15);border:1px solid rgba(196,85,59,.42);border-radius:14px;padding:11px 12px;font-size:12.5px;line-height:1.4}
 .alert svg{width:21px;height:21px;color:#e48b73}
 .alert b{display:block;font-weight:600;color:#f4d6cc}
+.ph-link{display:block;justify-self:center;width:min(320px,100%);margin:0 auto;color:inherit;text-decoration:none;border-radius:46px;outline-offset:8px;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.ph-link .phone{width:100%}
+.ph-open{position:absolute;left:50%;bottom:30px;transform:translate(-50%,14px);display:inline-flex;align-items:center;gap:10px;padding:12px 18px 12px 20px;border-radius:999px;background:#F4EFE2;color:#0f2a28;font-weight:700;font-size:14.5px;letter-spacing:.01em;box-shadow:0 14px 34px -10px rgba(0,0,0,.6);opacity:0;transition:opacity .45s ease,transform .6s cubic-bezier(.2,.8,.2,1);white-space:nowrap;pointer-events:none}
+.ph-open svg{width:16px;height:16px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.ph-link .screen{transition:filter .6s ease}
+@media (hover:hover){.ph-link:hover{transform:translateY(-10px) rotate(-1.2deg)}.ph-link:hover .screen{filter:brightness(.72) saturate(.85)}.ph-link:hover .ph-open{opacity:1;transform:translate(-50%,0)}.ph-link:hover .ph-open svg{transform:translate(2px,-2px)}}
+.ph-link:focus-visible .ph-open{opacity:1;transform:translate(-50%,0)}
+.demo-cta{display:flex;align-items:center;gap:16px;width:max-content;max-width:100%;margin:34px auto 0;color:var(--ink);text-decoration:none}
+.dc-arrow{flex:none;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--gold);color:#13201d;transition:transform .6s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 0 0 rgba(227,197,103,.5);animation:dcPulse 2.8s ease-out infinite}
+.dc-arrow svg{width:22px;height:22px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.dc-txt{display:flex;flex-direction:column;gap:3px}
+.dc-txt b{font-weight:800;font-stretch:112%;font-size:1.2rem;letter-spacing:-.01em;background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;padding-bottom:2px;transition:background-size .5s cubic-bezier(.2,.8,.2,1)}
+.dc-txt small{color:var(--soft);font-size:14px}
+.demo-cta:hover .dc-arrow{transform:scale(1.08)}.demo-cta:hover .dc-arrow svg{transform:translateX(3px)}.demo-cta:hover .dc-txt b{background-size:100% 1.5px}
+@keyframes dcPulse{0%{box-shadow:0 0 0 0 rgba(227,197,103,.45)}70%,100%{box-shadow:0 0 0 18px rgba(227,197,103,0)}}
+@media (prefers-reduced-motion:reduce){.dc-arrow{animation:none}}
+@media (hover:none){.ph-open{opacity:1;transform:translate(-50%,0);bottom:22px;padding:10px 16px;font-size:13.5px}}
 .mock-note{text-align:center;font-size:13px;color:var(--dim);margin-top:16px}
 
 /* About: names run sideways with the scroll */
@@ -302,7 +319,8 @@ footer a{color:var(--ink)}
         </ul>
       </div>
       <div class="ph-wrap">
-        <div class="phone" role="img" aria-label="Exempelvy av Limna-appen med vattennivå, graf över 14 dagar, mätvärden och ett larm om sjunkande nivå">
+        <a class="ph-link" href="app/" aria-label="Öppna demo-appen. Exempelvy av Limna-appen med vattennivå, graf, mätvärden och ett larm.">
+        <div class="phone">
           <div class="screen">
             <div class="app-top"><div><div class="t">Norra dammen</div><div class="s">EXEMPELVY</div></div><span class="live"><i></i>LIVE</span></div>
             <div class="gauge">
@@ -328,9 +346,14 @@ footer a{color:var(--ink)}
             </div>
             <div class="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg><div><b>Nivån sjunker snabbare än vanligt</b>3 cm per dygn. Med nuvarande uttag räcker vattnet i ungefär 9 dagar.</div></div>
           </div>
+          <span class="ph-open" aria-hidden="true"><span>Öppna demon</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
         </div>
+        </a>
+        <a class="demo-cta ts" href="app/">
+          <span class="dc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <span class="dc-txt"><b>Testa demo-appen</b><small>Klicka runt i en påhittad damm, direkt i webbläsaren.</small></span>
+        </a>
         <p class="mock-note ts">Exempelvy med påhittade värden. Appen är under utveckling.</p>
-        <p style="text-align:center;margin-top:18px"><a class="btn" href="app/"><span>Testa demo-appen</span></a></p>
       </div>
     </div>
   </section>
