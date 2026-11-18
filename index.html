@@ -1,70 +1,943 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sv">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Limna – koll på vattnet i bevattningsdammen</title>
-<meta name="description" content="Limna är ett studentprojekt från LTH som utvecklar en flytande boj som mäter vattnet i bevattningsdammar i realtid.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Limna</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Limna ska ge lantbrukare full koll på bevattningsdammen: vattennivå och vattenkvalitet dygnet runt, direkt i mobilen. Ett projekt från LTH.">
 <meta property="og:title" content="Limna">
-<meta property="og:description" content="En flytande boj som ger odlare koll på vattnet i dammen.">
+<meta property="og:description" content="Full koll på bevattningsdammen. Utan att gå dit. Ett projekt från LTH.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230b6e8a'/%3E%3Cpath d='M4 18q4-4 8 0t8 0t8 0v10H4z' fill='%23fff' opacity='.9'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#1F5451">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='2.8' fill='%232E6E6A'/%3E%3Ccircle cx='16' cy='16' r='7.6' fill='none' stroke='%232E6E6A' stroke-width='2' stroke-dasharray='8.6 3.3'/%3E%3Ccircle cx='16' cy='16' r='13' fill='none' stroke='%232E6E6A' stroke-width='2' stroke-dasharray='17.3 3.1'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-  :root{--ink:#0e2a35;--muted:#4a6671;--accent:#0b6e8a;--bg:#f4f9fb;--card:#fff;--line:#d6e5eb}
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
-  .wrap{max-width:46rem;margin:0 auto;padding:0 1.25rem}
-  header{padding:1.5rem 0}
-  .logo{font-weight:700;font-size:1.25rem;letter-spacing:.04em;color:var(--accent)}
-  .hero{padding:3rem 0 3.5rem}
-  h1{font-size:clamp(2rem,6vw,3.1rem);line-height:1.15;margin:0 0 1rem}
-  .lead{font-size:1.2rem;color:var(--muted);max-width:36rem;margin:0}
-  .wave{display:block;width:100%;height:48px;color:var(--card)}
-  section{background:var(--card);padding:3rem 0}
-  section.alt{background:var(--bg)}
-  h2{font-size:1.5rem;margin:0 0 .75rem}
-  p{margin:0 0 1rem}
-  .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));margin-top:1.25rem}
-  .card{border:1px solid var(--line);border-radius:.75rem;padding:1.1rem 1.2rem;background:var(--bg)}
-  .card strong{display:block;margin-bottom:.25rem}
-  .pill{display:inline-block;font-size:.85rem;font-weight:600;color:var(--accent);background:#e0f1f6;border-radius:99px;padding:.2rem .7rem;margin-bottom:1rem}
-  footer{padding:2rem 0 3rem;color:var(--muted);font-size:.9rem}
+/* Layout: a fixed canvas landscape (one day on the farm, dawn to night) with content cards that drift past as you travel across the field. */
+:root{
+  --teal:#2E6E6A; --teal-deep:#1F5451; --gold:#E3C567; --bone:#F4F1E9; --brick:#C4553B;
+  --bg:#0f1d26;
+  --on-sky:#F7F4EC; --on-sky-soft:rgba(247,244,236,.82);
+  --card:rgba(246,243,235,.88); --card-solid:#F6F3EB; --card-fg:#1c3432; --head:#1F5451; --muted:#4d625f;
+  --line:rgba(31,84,81,.14); --chip:rgba(46,110,106,.10); --field:rgba(31,84,81,.06);
+  --btn:#2E6E6A; --btn-fg:#F4F1E9;
+  --shadow:0 18px 50px -20px rgba(10,30,30,.45);
+  --f-display:"Outfit", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --card:rgba(14,32,34,.84); --card-solid:#10262a; --card-fg:#E9E5D9; --head:#9fd6cd; --muted:#a7b8b3;
+  --line:rgba(244,241,233,.12); --chip:rgba(227,197,103,.12); --field:rgba(244,241,233,.06);
+  --btn:#E3C567; --btn-fg:#13302e; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --card:rgba(14,32,34,.84); --card-solid:#10262a; --card-fg:#E9E5D9; --head:#9fd6cd; --muted:#a7b8b3;
+  --line:rgba(244,241,233,.12); --chip:rgba(227,197,103,.12); --field:rgba(244,241,233,.06);
+  --btn:#E3C567; --btn-fg:#13302e; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--card-fg);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:rgba(15,29,38,.6)}
+#scene{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.wrap{position:relative;z-index:1;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.inner{max-width:1180px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.015em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+/* Nav */
+.nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:5;padding:14px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.nav .bar{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:10px 12px 10px 16px;border-radius:999px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);box-shadow:0 10px 30px -18px rgba(0,0,0,.5)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--head)}
+.brand svg{width:28px;height:28px}
+.brand b{font-family:var(--f-display);font-weight:600;font-size:20px;letter-spacing:.2em}
+.nav nav{display:flex;gap:4px;margin-left:auto}
+.nav nav a{text-decoration:none;font-size:15px;font-weight:500;color:var(--card-fg);padding:8px 12px;border-radius:999px;opacity:.85;transition:background .2s,opacity .2s}
+.nav nav a:hover{background:var(--chip);opacity:1}
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 16px/1 var(--f-body);text-decoration:none;border:0;cursor:pointer;padding:14px 22px;border-radius:999px;background:var(--btn);color:var(--btn-fg);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px -12px rgba(0,0,0,.5)}
+.btn.sm{padding:10px 16px;font-size:15px}
+.btn.ghost{background:transparent;color:var(--on-sky);box-shadow:inset 0 0 0 1.5px rgba(247,244,236,.55)}
+.btn.light{background:var(--bone);color:#1F5451}
+@media (max-width:860px){.nav nav{display:none}.nav .btn.sm{margin-left:auto}}
+
+/* Sections */
+section{position:relative;padding-block:22vh}
+.eyebrow{font:500 13px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--teal);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(227,197,103,.25)}
+:root .card .eyebrow{color:var(--head)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);backdrop-filter:blur(16px) saturate(1.15);-webkit-backdrop-filter:blur(16px) saturate(1.15);padding:clamp(22px,3vw,36px);min-width:0}
+.card h2{font-size:clamp(1.9rem,3.6vw,2.9rem);line-height:1.08;font-weight:600;color:var(--head);margin-top:16px}
+.card p.lead{font-size:clamp(1.05rem,1.4vw,1.2rem);margin-top:16px;max-width:60ch}
+.card p + p{margin-top:12px}
+.col-l{max-width:520px}
+.col-r{max-width:520px;margin-left:auto}
+
+/* Hero */
+.hero{min-height:100svh;display:flex;align-items:flex-end;padding-block:120px 12vh}
+.hero .inner{width:100%}
+.status{display:inline-flex;align-items:center;gap:10px;font:500 14px/1.2 var(--f-body);color:var(--on-sky);padding:8px 14px 8px 10px;border-radius:999px;background:rgba(15,29,38,.35);border:1px solid rgba(247,244,236,.22);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 0 rgba(227,197,103,.7);animation:ping 2.4s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(227,197,103,.6)}70%{box-shadow:0 0 0 10px rgba(227,197,103,0)}100%{box-shadow:0 0 0 0 rgba(227,197,103,0)}}
+.hero h1{color:var(--on-sky);font-weight:600;font-size:clamp(2.1rem,8.4vw,6.2rem);line-height:.98;margin-top:22px;max-width:13ch;text-shadow:0 2px 30px rgba(10,20,30,.35)}
+.hero h1 span{display:block}
+.hero h1 .soft{font-weight:300;color:var(--on-sky-soft)}
+.hero .sub{color:var(--on-sky);font-size:clamp(1.05rem,1.5vw,1.25rem);max-width:46ch;margin-top:22px;text-shadow:0 1px 16px rgba(10,20,30,.5)}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.cue{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:6vh;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--on-sky-soft);font:500 12px/1.3 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;text-align:center;width:120px}
+.cue .track{width:2px;height:56px;background:rgba(247,244,236,.25);border-radius:2px;overflow:hidden;position:relative}
+.cue .track::after{content:"";position:absolute;left:0;top:-40%;width:100%;height:40%;background:var(--gold);animation:drop 1.8s ease-in infinite}
+@keyframes drop{to{top:110%}}
+@media (max-width:700px){.cue{display:none}}
+.load{animation:rise 1s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+
+/* Problem */
+.problems{display:grid;gap:14px;margin-top:18px;max-width:520px}
+.prob{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;padding:18px 20px}
+.prob .ic{width:44px;height:44px;border-radius:12px;background:var(--chip);display:grid;place-items:center;color:var(--head)}
+.prob .ic svg{width:24px;height:24px}
+.prob h3{font-size:1.12rem;font-weight:600;color:var(--head)}
+.prob p{font-size:.98rem;color:var(--muted);margin-top:4px}
+.punch{margin-top:18px;max-width:520px}
+.punch p{font-family:var(--f-display);font-size:clamp(1.25rem,2vw,1.6rem);line-height:1.3;font-weight:500;color:var(--head)}
+
+/* Solution */
+.steps{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:4px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:40px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.steps li:first-child{border-top:0}
+.steps .n{font:500 14px/40px var(--f-mono);width:40px;height:40px;border-radius:50%;text-align:center;background:var(--chip);color:var(--head)}
+.steps h3{font-size:1.1rem;font-weight:600;color:var(--head)}
+.steps p{color:var(--muted);font-size:.98rem;margin-top:2px}
+.modular{margin-top:14px;display:grid;grid-template-columns:44px 1fr;gap:14px;padding:18px 20px;max-width:520px}
+.modular .ic{width:44px;height:44px;border-radius:12px;background:var(--chip);display:grid;place-items:center;color:var(--head)}
+.modular h3{font-size:1.05rem;color:var(--head)}
+.modular p{font-size:.96rem;color:var(--muted);margin-top:2px}
+.caption{margin-top:14px;font:400 13px/1.5 var(--f-mono);color:var(--on-sky);opacity:.9;max-width:520px;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+
+/* Benefits + phone */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center}
+@media (max-width:900px){.split{grid-template-columns:minmax(0,1fr)}}
+.benefits{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:0}
+.benefits li{padding:14px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:22px 1fr;gap:12px}
+.benefits li svg{width:22px;height:22px;color:var(--teal);margin-top:3px}
+.benefits b{display:block;color:var(--head);font-weight:600}
+.benefits span{color:var(--muted);font-size:.97rem}
+
+.phone{justify-self:center;width:min(330px,100%);max-width:100%;border-radius:46px;padding:12px;background:#0d1b1f;box-shadow:0 40px 80px -30px rgba(0,0,0,.6),inset 0 0 0 2px rgba(255,255,255,.08);position:relative}
+.screen{border-radius:36px;overflow:hidden;background:linear-gradient(180deg,#123b3a 0%,#0e2a2c 100%);color:#EAF0EC;padding:44px 18px 18px;display:flex;flex-direction:column;gap:12px;position:relative}
+.screen::before{content:"";position:absolute;top:12px;left:50%;transform:translateX(-50%);width:90px;height:24px;border-radius:20px;background:#0d1b1f}
+.app-top{display:flex;justify-content:space-between;align-items:center}
+.app-top .t{font:600 17px/1.2 var(--f-display)}
+.app-top .s{font:400 11px/1.3 var(--f-mono);color:#9fc4bd;letter-spacing:.06em}
+.live{display:inline-flex;align-items:center;gap:6px;font:500 10px/1 var(--f-mono);letter-spacing:.1em;color:#E3C567;background:rgba(227,197,103,.12);padding:6px 8px;border-radius:999px}
+.live i{width:6px;height:6px;border-radius:50%;background:#E3C567;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+.gauge{background:rgba(255,255,255,.05);border-radius:20px;padding:14px;display:grid;grid-template-columns:86px 1fr;gap:14px;align-items:center}
+.gauge svg{width:86px;height:86px}
+.gauge .big{font:600 30px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.gauge .lbl{font:400 11px/1.4 var(--f-mono);color:#9fc4bd;letter-spacing:.05em}
+.gauge .lbl b{color:#EAF0EC;font-weight:500}
+.chart{background:rgba(255,255,255,.05);border-radius:20px;padding:12px 12px 8px}
+.chart .h{display:flex;justify-content:space-between;font:400 10.5px/1 var(--f-mono);color:#9fc4bd;letter-spacing:.05em}
+.chart svg{width:100%;height:auto;display:block;margin-top:6px}
+.tiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.tile{background:rgba(255,255,255,.05);border-radius:14px;padding:10px}
+.tile .k{font:400 10px/1.2 var(--f-mono);color:#9fc4bd;letter-spacing:.04em}
+.tile .v{font:600 18px/1.2 var(--f-display);margin-top:6px;font-variant-numeric:tabular-nums}
+.tile .v small{font:400 10px var(--f-mono);color:#9fc4bd;margin-left:2px}
+.alert{margin-top:2px;display:grid;grid-template-columns:26px 1fr;gap:10px;background:rgba(196,85,59,.16);border:1px solid rgba(196,85,59,.45);border-radius:16px;padding:11px 12px;font-size:12.5px;line-height:1.4}
+.alert svg{width:22px;height:22px;color:#e88b72}
+.alert b{display:block;font-weight:600;color:#f6d6cc}
+.mock-note{text-align:center;font:400 12px/1.4 var(--f-mono);color:var(--on-sky);opacity:.85;margin-top:14px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+
+/* Team */
+.team{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}
+@media (max-width:480px){.team{grid-template-columns:minmax(0,1fr)}}
+.member{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center;padding:14px;border-radius:16px;background:var(--field);border:1px solid var(--line)}
+.member .av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font:600 16px/1 var(--f-display);color:var(--bone);background:var(--teal);box-shadow:0 0 0 3px var(--card-solid),0 0 0 4.5px rgba(227,197,103,.6)}
+.member b{display:block;color:var(--head);font-weight:600;line-height:1.25}
+.member span{display:block;font-size:.88rem;line-height:1.35;color:var(--muted);margin-top:2px}
+.lth{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.pill{font:500 12.5px/1 var(--f-mono);letter-spacing:.05em;padding:8px 12px;border-radius:999px;background:var(--chip);color:var(--head)}
+
+/* Contact */
+.contact h2.sky{color:var(--on-sky);font-size:clamp(2.2rem,5vw,4.2rem);line-height:1.02;font-weight:600;max-width:14ch;text-shadow:0 2px 30px rgba(0,0,0,.4)}
+.contact .skytext{color:var(--on-sky-soft);font-size:1.12rem;max-width:44ch;margin-top:18px}
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:22px;color:var(--on-sky)}
+.mail code{font:500 16px/1 var(--f-mono);padding:12px 14px;border-radius:12px;background:rgba(247,244,236,.1);border:1px solid rgba(247,244,236,.2);user-select:all}
+.copy{font:500 14px/1 var(--f-body);color:var(--on-sky);background:transparent;border:1px solid rgba(247,244,236,.35);border-radius:999px;padding:11px 14px;cursor:pointer}
+.copy:hover{background:rgba(247,244,236,.1)}
+form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:560px){form{grid-template-columns:minmax(0,1fr)}}
+.fld{display:grid;gap:6px;min-width:0}
+.fld.full{grid-column:1/-1}
+label{font:500 13px/1.2 var(--f-body);color:var(--muted)}
+input,select,textarea{font:400 16px/1.4 var(--f-body);color:var(--card-fg);background:var(--field);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%;min-width:0;transition:border-color .2s,background .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);background:transparent;box-shadow:0 0 0 3px rgba(46,110,106,.18)}
+textarea{resize:vertical;min-height:96px}
+.form-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.form-foot small{color:var(--muted);font-size:.85rem;max-width:36ch}
+.result{grid-column:1/-1;border-radius:14px;border:1px dashed var(--line);padding:16px;background:var(--field)}
+.result p{font-size:.95rem}
+.result pre{white-space:pre-wrap;font:400 13px/1.5 var(--f-mono);margin:10px 0 12px;color:var(--card-fg);max-height:180px;overflow:auto}
+.result .row{display:flex;flex-wrap:wrap;gap:10px}
+.result .btn{padding:10px 16px;font-size:14px}
+.btn.outline{background:transparent;color:var(--head);box-shadow:inset 0 0 0 1.5px var(--line)}
+
+footer{position:relative;z-index:1;padding-block:40px calc(40px + env(safe-area-inset-bottom,0px));color:var(--on-sky-soft);font-size:14px}
+footer .inner{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-content:space-between;border-top:1px solid rgba(247,244,236,.14);padding-top:24px}
+footer .brand{color:var(--on-sky)}
+footer a{color:var(--on-sky)}
+
+/* Day clock + section dots */
+.clock{position:fixed;z-index:4;left:max(16px,env(safe-area-inset-left,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border-radius:999px;background:rgba(12,24,30,.42);border:1px solid rgba(247,244,236,.16);color:var(--on-sky);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font:500 13px/1 var(--f-mono);letter-spacing:.04em;pointer-events:none}
+.clock svg{width:18px;height:18px;color:var(--gold)}
+.clock .tm{font-variant-numeric:tabular-nums;font-size:14px}
+.clock .ph{opacity:.75}
+.dots{position:fixed;z-index:4;right:max(18px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);display:grid;gap:14px}
+.dots a{width:10px;height:10px;border-radius:50%;background:rgba(247,244,236,.35);display:block;position:relative;transition:transform .25s,background .25s}
+.dots a.on{background:var(--gold);transform:scale(1.35)}
+.dots a span{position:absolute;right:20px;top:50%;transform:translateY(-50%);white-space:nowrap;font:500 12px/1 var(--f-mono);color:var(--on-sky);background:rgba(12,24,30,.6);padding:6px 9px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s}
+.dots a:hover span,.dots a:focus-visible span{opacity:1}
+@media (max-width:900px){.dots{display:none}}
+
+/* Scroll-driven reveals: content is fully visible without support. */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .rv{animation:reveal linear both;animation-timeline:view();animation-range:entry 0% cover 28%}
+    .rv.late{animation-range:entry 12% cover 36%}
+    .rv.later{animation-range:entry 22% cover 44%}
+    @keyframes reveal{from{opacity:.0;transform:translateY(60px) scale(.97);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+  }
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
 <body>
-<header><div class="wrap"><span class="logo">LIMNA</span></div></header>
+
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<header class="nav">
+  <div class="bar">
+    <a class="brand" href="#start" aria-label="Limna, till början">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="2.8" fill="currentColor"/><circle cx="16" cy="16" r="7.6" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="8.6 3.3" transform="rotate(-20 16 16)"/><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="17.3 3.1" transform="rotate(12 16 16)"/></svg>
+      <b>LIMNA</b>
+    </a>
+    <nav aria-label="Huvudmeny">
+      <a href="#problemet">Problemet</a>
+      <a href="#losningen">Lösningen</a>
+      <a href="#nytta">Vad du får</a>
+      <a href="#om-oss">Om oss</a>
+    </nav>
+    <a class="btn sm" href="#kontakt">Kontakta oss</a>
+  </div>
+</header>
 
 <main>
-  <div class="hero"><div class="wrap">
-    <span class="pill">Prototypfas</span>
-    <h1>Koll på vattnet i bevattningsdammen.</h1>
-    <p class="lead">Limna är en flytande boj som mäter vattnet i dammen och skickar värdena till din telefon. Vi är ett studentprojekt från LTH som bygger och testar den första prototypen.</p>
-  </div></div>
-
-  <svg class="wave" viewBox="0 0 1200 48" preserveAspectRatio="none" aria-hidden="true"><path fill="currentColor" d="M0 24c200 30 400 30 600 0s400-30 600 0v24H0z"/></svg>
-
-  <section><div class="wrap">
-    <h2>Varför?</h2>
-    <p>Bevattning handlar om att ha rätt mängd vatten vid rätt tidpunkt. Många odlare har dammar eller magasin som vattenkälla, men saknar ett enkelt sätt att följa vad som finns kvar och hur vattnet förändras över tid. Med torrare somrar och strängare regler för vattenuttag blir den kunskapen allt viktigare.</p>
-  </div></section>
-
-  <section class="alt"><div class="wrap">
-    <h2>Vad vi bygger</h2>
-    <p>En robust boj som flyter i dammen, mäter och skickar data trådlöst. Vi väljer sensorer utifrån vad som faktiskt hjälper odlaren fatta beslut, inte utifrån vad som är tekniskt möjligt att mäta.</p>
-    <div class="grid">
-      <div class="card"><strong>Mäter i realtid</strong>Värden från dammen utan att du behöver åka dit.</div>
-      <div class="card"><strong>Byggd för fält</strong>Tål väder, påväxt och en hel säsong ute.</div>
-      <div class="card"><strong>Enkel att förstå</strong>Tydliga siffror och larm, inget krångel.</div>
+  <section id="start" class="hero wrap" data-name="Gryning">
+    <div class="inner">
+      <span class="status load d1"><i></i>Under utveckling · Vi söker gårdar att testa med</span>
+      <h1><span class="load d2">Full koll på</span><span class="load d3">bevattningsdammen.</span><span class="soft load d4">Utan att gå dit.</span></h1>
+      <p class="sub load d4">Limna är en solcellsdriven mätboj som ska mäta vattennivå och vattenkvalitet i din damm dygnet runt. Så kan du planera bevattningen på data i stället för magkänsla.</p>
+      <div class="ctas load d5">
+        <a class="btn light" href="#kontakt">Kontakta oss</a>
+        <a class="btn ghost" href="#losningen">Så fungerar det</a>
+      </div>
     </div>
-  </div></section>
+    <div class="cue" aria-hidden="true"><div class="track"></div>Skrolla och åk ut på åkern</div>
+  </section>
 
-  <section><div class="wrap">
-    <h2>Var vi är just nu</h2>
-    <p>Vi testar sensorer och kommunikation på labbänken och pratar med odlare för att förstå vad som är värt att mäta. Är du odlare och har synpunkter på hur du följer ditt vatten idag vill vi gärna höra från dig.</p>
-  </div></section>
+  <section id="intro" class="wrap" data-name="Morgon">
+    <div class="inner">
+      <div class="card col-r rv">
+        <span class="eyebrow">Dammen är en produktionsresurs</span>
+        <h2>Vattnet avgör skörden. Ändå mäter nästan ingen det.</h2>
+        <p class="lead">För en lantbrukare är vattnet i bevattningsdammen lika viktigt som utsädet. Ändå står de flesta dammar helt utan mätning. Nivån bedöms med ögat och kvaliteten kontrolleras sällan eller aldrig.</p>
+        <p>Limna ska ändra på det. Bojen mäter kontinuerligt och visar allt i en enkel app: hur mycket vatten som finns kvar, hur det mår och när något håller på att gå fel.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="problemet" class="wrap" data-name="Middag">
+    <div class="inner">
+      <div class="card col-l rv">
+        <span class="eyebrow">Problemet</span>
+        <h2>Vattnet är dyrt. Ovissheten är dyrare.</h2>
+      </div>
+      <div class="problems">
+        <div class="card prob rv late">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12s3.5-6 9-6c1.6 0 3 .5 4.2 1.2M21 12s-3.5 6-9 6c-1.6 0-3-.5-4.2-1.2"/><path d="M4 20 20 4"/></svg></span>
+          <div><h3>Ingen uppsikt</h3><p>De flesta bevattningsdammar saknar mätning. Man vet inte hur mycket vatten som finns kvar eller hur snabbt det förbrukas.</p></div>
+        </div>
+        <div class="card prob rv late">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg></span>
+          <div><h3>Mycket handjobb</h3><p>Att flytta runt bevattningskanoner och slangvagnar kan ta en halv arbetsdag, varje dag under säsongen.</p></div>
+        </div>
+        <div class="card prob rv late">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a5 5 0 0 0 5-5c0-3-5-9-5-9s-5 6-5 9a5 5 0 0 0 5 5Z"/><path d="M17 3c.6.8.6 1.7 0 2.5s-.6 1.7 0 2.5M20.5 2.5c.6.8.6 1.7 0 2.5s-.6 1.7 0 2.5"/></svg></span>
+          <div><h3>Vatten som försvinner</h3><p>Bevattnar man mitt på dagen blir mycket av vattnet kvar i luften. Vind och sol tar det innan det når marken.</p></div>
+        </div>
+        <div class="card prob rv late">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2 15c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M2 20c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"/><circle cx="12" cy="6" r="3"/></svg></span>
+          <div><h3>Kvalitet som ingen ser</h3><p>Låg syrehalt, alger och grumligt vatten kan sätta igen utrustningen, men upptäcks ofta först när det redan är ett problem.</p></div>
+        </div>
+        <div class="card prob rv late">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3.2"/><path d="M8 1.5v1.3M8 13.2v1.3M1.5 8h1.3M13.2 8h1.3M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9"/><path d="M11 20h7.5a3.5 3.5 0 0 0 0-7 5 5 0 0 0-8.6 1.4A3 3 0 0 0 11 20Z"/></svg></span>
+          <div><h3>Tuffare förutsättningar</h3><p>Torrare somrar, kraftigare skyfall och hårdare regler för vattenuttag gör varje droppe viktigare.</p></div>
+        </div>
+      </div>
+      <div class="card punch rv late"><p>Lösningen är inte alltid fler och större dammar som tar värdefull åkermark. Den är att använda vattnet man redan har smartare.</p></div>
+    </div>
+  </section>
+
+  <section id="losningen" class="wrap" data-name="Eftermiddag">
+    <div class="inner">
+      <div class="card col-l rv">
+        <span class="eyebrow">Lösningen</span>
+        <h2>En boj i dammen. Svaren i mobilen.</h2>
+        <ol class="steps">
+          <li><span class="n">01</span><div><h3>Mäter i vattnet</h3><p>Givare under bojen ska mäta vattennivå, temperatur, löst syre, grumling och konduktivitet.</p></div></li>
+          <li><span class="n">02</span><div><h3>Drivs av solen</h3><p>Solcell och batteri ska hålla bojen igång hela säsongen, utan kablar till land.</p></div></li>
+          <li><span class="n">03</span><div><h3>Larmar i tid</h3><p>Du får larm om nivån sjunker snabbt, syret tar slut eller värdena avviker.</p></div></li>
+          <li><span class="n">04</span><div><h3>Visar helheten</h3><p>Appen visar aktuella värden, grafer över tid, larmhistorik och bojens status.</p></div></li>
+        </ol>
+      </div>
+      <div class="card modular rv late">
+        <span class="ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/></svg></span>
+        <div><h3>Modulär från start</h3><p>Givarna sitter på en gemensam hållare och kan bytas eller kompletteras, så att bojen växer med dina behov.</p></div>
+      </div>
+      <p class="caption rv later">Ringarna på dammen visar var bojen mäter. Bojens slutliga utformning är inte bestämd ännu.</p>
+    </div>
+  </section>
+
+  <section id="nytta" class="wrap" data-name="Gyllene timmen">
+    <div class="inner split">
+      <div class="card rv">
+        <span class="eyebrow">Vad du får</span>
+        <h2>Mindre gissande. Mer tid för det som spelar roll.</h2>
+        <ul class="benefits">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg><div><b>Vet hur mycket vatten du har</b><span>Se nivå och kvarvarande volym direkt i appen, och upptäck läckage tidigt.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg><div><b>Planera bevattningen</b><span>Undvik både överbevattning, med onödiga pump- och elkostnader, och underbevattning som slår mot skörden.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg><div><b>Skydda vattnet och utrustningen</b><span>Följ syrehalt, pH och grumling, och få underlag för när syresättning eller filtrering behövs.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg><div><b>Spara tid</b><span>Slipp åka ut och titta. Bojen håller koll åt dig.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg><div><b>Bygg historik</b><span>Se hur dammen förändras över säsonger och fatta bättre beslut nästa år.</span></div></li>
+        </ul>
+      </div>
+      <div class="rv late">
+        <div class="phone" role="img" aria-label="Exempelvy av Limna-appen med vattennivå, graf över 14 dagar, mätvärden och ett larm om sjunkande nivå">
+          <div class="screen">
+            <div class="app-top"><div><div class="t">Norra dammen</div><div class="s">EXEMPELVY</div></div><span class="live"><i></i>LIVE</span></div>
+            <div class="gauge">
+              <svg viewBox="0 0 86 86" aria-hidden="true"><circle cx="43" cy="43" r="34" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="9"/><circle id="gArc" cx="43" cy="43" r="34" fill="none" stroke="#E3C567" stroke-width="9" stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="79" transform="rotate(-90 43 43)"/><circle cx="43" cy="43" r="22" fill="none" stroke="rgba(159,196,189,.35)" stroke-width="1.5" stroke-dasharray="10 4"/></svg>
+              <div><div class="big"><span id="lvl">63</span> %</div><div class="lbl">VATTENNIVÅ<br><b>≈ 4 100 m³</b> kvar</div></div>
+            </div>
+            <div class="chart">
+              <div class="h"><span>NIVÅ · 14 DAGAR</span><span>%</span></div>
+              <svg viewBox="0 0 260 110" aria-hidden="true">
+                <defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E3C567" stop-opacity=".35"/><stop offset="1" stop-color="#E3C567" stop-opacity="0"/></linearGradient></defs>
+                <g stroke="rgba(255,255,255,.07)" stroke-width="1"><line x1="10" y1="21.25" x2="250" y2="21.25"/><line x1="10" y1="55" x2="250" y2="55"/><line x1="10" y1="88.75" x2="250" y2="88.75"/></g>
+                <g fill="#9fc4bd" font-family="JetBrains Mono, monospace" font-size="8"><text x="252" y="24">85</text><text x="252" y="58">70</text><text x="252" y="91">55</text></g>
+                <path id="chA" fill="url(#ga)" d=""/>
+                <path id="chL" fill="none" stroke="#E3C567" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d=""/>
+                <circle id="chD" r="4" fill="#E3C567" stroke="#0e2a2c" stroke-width="2"/>
+                <g fill="#9fc4bd" font-family="JetBrains Mono, monospace" font-size="8"><text x="10" y="106">−14 d</text><text x="214" y="106">i dag</text></g>
+              </svg>
+            </div>
+            <div class="tiles">
+              <div class="tile"><div class="k">TEMP</div><div class="v"><span id="tmp">17,8</span><small>°C</small></div></div>
+              <div class="tile"><div class="k">SYRE</div><div class="v">7,9<small>mg/l</small></div></div>
+              <div class="tile"><div class="k">GRUMLING</div><div class="v">12<small>NTU</small></div></div>
+            </div>
+            <div class="alert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4M12 17h.01"/></svg><div><b>Nivån sjunker snabbare än vanligt</b>3 cm per dygn. Räcker i cirka 9 dagar med nuvarande uttag.</div></div>
+          </div>
+        </div>
+        <p class="mock-note">Exempelvy. Appen är under utveckling.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="om-oss" class="wrap" data-name="Skymning">
+    <div class="inner">
+      <div class="card col-l rv">
+        <span class="eyebrow">Om oss</span>
+        <h2>Ett projekt från LTH.</h2>
+        <p class="lead">Limna utvecklas just nu som ett projekt på LTH. Vi vill ge svenska lantbrukare samma tekniska stöd som resten av samhället tar för givet, och vi börjar med vattnet.</p>
+        <div class="team">
+          <div class="member"><span class="av" aria-hidden="true">SB</span><div><b>Sean Banegas</b><span>Affär och utveckling</span></div></div>
+          <div class="member"><span class="av" aria-hidden="true">VK</span><div><b>Vilmer Kullberg</b><span>Teknik och CAD</span></div></div>
+          <div class="member"><span class="av" aria-hidden="true">EA</span><div><b>Egon Artberger</b><span>Prototyp, hemsida och app</span></div></div>
+          <div class="member"><span class="av" aria-hidden="true">FB</span><div><b>Fabian Bertilsson</b><span>Prototyp, hemsida och app</span></div></div>
+        </div>
+        <div class="lth"><span class="pill">LTH · Lunds tekniska högskola</span><span class="pill">Skåne</span><span class="pill">Prototyp 2026</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt" class="wrap contact" data-name="Natt">
+    <div class="inner split">
+      <div class="rv">
+        <span class="eyebrow" style="color:var(--on-sky)">Kontakt</span>
+        <h2 class="sky" style="margin-top:16px">Har du en bevattningsdamm?</h2>
+        <p class="skytext">Vi vill prata med lantbrukare och dammanläggare som vill vara med och forma Limna. Berätta om din damm och hur du bevattnar i dag, så hör vi av oss.</p>
+        <div class="mail"><span>Eller mejla oss direkt:</span><code id="addr">kontakt@limna.se</code><button class="copy" type="button" id="copyAddr">Kopiera</button></div>
+      </div>
+      <div class="card rv late">
+        <form id="form" novalidate>
+          <div class="fld"><label for="f-namn">Namn</label><input id="f-namn" name="namn" autocomplete="name" required></div>
+          <div class="fld"><label for="f-mail">E-post</label><input id="f-mail" name="epost" type="email" autocomplete="email" required></div>
+          <div class="fld"><label for="f-gard">Gård eller företag</label><input id="f-gard" name="gard" autocomplete="organization"></div>
+          <div class="fld"><label for="f-ort">Ort</label><input id="f-ort" name="ort"></div>
+          <div class="fld"><label for="f-storlek">Ungefärlig dammstorlek</label>
+            <select id="f-storlek" name="storlek"><option value="">Välj</option><option>Under 5 000 m³</option><option>5 000–20 000 m³</option><option>20 000–50 000 m³</option><option>Över 50 000 m³</option><option>Vet inte</option></select></div>
+          <div class="fld"><label for="f-hur">Hur bevattnar du i dag?</label>
+            <select id="f-hur" name="bevattning"><option value="">Välj</option><option>Bevattningskanon/slangvagn</option><option>Ramp</option><option>Droppbevattning</option><option>Annat</option><option>Bevattnar inte än</option></select></div>
+          <div class="fld full"><label for="f-msg">Meddelande</label><textarea id="f-msg" name="meddelande" placeholder="Berätta gärna om dammen och vad du vill ha koll på."></textarea></div>
+          <div class="form-foot"><small id="formHint">Vi använder bara uppgifterna för att kontakta dig om Limna.</small><button class="btn" type="submit">Skapa meddelande</button></div>
+          <div class="result" id="result" hidden>
+            <p>Klart. Skicka meddelandet till <b>kontakt@limna.se</b>, så hör vi av oss.</p>
+            <pre id="resText"></pre>
+            <div class="row"><a class="btn" id="resMail" href="mailto:kontakt@limna.se">Öppna i mejlprogrammet</a><button class="btn outline" type="button" id="resCopy">Kopiera texten</button></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer><div class="wrap">© 2026 Limna · Ett studentprojekt vid Lunds tekniska högskola</div></footer>
+<footer class="wrap">
+  <div class="inner">
+    <a class="brand" href="#start"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="2.8" fill="currentColor"/><circle cx="16" cy="16" r="7.6" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="8.6 3.3" transform="rotate(-20 16 16)"/><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="17.3 3.1" transform="rotate(12 16 16)"/></svg><b>LIMNA</b></a>
+    <span>Ett projekt på LTH · <a href="mailto:kontakt@limna.se">kontakt@limna.se</a></span>
+    <span>© 2026 Limna</span>
+  </div>
+</footer>
+
+<div class="clock" aria-hidden="true"><svg id="clkIc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg><span class="tm" id="clkT">05:12</span><span class="ph" id="clkP">Gryning</span></div>
+<nav class="dots" id="dots" aria-label="Avsnitt"></nav>
+
+<script>
+(() => {
+"use strict";
+const cv = document.getElementById("scene");
+const ctx = cv.getContext("2d");
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let W = 0, H = 0, DPR = 1, hy = 0, F = 0, mobile = false;
+let secs = [], fT = 0.5, fC = 0.5, last = performance.now(), T = 0;
+const CAMH = 5;
+
+/* ---------- helpers ---------- */
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const smooth = t => t * t * (3 - 2 * t);
+const hex = h => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+const mix = (a, b, t) => [lerp(a[0],b[0],t), lerp(a[1],b[1],t), lerp(a[2],b[2],t)];
+const rgb = (c, a = 1) => `rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
+const bump = (f, a, b, c) => f <= a || f >= c ? 0 : f < b ? smooth((f - a) / (b - a)) : smooth(1 - (f - b) / (c - b));
+let seed = 7;
+const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+function keyed(keys, f) { // keys: [[f, value],...] numeric
+  if (f <= keys[0][0]) return keys[0][1];
+  for (let i = 1; i < keys.length; i++) {
+    if (f <= keys[i][0]) { const t = smooth((f - keys[i-1][0]) / (keys[i][0] - keys[i-1][0])); return lerp(keys[i-1][1], keys[i][1], t); }
+  }
+  return keys[keys.length - 1][1];
+}
+
+/* ---------- day palette, keyed to section position ---------- */
+const PAL = [
+  [0.5, {top:"#1f2d44", mid:"#5d6a86", bot:"#f0b48a", crop:"#4f6a50", soil:"#3f3a33", far:"#7a7a94", hmid:"#44575a", near:"#2e4442", light:.55}],
+  [1.5, {top:"#4a86b4", mid:"#9cc3d9", bot:"#f5dfbf", crop:"#6a8a4e", soil:"#6b5640", far:"#9db3bf", hmid:"#5f7f6a", near:"#456a52", light:.9}],
+  [2.5, {top:"#3d86bd", mid:"#8fc0dc", bot:"#f2ead0", crop:"#b1a05e", soil:"#977a55", far:"#b7c4bd", hmid:"#939b6e", near:"#7b8551", light:1}],
+  [3.5, {top:"#4a8fb8", mid:"#a3cad8", bot:"#eef0e2", crop:"#6f9b52", soil:"#6f5a42", far:"#a6bcbc", hmid:"#5f8a68", near:"#3f6e52", light:.95}],
+  [4.5, {top:"#3f5f8c", mid:"#d9a578", bot:"#f6c879", crop:"#8c9a46", soil:"#6e5236", far:"#b08f7e", hmid:"#6c6a4a", near:"#4a5a3a", light:.8}],
+  [5.5, {top:"#1d2748", mid:"#6b4f6e", bot:"#e0866a", crop:"#3c4a3a", soil:"#33292a", far:"#6a5470", hmid:"#3a3a4a", near:"#262c33", light:.4}],
+  [6.5, {top:"#070d1a", mid:"#0f1d33", bot:"#1c3346", crop:"#15211f", soil:"#101415", far:"#1a2838", hmid:"#121c26", near:"#0c1419", light:.15}]
+].map(([f, o]) => { const r = {f}; for (const k in o) r[k] = typeof o[k] === "string" ? hex(o[k]) : o[k]; return r; });
+
+function palette(f) {
+  let a = PAL[0], b = PAL[0], t = 0;
+  if (f >= PAL[PAL.length-1].f) { a = b = PAL[PAL.length-1]; }
+  else for (let i = 1; i < PAL.length; i++) if (f <= PAL[i].f) { a = PAL[i-1]; b = PAL[i]; t = smooth(clamp((f - a.f) / (b.f - a.f), 0, 1)); break; }
+  const o = {};
+  for (const k in a) o[k] = k === "f" ? f : Array.isArray(a[k]) ? mix(a[k], b[k], t) : lerp(a[k], b[k], t);
+  return o;
+}
+const HOURS = [[0,4.6],[0.5,5.2],[1.5,8],[2.5,12.5],[3.5,15.2],[4.5,18.6],[5.5,21],[6.5,23],[7.2,23.6]];
+const CAMZ  = [[0,-8],[0.5,0],[1.5,40],[2.1,72],[2.9,84],[3.2,160],[3.85,169],[4.6,236],[5.5,290],[6.5,330],[7.2,345]];
+
+/* ---------- static world data ---------- */
+const POND = {x: 0, z: 200, rx: 15, rz: 10};
+const GUN = {x: 7, z: 100};
+const stars = Array.from({length: 160}, () => ({x: rnd(), y: rnd() * 0.85, r: rnd() * 1.2 + 0.3, p: rnd() * 6.28}));
+const clouds = Array.from({length: 7}, (_, i) => ({x: rnd() * 1.6 - 0.3, y: 0.08 + rnd() * 0.3, s: 0.6 + rnd() * 0.9, v: 0.004 + rnd() * 0.006, puffs: Array.from({length: 6}, () => [rnd() * 2 - 1, rnd() * 0.5 - 0.25, 0.35 + rnd() * 0.45])}));
+const birds = Array.from({length: 6}, (_, i) => ({o: rnd() * 40, y: 0.16 + rnd() * 0.2, s: 0.7 + rnd() * 0.6, sp: 0.018 + rnd() * 0.012, ph: rnd() * 6}));
+const flies = Array.from({length: 46}, () => ({x: rnd(), y: 0.55 + rnd() * 0.42, a: rnd() * 6.28, b: rnd() * 6.28, s: 0.6 + rnd()}));
+const lights = Array.from({length: 9}, () => ({u: rnd(), k: rnd()}));
+const drops = [];
+const pulses = [];
+let gunAcc = 0, pulseAcc = 0;
+
+/* ---------- projection ---------- */
+let camZ = 0, camX = 0, vx = 0;
+function P(x, h, z) { const d = Math.max(z - camZ, 0.35); const s = F / d; return [vx + (x - camX) * s, hy + (CAMH - h) * s, s, d]; }
+
+/* ---------- sizing ---------- */
+function resize() {
+  DPR = Math.min(window.devicePixelRatio || 1, 1.75);
+  W = innerWidth; H = innerHeight; mobile = W < 760;
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  hy = H * (mobile ? 0.44 : 0.5);
+  F = Math.min(H * 0.9, W * (mobile ? 1.25 : 1.0));
+  POND.x = mobile ? 0 : W > 1100 ? 10 : 7;
+  measure();
+}
+function measure() {
+  secs = [...document.querySelectorAll("main > section")].map(s => { const r = s.getBoundingClientRect(); return {top: r.top + scrollY, h: r.height, el: s}; });
+}
+function sectionF() {
+  const mid = scrollY + H * 0.5;
+  for (let i = 0; i < secs.length; i++) { const s = secs[i]; if (mid < s.top + s.h) return i + clamp((mid - s.top) / s.h, 0, 1); }
+  return secs.length + 0.2;
+}
+
+/* ---------- drawing ---------- */
+function hillPath(base, amp, freq, off, rough) {
+  ctx.beginPath(); ctx.moveTo(-W, H * 2); ctx.lineTo(-W, base);
+  for (let x = -W; x <= W * 2; x += 14) {
+    const u = (x + off) * freq;
+    const y = base - amp * (0.55 + 0.3 * Math.sin(u) + 0.15 * Math.sin(u * 2.7 + 1.3) + rough * Math.sin(u * 9.1));
+    ctx.lineTo(x, y);
+  }
+  ctx.lineTo(W * 2, H * 2); ctx.closePath();
+}
+function ridgeY(base, amp, freq, off, rough, x) {
+  const u = (x + off) * freq;
+  return base - amp * (0.55 + 0.3 * Math.sin(u) + 0.15 * Math.sin(u * 2.7 + 1.3) + rough * Math.sin(u * 9.1));
+}
+
+function draw(f, dt) {
+  const p = palette(f);
+  const hours = keyed(HOURS, f);
+  camZ = keyed(CAMZ, f);
+  camX = Math.sin(camZ / 55) * 6;
+  vx = W / 2;
+  const night = clamp((hours - 20.6) / 1.6, 0, 1);
+  const hot = bump(f, 1.8, 2.5, 3.05);
+  const roll = Math.sin(camZ / 47 + 0.6) * 0.011 * (RM ? 0 : 1);
+
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.save();
+  ctx.translate(W / 2, hy); ctx.rotate(roll); ctx.translate(-W / 2, -hy);
+
+  /* sky */
+  const g = ctx.createLinearGradient(0, -H * 0.1, 0, hy + 2);
+  g.addColorStop(0, rgb(p.top)); g.addColorStop(0.55, rgb(p.mid)); g.addColorStop(1, rgb(p.bot));
+  ctx.fillStyle = g; ctx.fillRect(-W, -H, W * 3, hy + H + 4);
+
+  /* stars */
+  if (night > 0.01) {
+    for (const s of stars) {
+      const tw = 0.6 + 0.4 * Math.sin(T * 1.6 + s.p);
+      ctx.fillStyle = `rgba(247,244,236,${night * tw * 0.9})`;
+      ctx.beginPath(); ctx.arc(s.x * W, s.y * hy, s.r, 0, 6.283); ctx.fill();
+    }
+  }
+
+  /* sun */
+  const sunT = (hours - 5.0) / 16.6;
+  if (sunT > -0.05 && sunT < 1.05) {
+    const sx = W * (0.12 + 0.76 * sunT) - camX * 3;
+    const sy = hy - Math.sin(clamp(sunT, 0, 1) * Math.PI) * hy * 0.78 + 6;
+    const low = 1 - Math.sin(clamp(sunT, 0, 1) * Math.PI);
+    const R = Math.max(W, H) * (0.35 + low * 0.35);
+    const sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, R);
+    const warm = mix([255, 244, 214], [255, 186, 120], low);
+    sg.addColorStop(0, rgb(warm, 0.55 + 0.25 * low)); sg.addColorStop(0.12, rgb(warm, 0.22 + 0.2 * low)); sg.addColorStop(1, rgb(warm, 0));
+    ctx.fillStyle = sg; ctx.fillRect(-W, -H, W * 3, hy + H);
+    ctx.fillStyle = rgb(mix([255, 250, 232], [255, 210, 150], low), 0.95);
+    ctx.beginPath(); ctx.arc(sx, sy, 18 + low * 10, 0, 6.283); ctx.fill();
+  }
+
+  /* moon */
+  if (night > 0.01) {
+    const mx = W * 0.78, my = hy * 0.26;
+    const mg = ctx.createRadialGradient(mx, my, 0, mx, my, 160);
+    mg.addColorStop(0, `rgba(220,230,240,${0.22 * night})`); mg.addColorStop(1, "rgba(220,230,240,0)");
+    ctx.fillStyle = mg; ctx.fillRect(mx - 160, my - 160, 320, 320);
+    ctx.save(); ctx.beginPath(); ctx.rect(mx - 40, my - 40, 80, 80); ctx.arc(mx + 9, my - 6, 20, 0, 6.283); ctx.clip("evenodd");
+    ctx.fillStyle = `rgba(244,241,233,${night})`;
+    ctx.beginPath(); ctx.arc(mx, my, 22, 0, 6.283); ctx.fill(); ctx.restore();
+  }
+
+  /* clouds */
+  const cloudCol = mix([255, 255, 255], p.bot, 0.35);
+  for (const c of clouds) {
+    const cx = ((c.x + T * c.v * (RM ? 0 : 1) - camX * 0.002 - camZ * 0.0006) % 1.6 + 1.6) % 1.6 * W - W * 0.3;
+    const cy = c.y * hy;
+    const a = (0.38 - night * 0.3) * (0.7 + 0.3 * p.light);
+    for (const [px, py, pr] of c.puffs) {
+      const r = pr * 60 * c.s * (mobile ? 0.7 : 1);
+      const rg = ctx.createRadialGradient(cx + px * 70 * c.s, cy + py * 40, 0, cx + px * 70 * c.s, cy + py * 40, r);
+      rg.addColorStop(0, rgb(cloudCol, a)); rg.addColorStop(1, rgb(cloudCol, 0));
+      ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(cx + px * 70 * c.s, cy + py * 40, r, 0, 6.283); ctx.fill();
+    }
+  }
+
+  /* birds */
+  const birdA = bump(f, 0.6, 2.0, 4.8);
+  if (birdA > 0.02 && !RM) {
+    ctx.strokeStyle = rgb(mix(p.near, [20, 30, 30], 0.5), 0.75 * birdA); ctx.lineWidth = 1.6; ctx.lineCap = "round";
+    for (const b of birds) {
+      const bx = ((T * b.sp + b.o / 40) % 1.3) * W * 1.1 - W * 0.1;
+      const by = b.y * hy + Math.sin(T * 0.7 + b.ph) * 8;
+      const fl = Math.sin(T * 7 * b.s + b.ph) * 4 * b.s;
+      const s = 7 * b.s;
+      ctx.beginPath(); ctx.moveTo(bx - s, by - fl); ctx.quadraticCurveTo(bx - s * 0.4, by - 2, bx, by); ctx.quadraticCurveTo(bx + s * 0.4, by - 2, bx + s, by - fl); ctx.stroke();
+    }
+  }
+
+  /* hills: far, mid (with barn and trees), near treeline */
+  const drift = camX * 1.5 + camZ * 0.9;
+  ctx.fillStyle = rgb(mix(p.far, p.bot, 0.35));
+  hillPath(hy + 2, H * 0.11, 0.0032, drift * 0.25, 0.02); ctx.fill();
+
+  const midOff = drift * 0.6;
+  ctx.fillStyle = rgb(mix(p.hmid, p.bot, 0.18));
+  hillPath(hy + 2, H * 0.065, 0.0052, midOff, 0.03); ctx.fill();
+  // trees on mid ridge
+  ctx.fillStyle = rgb(mix(p.near, p.hmid, 0.3));
+  for (let i = 0; i < 70; i++) {
+    const wx = ((i * 97.3 - midOff) % (W * 1.6) + W * 1.6) % (W * 1.6) - W * 0.3;
+    if ((i * 13) % 7 < 3) continue;
+    const y = ridgeY(hy + 2, H * 0.065, 0.0052, midOff, 0.03, wx);
+    const r = 3 + ((i * 31) % 5);
+    ctx.beginPath(); ctx.arc(wx, y - r * 0.6, r, 0, 6.283); ctx.fill();
+  }
+  // barn
+  {
+    const bxw = ((W * 0.72 - midOff * 1.0) % (W * 2.2) + W * 2.2) % (W * 2.2) - W * 0.5;
+    const by = ridgeY(hy + 2, H * 0.065, 0.0052, midOff, 0.03, bxw) + 2;
+    const s = mobile ? 0.8 : 1;
+    const red = mix([142, 59, 46], p.hmid, 0.25 + 0.6 * night);
+    ctx.fillStyle = rgb(red);
+    ctx.fillRect(bxw - 13 * s, by - 12 * s, 26 * s, 12 * s);
+    ctx.beginPath(); ctx.moveTo(bxw - 15 * s, by - 12 * s); ctx.lineTo(bxw, by - 21 * s); ctx.lineTo(bxw + 15 * s, by - 12 * s); ctx.closePath();
+    ctx.fillStyle = rgb(mix([70, 60, 58], p.hmid, 0.3)); ctx.fill();
+    ctx.fillStyle = rgb(mix([244, 241, 233], p.hmid, 0.35 + 0.5 * night));
+    ctx.fillRect(bxw - 3 * s, by - 7 * s, 6 * s, 7 * s);
+    if (night > 0.05) { ctx.fillStyle = `rgba(255,214,140,${night})`; ctx.fillRect(bxw - 9 * s, by - 9 * s, 3.5 * s, 3 * s); ctx.fillRect(bxw + 5.5 * s, by - 9 * s, 3.5 * s, 3 * s); }
+  }
+  // farm lights at night on far hills
+  if (night > 0.05) {
+    for (const l of lights) {
+      const lx = ((l.u * W * 1.6 - drift * 0.25) % (W * 1.6) + W * 1.6) % (W * 1.6) - W * 0.3;
+      const ly = ridgeY(hy + 2, H * 0.11, 0.0032, drift * 0.25, 0.02, lx) + 6 + l.k * 10;
+      const a = night * (0.6 + 0.4 * Math.sin(T * 2 + l.k * 9));
+      ctx.fillStyle = `rgba(255,210,140,${a})`; ctx.beginPath(); ctx.arc(lx, ly, 1.6, 0, 6.283); ctx.fill();
+    }
+  }
+  ctx.fillStyle = rgb(p.near);
+  hillPath(hy + 3, H * 0.022, 0.011, drift * 1.0, 0.25); ctx.fill();
+
+  /* ground */
+  const cropC = p.crop, soilC = p.soil;
+  ctx.fillStyle = rgb(mix(cropC, soilC, 0.45));
+  ctx.fillRect(-W, hy, W * 3, H * 2);
+  const dB = CAMH * F / (H - hy);   // depth at screen bottom
+  const dN = dB * 0.55, dFar = 700;
+  const rowSp = 1.5, cropW = 0.9, span = 70;
+  const x0 = Math.floor((camX - span) / rowSp) * rowSp;
+  ctx.fillStyle = rgb(soilC);
+  for (let x = x0; x < camX + span; x += rowSp) {
+    const a = P(x + cropW, 0, camZ + dN), b = P(x + rowSp, 0, camZ + dN), c = P(x + rowSp, 0, camZ + dFar), d = P(x + cropW, 0, camZ + dFar);
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.lineTo(c[0], c[1]); ctx.lineTo(d[0], d[1]); ctx.closePath(); ctx.fill();
+  }
+  // crossing ditches/tramlines: give the forward motion
+  ctx.fillStyle = rgb(mix(soilC, [20, 28, 24], 0.35));
+  for (let z = Math.ceil((camZ + dN) / 60) * 60; z < camZ + 260; z += 60) {
+    if (Math.abs(z - POND.z) < POND.rz + 6) continue;
+    const a = P(camX - 300, 0, z), b = P(camX + 300, 0, z), c = P(camX + 300, 0, z + 1.4), d = P(camX - 300, 0, z + 1.4);
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.lineTo(c[0], c[1]); ctx.lineTo(d[0], d[1]); ctx.closePath(); ctx.fill();
+  }
+
+  /* pond */
+  const pondD = POND.z - camZ;
+  let pondC = null;
+  if (pondD > -POND.rz && pondD < 420) {
+    const pts = [];
+    for (let i = 0; i < 72; i++) {
+      const a = i / 72 * 6.283;
+      const wob = 1 + 0.07 * Math.sin(a * 3 + 1) + 0.04 * Math.sin(a * 5);
+      pts.push(P(POND.x + Math.cos(a) * POND.rx * wob, 0, POND.z + Math.sin(a) * POND.rz * wob));
+    }
+    const far = P(POND.x, 0, POND.z + POND.rz), near = P(POND.x, 0, POND.z - POND.rz);
+    // shore
+    ctx.beginPath(); pts.forEach((q, i) => i ? ctx.lineTo(q[0], q[1]) : ctx.moveTo(q[0], q[1])); ctx.closePath();
+    ctx.lineWidth = Math.max(2, far[2] * 1.2); ctx.strokeStyle = rgb(mix(soilC, [30, 30, 25], 0.3)); ctx.stroke();
+    const wg = ctx.createLinearGradient(0, far[1], 0, near[1]);
+    const teal = [46, 110, 106];
+    wg.addColorStop(0, rgb(mix(p.bot, teal, 0.35)));
+    wg.addColorStop(0.5, rgb(mix(p.mid, teal, 0.5)));
+    wg.addColorStop(1, rgb(mix(p.top, teal, 0.55)));
+    ctx.fillStyle = wg; ctx.fill();
+    // glints
+    ctx.save(); ctx.clip();
+    ctx.strokeStyle = `rgba(255,255,255,${0.12 + 0.1 * p.light})`; ctx.lineWidth = 1;
+    for (let k = 0; k < 14; k++) {
+      const zz = POND.z - POND.rz + (k + 0.5) / 14 * POND.rz * 2;
+      const xx = POND.x + Math.sin(k * 2.3 + T * 0.4) * POND.rx * 0.5;
+      const q = P(xx, 0, zz), L = q[2] * (1.5 + (k % 3));
+      ctx.beginPath(); ctx.moveTo(q[0] - L, q[1]); ctx.lineTo(q[0] + L, q[1]); ctx.stroke();
+    }
+    ctx.restore();
+    pondC = P(POND.x, 0, POND.z);
+    // sensor rings (abstract: where the buoy measures)
+    const ringA = 0.35 + 0.65 * bump(f, 2.6, 3.5, 4.7);
+    for (let k = 0; k < 4; k++) {
+      const ph = ((T * (RM ? 0 : 0.22) + k / 4) % 1);
+      const r = 0.8 + ph * 8;
+      const rxS = r * pondC[2], ryS = r * CAMH * pondC[2] / pondC[3];
+      ctx.strokeStyle = `rgba(247,244,236,${(1 - ph) * 0.75 * ringA})`;
+      ctx.lineWidth = 1.6;
+      ctx.setLineDash(k % 2 ? [rxS * 0.5, rxS * 0.12] : []);
+      ctx.beginPath(); ctx.ellipse(pondC[0], pondC[1], rxS, Math.max(ryS, 0.5), 0, 0, 6.283); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    const pulse = 0.5 + 0.5 * Math.sin(T * 3);
+    const gr = ctx.createRadialGradient(pondC[0], pondC[1], 0, pondC[0], pondC[1], 28);
+    gr.addColorStop(0, `rgba(227,197,103,${0.75 * ringA})`); gr.addColorStop(1, "rgba(227,197,103,0)");
+    ctx.fillStyle = gr; ctx.beginPath(); ctx.ellipse(pondC[0], pondC[1], 28, 14, 0, 0, 6.283); ctx.fill();
+    ctx.fillStyle = `rgba(247,236,200,${ringA})`; ctx.beginPath(); ctx.ellipse(pondC[0], pondC[1], 4 + pulse, 2.2 + pulse * 0.5, 0, 0, 6.283); ctx.fill();
+  }
+
+  /* plants along crop rows (far to near) */
+  const plantC = mix(cropC, [255, 255, 230], 0.12);
+  const dMax = mobile ? 34 : 46, stepZ = 1.25;
+  const bands = [[dMax, 16, 0.9], [16, 8, 1.5], [8, 0, 2.4]];
+  ctx.strokeStyle = rgb(plantC); ctx.lineCap = "round";
+  for (const [dFarB, dNearB, lw] of bands) {
+    ctx.lineWidth = lw; ctx.beginPath();
+    const zStart = Math.floor((camZ + dFarB) / stepZ) * stepZ;
+    for (let z = zStart; z > camZ + Math.max(dNearB, dB * 0.75); z -= stepZ) {
+      const d = z - camZ, s = F / d;
+      const ph = Math.floor(z / stepZ);
+      for (let x = x0; x < camX + span; x += rowSp) {
+        const xc = x + cropW * 0.5 + (((ph * 7 + x * 3) % 5) - 2) * 0.05;
+        const sx = vx + (xc - camX) * s;
+        if (sx < -20 || sx > W + 20) continue;
+        const ex = (xc - POND.x) / (POND.rx * 1.12), ez = (z - POND.z) / (POND.rz * 1.12);
+        if (ex * ex + ez * ez < 1) continue;
+        const sy = hy + CAMH * s;
+        const h = (0.32 + 0.12 * ((ph + x) % 3)) * s * (1 - hot * 0.25);
+        const sway = Math.sin(T * 1.4 + z * 0.3 + x) * h * 0.12 * (RM ? 0 : 1);
+        ctx.moveTo(sx, sy); ctx.lineTo(sx - h * 0.35 + sway, sy - h * 0.8);
+        ctx.moveTo(sx, sy); ctx.lineTo(sx + sway, sy - h);
+        ctx.moveTo(sx, sy); ctx.lineTo(sx + h * 0.35 + sway, sy - h * 0.75);
+      }
+    }
+    ctx.stroke();
+  }
+
+  /* reeds on pond edge */
+  if (pondC) {
+    ctx.strokeStyle = rgb(mix(cropC, [25, 40, 30], 0.35)); ctx.lineWidth = Math.max(1, pondC[2] * 0.05);
+    ctx.beginPath();
+    for (let i = 0; i < 90; i++) {
+      const a = (i * 0.618 % 1) * 6.283;
+      if (Math.sin(a * 2 + 0.5) < -0.2) continue;
+      const q = P(POND.x + Math.cos(a) * POND.rx * 1.03, 0, POND.z + Math.sin(a) * POND.rz * 1.03);
+      if (q[3] < dB * 0.7) continue;
+      const h = q[2] * (0.9 + (i % 4) * 0.25), sw = Math.sin(T + i) * h * 0.08 * (RM ? 0 : 1);
+      ctx.moveTo(q[0], q[1]); ctx.lineTo(q[0] + sw, q[1] - h);
+    }
+    ctx.stroke();
+  }
+
+  /* irrigation gun in the dry midday field: water evaporates before it lands */
+  const gunA = bump(f, 1.6, 2.5, 3.1);
+  if (gunA > 0.01) {
+    const base = P(GUN.x, 0, GUN.z), top = P(GUN.x, 1.6, GUN.z);
+    if (base[3] > 2) {
+      ctx.strokeStyle = `rgba(52,58,56,${gunA})`; ctx.lineWidth = Math.max(2, base[2] * 0.12);
+      ctx.beginPath(); ctx.moveTo(base[0] - base[2] * 0.6, base[1]); ctx.lineTo(top[0], top[1]); ctx.lineTo(base[0] + base[2] * 0.6, base[1]); ctx.moveTo(top[0], top[1]); ctx.lineTo(top[0] + base[2] * 0.7, top[1] - base[2] * 0.45); ctx.stroke();
+      // hose
+      ctx.strokeStyle = `rgba(40,44,42,${gunA * 0.8})`; ctx.lineWidth = Math.max(1, base[2] * 0.05);
+      const h1 = P(GUN.x + 4, 0, GUN.z - 6);
+      ctx.beginPath(); ctx.moveTo(base[0], base[1]); ctx.quadraticCurveTo(h1[0], base[1], h1[0], h1[1]); ctx.stroke();
+      if (!RM) {
+        gunAcc += dt * 220 * gunA;
+        const sweep = Math.sin(T * 0.6) * 0.5 + 0.55;
+        while (gunAcc > 1) {
+          gunAcc -= 1;
+          const ang = sweep + (rnd() - 0.5) * 0.12, sp = 9 + rnd() * 3;
+          drops.push({x: GUN.x + 0.7, y: 1.95, z: GUN.z, vx: Math.cos(ang) * sp * (0.7 + rnd() * 0.5), vy: 6 + rnd() * 3, vz: Math.sin(ang) * sp * 0.5 - 1.5 + rnd(), age: 0, life: 1.5 + rnd() * 0.6});
+        }
+      }
+    }
+  }
+  if (drops.length) {
+    for (let i = drops.length - 1; i >= 0; i--) {
+      const q = drops[i];
+      q.age += dt; q.vy -= 9.8 * dt; q.x += q.vx * dt; q.y += q.vy * dt; q.z += q.vz * dt;
+      if (q.age > q.life || q.y < 0) { drops.splice(i, 1); continue; }
+      const s = P(q.x, q.y, q.z);
+      const evap = 1 - q.age / (q.life * (0.9 - hot * 0.35));
+      const a = clamp(evap, 0, 1) * gunA * 0.85;
+      if (a <= 0.01) continue;
+      ctx.fillStyle = `rgba(235,245,250,${a})`;
+      ctx.beginPath(); ctx.arc(s[0], s[1], Math.max(1, s[2] * 0.07 * (1 + q.age * 1.5)), 0, 6.283); ctx.fill();
+    }
+  }
+
+  /* data pulses rising from the pond to the phone */
+  const dataA = bump(f, 3.0, 3.7, 4.6);
+  if (pondC && dataA > 0.02 && !RM) {
+    pulseAcc += dt;
+    if (pulseAcc > 0.55) { pulseAcc = 0; pulses.push({t: 0, x: pondC[0], y: pondC[1], w: (rnd() - 0.5) * 80}); }
+  }
+  for (let i = pulses.length - 1; i >= 0; i--) {
+    const q = pulses[i]; q.t += dt * 0.45;
+    if (q.t > 1) { pulses.splice(i, 1); continue; }
+    const yy = lerp(q.y - 10, -20, q.t), xx = q.x + Math.sin(q.t * 3.14) * q.w;
+    const a = Math.sin(q.t * 3.14) * dataA;
+    ctx.fillStyle = `rgba(227,197,103,${a})`;
+    for (let k = 0; k < 3; k++) { ctx.beginPath(); ctx.arc(xx, yy + k * 12, 2.4 - k * 0.6, 0, 6.283); ctx.fill(); }
+  }
+
+  /* haze at the horizon, morning mist */
+  const hz = ctx.createLinearGradient(0, hy - 6, 0, hy + (H - hy) * 0.45);
+  hz.addColorStop(0, rgb(p.bot, 0.75)); hz.addColorStop(0.25, rgb(p.bot, 0.25)); hz.addColorStop(1, rgb(p.bot, 0));
+  ctx.fillStyle = hz; ctx.fillRect(-W, hy - 6, W * 3, (H - hy) * 0.5);
+  const mist = bump(f, -0.5, 0.5, 1.6);
+  if (mist > 0.01) {
+    for (let k = 0; k < 4; k++) {
+      const yy = hy + (H - hy) * (0.08 + k * 0.12);
+      const xx = ((T * (RM ? 0 : 6) * (k + 1) + k * 300) % (W * 1.5)) - W * 0.25;
+      const mg = ctx.createRadialGradient(xx, yy, 0, xx, yy, W * 0.5);
+      mg.addColorStop(0, `rgba(240,232,225,${0.28 * mist})`); mg.addColorStop(1, "rgba(240,232,225,0)");
+      ctx.save(); ctx.translate(xx, yy); ctx.scale(1, 0.12); ctx.translate(-xx, -yy);
+      ctx.fillStyle = mg; ctx.fillRect(xx - W * 0.5, yy - W * 0.5, W, W); ctx.restore();
+    }
+  }
+  /* heat shimmer tint at noon */
+  if (hot > 0.01) { ctx.fillStyle = `rgba(255,236,190,${0.08 * hot})`; ctx.fillRect(-W, -H, W * 3, H * 3); }
+
+  /* fireflies */
+  const ffA = clamp((hours - 21.4) / 1.2, 0, 1);
+  if (ffA > 0.01) {
+    for (const q of flies) {
+      const x = (q.x * W + Math.sin(T * 0.35 * q.s + q.a) * 40), y = q.y * H + Math.cos(T * 0.5 * q.s + q.b) * 20;
+      const a = ffA * (0.45 + 0.55 * Math.sin(T * 2.2 * q.s + q.a)) ;
+      if (a <= 0) continue;
+      const fg = ctx.createRadialGradient(x, y, 0, x, y, 10);
+      fg.addColorStop(0, `rgba(240,214,120,${a})`); fg.addColorStop(1, "rgba(240,214,120,0)");
+      ctx.fillStyle = fg; ctx.beginPath(); ctx.arc(x, y, 10, 0, 6.283); ctx.fill();
+    }
+  }
+
+  ctx.restore();
+
+  /* vignette */
+  const vg = ctx.createRadialGradient(W / 2, H * 0.45, Math.min(W, H) * 0.35, W / 2, H * 0.5, Math.max(W, H) * 0.85);
+  vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, `rgba(5,12,16,${0.28 + night * 0.25})`);
+  ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+
+  updateClock(hours, f);
+}
+
+/* ---------- clock + dots ---------- */
+const clkT = document.getElementById("clkT"), clkP = document.getElementById("clkP"), clkIc = document.getElementById("clkIc");
+let lastMin = -1, lastSec = -1, moonMode = null;
+function phase(h) { return h < 6.5 ? "Gryning" : h < 10 ? "Morgon" : h < 14 ? "Middag" : h < 17.5 ? "Eftermiddag" : h < 20 ? "Gyllene timmen" : h < 22 ? "Skymning" : "Natt"; }
+const SUN = '<circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/>';
+const MOON = '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" fill="currentColor" stroke="none"/>';
+function updateClock(h, f) {
+  const m = Math.floor(h * 60);
+  if (m !== lastMin) { lastMin = m; const hh = Math.floor(m / 60) % 24, mm = m % 60; clkT.textContent = String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0"); clkP.textContent = phase(h); }
+  const mode = h > 21.2;
+  if (mode !== moonMode) { moonMode = mode; clkIc.innerHTML = mode ? MOON : SUN; }
+  const si = clamp(Math.floor(f), 0, secs.length - 1);
+  if (si !== lastSec) { lastSec = si; dotEls.forEach((d, i) => d.classList.toggle("on", i === si)); }
+}
+const dotsNav = document.getElementById("dots");
+const dotEls = [...document.querySelectorAll("main > section")].map(s => {
+  const a = document.createElement("a"); a.href = "#" + s.id;
+  const label = s.querySelector(".eyebrow")?.textContent || "Start";
+  a.innerHTML = "<span>" + label + "</span>"; a.setAttribute("aria-label", label);
+  dotsNav.appendChild(a); return a;
+});
+
+/* ---------- loop ---------- */
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  if (!RM) T += dt;
+  fT = sectionF();
+  fC = RM ? fT : fC + (fT - fC) * Math.min(1, dt * 3.2);
+  draw(fC, RM ? 0 : dt);
+  requestAnimationFrame(frame);
+}
+addEventListener("resize", resize);
+addEventListener("load", measure);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+resize();
+fC = fT = sectionF();
+requestAnimationFrame(frame);
+
+/* ---------- phone mock ---------- */
+const DATA = [82, 80, 77.5, 75, 72.5, 70.5, 68, 65, 62.5, 75, 73, 70, 66.5, 63];
+const X = i => 10 + i * (240 / (DATA.length - 1)), Y = v => 21.25 + (85 - v) * 2.25;
+const line = DATA.map((v, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(v).toFixed(1)).join(" ");
+const chL = document.getElementById("chL");
+chL.setAttribute("d", line);
+document.getElementById("chA").setAttribute("d", line + ` L ${X(DATA.length - 1)} 100 L 10 100 Z`);
+const dot = document.getElementById("chD"); dot.setAttribute("cx", X(DATA.length - 1)); dot.setAttribute("cy", Y(DATA[DATA.length - 1]));
+if (!RM && "IntersectionObserver" in window) {
+  const len = chL.getTotalLength();
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    chL.style.transition = "none"; chL.style.strokeDasharray = len; chL.style.strokeDashoffset = len;
+    chL.getBoundingClientRect();
+    chL.style.transition = "stroke-dashoffset 2.2s cubic-bezier(.4,.1,.2,1)"; chL.style.strokeDashoffset = 0;
+    io.unobserve(e.target);
+  }), {threshold: 0.4});
+  io.observe(chL.closest(".phone"));
+  const tmp = document.getElementById("tmp");
+  setInterval(() => { const v = 17.8 + (Math.random() - 0.5) * 0.3; tmp.textContent = v.toFixed(1).replace(".", ","); }, 2600);
+}
+
+/* ---------- contact ---------- */
+function copyText(text, btn) {
+  const done = () => { const o = btn.textContent; btn.textContent = "Kopierat"; setTimeout(() => btn.textContent = o, 1600); };
+  try { navigator.clipboard.writeText(text).then(done, () => selectFallback()); } catch (e) { selectFallback(); }
+  function selectFallback() { const r = document.createRange(); r.selectNodeContents(document.getElementById(btn.id === "copyAddr" ? "addr" : "resText")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+}
+document.getElementById("copyAddr").addEventListener("click", e => copyText("kontakt@limna.se", e.currentTarget));
+const form = document.getElementById("form");
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const fd = new FormData(form);
+  const name = (fd.get("namn") || "").trim(), mail = (fd.get("epost") || "").trim();
+  const hint = document.getElementById("formHint");
+  if (!name || !/^\S+@\S+\.\S+$/.test(mail)) { hint.textContent = "Fyll i namn och en giltig e-postadress, så vi kan svara dig."; hint.style.color = "var(--brick)"; (name ? form.epost : form.namn).focus(); return; }
+  hint.textContent = "Vi använder bara uppgifterna för att kontakta dig om Limna."; hint.style.color = "";
+  const rows = [["Namn", name], ["E-post", mail], ["Gård/företag", fd.get("gard")], ["Ort", fd.get("ort")], ["Dammstorlek", fd.get("storlek")], ["Bevattning i dag", fd.get("bevattning")]].filter(r => r[1]).map(r => r[0] + ": " + r[1]);
+  const msg = (fd.get("meddelande") || "").trim();
+  const body = rows.join("\n") + (msg ? "\n\n" + msg : "");
+  document.getElementById("resText").textContent = body;
+  document.getElementById("resMail").href = "mailto:kontakt@limna.se?subject=" + encodeURIComponent("Intresse för Limna – " + name) + "&body=" + encodeURIComponent(body);
+  const res = document.getElementById("result"); res.hidden = false; res.scrollIntoView({behavior: RM ? "auto" : "smooth", block: "nearest"});
+});
+document.getElementById("resCopy").addEventListener("click", e => copyText(document.getElementById("resText").textContent, e.currentTarget));
+})();
+</script>
 </body>
 </html>
