@@ -380,7 +380,7 @@ footer a{color:var(--ink)}
         <span class="label">Kontakt</span>
         <h2 id="cHead">Har du en bevattningsdamm?</h2>
         <p class="lede" data-in>Vi vill gärna prata med lantbrukare och med folk som anlägger dammar. Berätta hur din damm ser ut och hur du vattnar i dag, så hör vi av oss.</p>
-        <div class="mail" data-in><span>Eller mejla</span><code id="addr">kontakt@limna.se</code><button class="copy" type="button" id="copyAddr">Kopiera</button></div>
+        <div class="mail" data-in><span>Eller mejla</span><code id="addr">info@limna.se</code><button class="copy" type="button" id="copyAddr">Kopiera</button></div>
       </div>
       <div class="ts" data-in>
         <form id="form" novalidate>
@@ -395,9 +395,9 @@ footer a{color:var(--ink)}
           <div class="fld full"><label for="f-msg">Meddelande</label><textarea id="f-msg" name="meddelande" placeholder="Hur ser dammen ut, och vad vill du ha koll på?"></textarea></div>
           <div class="form-foot"><small id="formHint">Vi använder bara uppgifterna för att höra av oss om Limna.</small><button class="btn" type="submit"><span>Skicka</span></button></div>
           <div class="result" id="result" hidden>
-            <p>Klart. Skicka texten till <b>kontakt@limna.se</b>, så svarar vi.</p>
+            <p>Klart. Skicka texten till <b>info@limna.se</b>, så svarar vi.</p>
             <pre id="resText"></pre>
-            <div class="row"><a class="btn" id="resMail" href="mailto:kontakt@limna.se"><span>Öppna i mejlprogrammet</span></a><button class="btn line" type="button" id="resCopy"><span>Kopiera texten</span></button></div>
+            <div class="row"><a class="btn" id="resMail" href="mailto:info@limna.se"><span>Öppna i mejlprogrammet</span></a><button class="btn line" type="button" id="resCopy"><span>Kopiera texten</span></button></div>
           </div>
         </form>
       </div>
@@ -408,7 +408,7 @@ footer a{color:var(--ink)}
 <footer class="wrap">
   <div class="inner ts">
     <a class="brand" href="#start"><span class="logo" aria-hidden="true"></span><b>LIMNA</b></a>
-    <span>Ett projekt på LTH · <a href="mailto:kontakt@limna.se">kontakt@limna.se</a></span>
+    <span>Ett projekt på LTH · <a href="mailto:info@limna.se">info@limna.se</a></span>
     <span>© 2026 Limna</span>
   </div>
 </footer>
@@ -700,7 +700,7 @@ function copyText(text, btn, srcId) {
   const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById(srcId)); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
   try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
 }
-document.getElementById("copyAddr").addEventListener("click", e => copyText("kontakt@limna.se", e.currentTarget, "addr"));
+document.getElementById("copyAddr").addEventListener("click", e => copyText("info@limna.se", e.currentTarget, "addr"));
 const form = document.getElementById("form");
 form.addEventListener("submit", e => {
   e.preventDefault();
@@ -713,7 +713,7 @@ form.addEventListener("submit", e => {
   const msg = (fd.get("meddelande") || "").trim();
   const body = rows.join("\n") + (msg ? "\n\n" + msg : "");
   document.getElementById("resText").textContent = body;
-  document.getElementById("resMail").href = "mailto:kontakt@limna.se?subject=" + encodeURIComponent("Intresse för Limna – " + name) + "&body=" + encodeURIComponent(body);
+  document.getElementById("resMail").href = "mailto:info@limna.se?subject=" + encodeURIComponent("Intresse för Limna – " + name) + "&body=" + encodeURIComponent(body);
   const res = document.getElementById("result"); res.hidden = false;
 });
 document.getElementById("resCopy").addEventListener("click", e => copyText(document.getElementById("resText").textContent, e.currentTarget, "resText"));
