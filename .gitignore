@@ -1,0 +1,4 @@
+# Agent tool output
+.taste-skill/
+.playwright-cli/
+node_modules/
