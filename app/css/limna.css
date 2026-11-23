@@ -182,6 +182,7 @@ small { font-weight: 500; }
   color: var(--ink-2);
   background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
 }
+.statusline[hidden] { display: none; }
 .statusline--warn { background: var(--warn-bg); color: var(--warn); border-bottom-color: var(--warn-line); font-size: 0.94rem; padding: 12px 16px; }
 .statusline--warn .icon { width: 24px; height: 24px; }
 
@@ -318,6 +319,46 @@ small { font-weight: 500; }
 .hero__list span { font-size: 0.86rem; color: var(--muted); }
 .hero__dose { flex: none; align-items: flex-end; text-align: right; white-space: nowrap; }
 .hero__dose b { font-size: 1.3rem; font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+
+/* --- Home: the answer, one button, three lines -------------------------- */
+
+.home { display: grid; gap: 22px; max-width: 660px; margin: 0 auto; padding-top: 8px; }
+.home .alarms { margin-bottom: 0; }
+
+.today--warn .eyebrow { color: var(--warn); }
+.today--bad .eyebrow { color: var(--bad); }
+.today h1 { margin-top: 12px; font-size: clamp(2.1rem, 8.4vw, 3.1rem); font-weight: 400; line-height: 1.02; letter-spacing: -0.045em; }
+.today__when { margin-top: 14px; font-size: 1.1rem; color: var(--ink-2); }
+.today__when b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.today__doses { margin-top: 20px; border-top: 1px solid var(--line-strong); }
+.today__doses a { display: flex; align-items: center; gap: 10px; min-height: 58px; border-bottom: 1px solid var(--line); font-size: 1.12rem; }
+.today__doses b { font-weight: 600; }
+.today__doses span { margin-left: auto; font-size: 1.35rem; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.today__doses .icon--end { margin-left: 0; }
+
+.today__warn { display: flex; gap: 10px; margin-top: 14px; padding: 11px 14px; border-radius: var(--r-sm); border-left: 3px solid var(--warn-solid); background: var(--warn-bg); color: var(--warn); font-weight: 500; }
+.today--bad .today__warn { border-left-color: var(--bad); background: var(--bad-bg); color: var(--bad); }
+
+.btn--wide { width: 100%; margin-top: 20px; min-height: 60px; font-size: 1.1rem; }
+.today__done { display: flex; align-items: flex-start; gap: 8px; margin-top: 16px; color: var(--ok); font-weight: 500; }
+.today__done .icon { margin-top: 2px; }
+.linkbtn { min-height: 44px; padding: 0 6px; border: 0; background: none; color: var(--ink); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+.today .behind { margin-top: 10px; }
+.today__why { display: grid; gap: 10px; padding-bottom: 12px; color: var(--ink-2); }
+.today__why b { color: var(--ink); font-weight: 600; }
+
+.glance { border-top: 1px solid var(--line-strong); }
+.glance__row { display: flex; align-items: center; gap: 12px; min-height: 60px; padding: 8px 2px; border-bottom: 1px solid var(--line); }
+.glance__row b { flex: none; width: 5em; font-weight: 600; }
+.glance__row span { min-width: 0; color: var(--ink-2); }
+a.glance__row { transition: background-color 0.2s; }
+a.glance__row:hover { background: rgba(29, 71, 67, 0.04); }
+
+/* One status signal: a dot. Filled only when something needs doing. */
+.dot { flex: none; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid var(--line-strong); }
+.dot--warn { background: var(--warn-solid); border-color: var(--warn-solid); }
+.dot--bad { background: var(--bad); border-color: var(--bad); }
 
 /* --- Buttons --------------------------------------------------------------- */
 
