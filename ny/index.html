@@ -157,7 +157,7 @@ section{position:relative}
 
 /* band: a picture that opens to the full width */
 .band{padding:0}
-.band .frame{width:100%;height:min(86svh,760px);overflow:hidden;clip-path:inset(var(--cy,14%) var(--cx,24%) var(--cy,14%) var(--cx,24%));will-change:clip-path}
+.band .frame{width:100%;height:min(60svh,540px);overflow:hidden;clip-path:inset(var(--cy,14%) var(--cx,24%) var(--cy,14%) var(--cx,24%));will-change:clip-path}
 .band .frame img{width:100%;height:100%;object-fit:cover;transform:scale(var(--s,1.18))}
 .gains .h2{grid-column:1 / 9}
 .gains ul{grid-column:1 / 13;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:clamp(20px,3vw,48px);row-gap:44px;margin-top:72px}
@@ -256,7 +256,7 @@ footer{padding:clamp(64px,9vw,120px) 0 28px;border-top:1px solid var(--line)}
   .buoy .h2,.buoy .text,.buoy .fine{grid-column:1 / 13}
   .buoy .text,.buoy .fine{grid-row:auto}
   .buoy .measures{grid-column:1 / 13;grid-row:auto;margin-top:44px}
-  .band .frame{height:62svh}
+  .band .frame{height:42svh}
   .gains .h2{grid-column:1 / 13}
   .gains ul{grid-template-columns:minmax(0,1fr);margin-top:48px;row-gap:32px}
   .app .phone-col{grid-column:1 / 13;order:2;margin-top:56px}
@@ -309,7 +309,7 @@ footer{padding:clamp(64px,9vw,120px) 0 28px;border-top:1px solid var(--line)}
 <main id="main">
   <section class="hero" id="top" aria-label="Limna">
     <div class="wrap grid" data-enter>
-      <figure class="ph p1"><img src="img/gard-damm.webp" width="612" height="408" alt="En gård med röda hus och en silo som speglar sig i en damm" fetchpriority="high"></figure>
+      <figure class="ph p1"><img src="img/falt.webp" width="1317" height="878" alt="Böljande vetefält i grönt och guld" fetchpriority="high"></figure>
       <h1>
         <span class="h1w w1"><span class="ln"><span>Full koll</span></span></span>
         <span class="h1w w2"><span class="ln"><span>på dammen.</span></span></span>
@@ -337,7 +337,7 @@ footer{padding:clamp(64px,9vw,120px) 0 28px;border-top:1px solid var(--line)}
   <section class="sec problem" id="problemet" aria-labelledby="h-problem">
     <div class="wrap grid">
       <h2 class="h2" id="h-problem"><span class="ln"><span>Vattnet kostar pengar.</span></span><span class="ln soft"><span>Att inte veta kostar mer.</span></span></h2>
-      <figure class="ph p4"><img src="img/bevattning.webp" width="1200" height="800" alt="En bevattningskanon sprutar vatten över raka rader med grödor, sett uppifrån" loading="lazy"></figure>
+      <figure class="ph p4"><img src="img/gard-damm.webp" width="612" height="408" alt="En gård med röda hus och en silo som speglar sig i en damm" loading="lazy"></figure>
       <ol>
         <li><div><h3>Ingen vet riktigt hur mycket som är kvar.</h3><p>De flesta bevattningsdammar har ingen mätning alls. Därför är det svårt att säga hur fort vattnet går åt.</p></div></li>
         <li><div><h3>Det tar tid att flytta utrustningen.</h3><p>En bevattningskanon eller slangvagn kan ta en halv arbetsdag att flytta. Varje dag, hela säsongen.</p></div></li>
@@ -368,7 +368,7 @@ footer{padding:clamp(64px,9vw,120px) 0 28px;border-top:1px solid var(--line)}
   </section>
 
   <section class="band" aria-hidden="true">
-    <div class="frame" id="bandFrame"><img src="img/falt.webp" width="2400" height="878" alt="" loading="lazy"></div>
+    <div class="frame" id="bandFrame"><img src="img/bevattning.webp" width="1200" height="800" alt="" loading="lazy"></div>
   </section>
 
   <section class="sec gains" id="nytta" aria-labelledby="h-nytta">
