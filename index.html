@@ -180,47 +180,40 @@ section{position:relative}
 .app .text .ul{display:inline-block;margin-top:32px;font-size:var(--lead)}
 
 /* team */
-.team{padding-bottom:clamp(72px,8vw,120px)}
 .team .h2{grid-column:1 / 7}
 .team .intro{grid-column:1 / 6;grid-row:2;margin-top:32px;font-size:var(--lead);color:var(--ink-2);max-width:28em}
-.team ul{grid-column:7 / 13;grid-row:1 / 3;align-self:center}
+.team .p6{grid-column:1 / 5;grid-row:3;aspect-ratio:3/2;margin-top:56px}
+.team ul{grid-column:7 / 13;grid-row:1 / 4;align-self:center}
 .team li{padding:18px 0 20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
 .team li:last-child{border-bottom:1px solid var(--line)}
 .team li b{font-weight:400;font-size:clamp(28px,3vw,44px);letter-spacing:-.03em;line-height:1.1}
 .team li span{color:var(--muted);font-size:15px}
 
-/* the dark bottom: same ground as the wheat photo, so the picture melts into it */
-.dark{--d:#24252A;--dk-ink:#ECE8DC;--dk-muted:rgba(236,232,220,.62);--dk-line:rgba(236,232,220,.2);background:var(--d);color:var(--dk-ink)}
-.dark ::selection{background:var(--gold);color:var(--deep)}
-.dark :focus-visible{outline-color:var(--dk-ink)}
-.contact{padding:clamp(56px,7vw,96px) 0 clamp(40px,5vw,64px)}
-.contact .grid{align-items:center}
-.contact .p6{grid-column:1 / 7;aspect-ratio:3/2;-webkit-mask:radial-gradient(ellipse 62% 70% at 50% 52%,#000 58%,transparent 100%);mask:radial-gradient(ellipse 62% 70% at 50% 52%,#000 58%,transparent 100%)}
-.contact .ct{grid-column:8 / 13}
-.contact .h3{font-size:clamp(30px,3vw,44px);line-height:1.05;letter-spacing:-.03em;font-weight:400}
-.contact .intro{margin-top:14px;font-size:16.5px;color:var(--dk-muted);max-width:30em}
-.contact .intro a{color:var(--dk-ink)}
-.contact form{margin-top:26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 24px}
-.fld{display:flex;flex-direction:column;gap:2px}
+/* contact */
+.contact .h2{grid-column:1 / 9}
+.contact .left{grid-column:1 / 6;grid-row:2}
+.contact .intro{margin-top:32px;font-size:var(--lead);color:var(--ink-2);max-width:28em}
+.contact .mail{margin-top:28px;font-size:var(--lead)}
+.contact form{grid-column:7 / 13;grid-row:2;margin-top:32px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 28px}
+.fld{display:flex;flex-direction:column;gap:4px}
 .fld.full{grid-column:1 / -1}
-.fld label{font-size:13.5px;color:var(--dk-muted)}
-.fld input,.fld select,.fld textarea{font:inherit;font-size:17px;color:var(--dk-ink);background:transparent;border:0;border-bottom:1px solid var(--dk-line);border-radius:0;padding:8px 0;min-height:44px;transition:border-color .3s;-webkit-appearance:none;appearance:none}
-.fld select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ECE8DC' stroke-width='1.4'/%3E%3C/svg%3E") right 2px center/12px 8px no-repeat;padding-right:24px}
-.fld textarea{min-height:64px;resize:vertical}
-.fld ::placeholder{color:rgba(236,232,220,.38)}
-.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-bottom-color:var(--dk-ink)}
-.fld input:focus-visible,.fld select:focus-visible,.fld textarea:focus-visible{box-shadow:0 1px 0 0 var(--dk-ink)}
-.err{font-size:13.5px;color:#F0A58F;min-height:0}
-.form-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between;margin-top:6px}
-.form-foot small{font-size:13.5px;color:var(--dk-muted)}
-.dark .btn{background:var(--dk-ink);color:var(--d)}
-.dark .btn::before{background:var(--gold)}
-.sent{grid-column:1 / -1;font-size:16.5px}
+.fld label{font-size:14px;color:var(--muted)}
+.fld input,.fld select,.fld textarea{font:inherit;font-size:18px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:10px 0 10px;min-height:46px;transition:border-color .3s;-webkit-appearance:none;appearance:none}
+.fld select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231D4743' stroke-width='1.4'/%3E%3C/svg%3E") right 2px center/12px 8px no-repeat;padding-right:24px}
+.fld textarea{min-height:110px;resize:vertical}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-bottom-color:var(--ink)}
+.fld input:focus-visible,.fld select:focus-visible,.fld textarea:focus-visible{box-shadow:0 1px 0 0 var(--ink)}
+.err{font-size:14px;color:#9C3B27;min-height:0}
+.form-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center;justify-content:space-between}
+.form-foot small{font-size:14px;color:var(--muted);max-width:30em}
+.sent{grid-column:1 / -1;font-size:var(--lead)}
 
-footer{padding:0 0 24px}
-.foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 28px;padding-top:14px;border-top:1px solid var(--dk-line);font-size:14px;color:var(--dk-muted)}
-.foot nav{display:flex;flex-wrap:wrap;gap:0 24px}
-.foot a{padding:12px 0;display:inline-block;color:var(--dk-ink)}
+/* footer: the name set large */
+footer{padding:clamp(64px,9vw,120px) 0 28px;border-top:1px solid var(--line)}
+.bigmark{display:block;width:100%;aspect-ratio:634/142;background:var(--ink);-webkit-mask:url(img/limna-ord.png) left center/contain no-repeat;mask:url(img/limna-ord.png) left center/contain no-repeat}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 28px;margin-top:36px;font-size:15px;color:var(--muted)}
+.foot nav{display:flex;flex-wrap:wrap;gap:6px 24px}
+.foot a{padding:10px 0;display:inline-block}
 
 /* ---------- tablet ---------- */
 @media (max-width:1024px){
@@ -233,8 +226,8 @@ footer{padding:0 0 24px}
   .buoy .text{grid-column:1 / 7}
   .app .phone-col{grid-column:1 / 6}
   .team ul{grid-column:6 / 13}
-  .contact .p6{grid-column:1 / 6}
-  .contact .ct{grid-column:6 / 13}
+  .contact form{grid-column:1 / 13;grid-row:auto;margin-top:56px}
+  .contact .left{grid-column:1 / 10}
   .gains li{grid-column:span 3}
   .gains li:last-child{grid-column:1 / -1}
 }
@@ -271,8 +264,8 @@ footer{padding:0 0 24px}
   .team .h2,.team .intro,.team ul{grid-column:1 / 13;grid-row:auto}
   .team ul{margin-top:44px}
   .team li{flex-direction:column;align-items:flex-start;gap:2px}
-  .contact .p6{grid-column:1 / 13;margin:-8px 0 8px}
-  .contact .ct{grid-column:1 / 13}
+  .team .p6{grid-column:1 / 10;grid-row:auto;margin-top:44px}
+  .contact .h2,.contact .left{grid-column:1 / 13}
   .gains li,.gains li:last-child,.gains li:nth-child(-n+2){grid-column:auto}
   .contact form{grid-template-columns:minmax(0,1fr);gap:24px}
   .form-foot .btn{width:100%}
@@ -413,6 +406,7 @@ footer{padding:0 0 24px}
     <div class="wrap grid">
       <h2 class="h2" id="h-team"><span class="ln"><span>Ett projekt</span></span><span class="ln"><span>från LTH.</span></span></h2>
       <p class="intro rise">Fyra personer som tycker att lantbruket förtjänar bättre verktyg. Vi började med vattnet, eftersom det är där vi har hört att det skaver mest.</p>
+      <figure class="ph p6"><img src="img/vete.webp" width="1200" height="798" alt="En knippe torkat vete mot mörk bakgrund" loading="lazy"></figure>
       <ul>
         <li class="rise"><b>Sean Banegas</b><span>Affär och utveckling</span></li>
         <li class="rise"><b>Vilmer Kullberg</b><span>Teknik och CAD</span></li>
@@ -422,40 +416,43 @@ footer{padding:0 0 24px}
     </div>
   </section>
 
-  <div class="dark">
-  <section class="contact" id="kontakt" aria-labelledby="h-kontakt">
+  <section class="sec contact" id="kontakt" aria-labelledby="h-kontakt">
     <div class="wrap grid">
-      <figure class="ph p6"><img src="img/vete.webp" width="1200" height="798" alt="En knippe torkat vete mot mörk bakgrund" loading="lazy"></figure>
-      <div class="ct">
-        <h2 class="h3" id="h-kontakt">Har du en bevattningsdamm?</h2>
-        <p class="intro rise">Berätta hur din damm ser ut och hur du vattnar i dag, så hör vi av oss. Eller mejla <a class="ul" href="mailto:info@limna.se">info@limna.se</a>.</p>
-        <form id="form" novalidate>
-          <div class="fld"><label for="f-namn">Namn</label><input id="f-namn" name="namn" autocomplete="name" required aria-describedby="e-namn"><span class="err" id="e-namn" aria-live="polite"></span></div>
-          <div class="fld"><label for="f-mail">E-post</label><input id="f-mail" name="epost" type="email" autocomplete="email" inputmode="email" spellcheck="false" required aria-describedby="e-mail"><span class="err" id="e-mail" aria-live="polite"></span></div>
-          <div class="fld"><label for="f-storlek">Dammens storlek</label>
-            <select id="f-storlek" name="storlek"><option value="">Välj</option><option>Under 5 000 m³</option><option>5 000–20 000 m³</option><option>20 000–50 000 m³</option><option>Över 50 000 m³</option><option>Vet inte</option></select></div>
-          <div class="fld"><label for="f-hur">Hur vattnar du i dag?</label>
-            <select id="f-hur" name="bevattning"><option value="">Välj</option><option>Bevattningskanon eller slangvagn</option><option>Ramp</option><option>Droppbevattning</option><option>Annat</option><option>Vattnar inte än</option></select></div>
-          <div class="fld full"><label for="f-msg">Meddelande</label><textarea id="f-msg" name="meddelande" rows="2" placeholder="Gård, ort och vad du vill ha koll på"></textarea></div>
-          <div class="form-foot"><small>Öppnar ett färdigt mejl till oss.</small><button class="btn" type="submit">Skicka till Limna <span class="arrow" aria-hidden="true">→</span></button></div>
-          <p class="sent" id="sent" hidden role="status">Tack! Ditt mejlprogram bör ha öppnats med texten ifylld. Hände inget? Mejla <a class="ul" href="mailto:info@limna.se">info@limna.se</a> direkt.</p>
-        </form>
+      <h2 class="h2" id="h-kontakt"><span class="ln"><span>Har du en</span></span><span class="ln"><span>bevattningsdamm?</span></span></h2>
+      <div class="left">
+        <p class="intro rise">Vi vill gärna prata med lantbrukare och med folk som anlägger dammar. Berätta hur din damm ser ut och hur du vattnar i dag, så hör vi av oss.</p>
+        <p class="mail rise">Eller mejla <a class="ul" href="mailto:info@limna.se">info@limna.se</a></p>
       </div>
+      <form id="form" novalidate>
+        <div class="fld"><label for="f-namn">Namn</label><input id="f-namn" name="namn" autocomplete="name" required aria-describedby="e-namn"><span class="err" id="e-namn" aria-live="polite"></span></div>
+        <div class="fld"><label for="f-mail">E-post</label><input id="f-mail" name="epost" type="email" autocomplete="email" inputmode="email" spellcheck="false" required aria-describedby="e-mail"><span class="err" id="e-mail" aria-live="polite"></span></div>
+        <div class="fld"><label for="f-gard">Gård eller företag</label><input id="f-gard" name="gard" autocomplete="organization"></div>
+        <div class="fld"><label for="f-ort">Ort</label><input id="f-ort" name="ort" autocomplete="address-level2"></div>
+        <div class="fld"><label for="f-storlek">Dammens storlek</label>
+          <select id="f-storlek" name="storlek"><option value="">Välj</option><option>Under 5 000 m³</option><option>5 000–20 000 m³</option><option>20 000–50 000 m³</option><option>Över 50 000 m³</option><option>Vet inte</option></select></div>
+        <div class="fld"><label for="f-hur">Hur vattnar du i dag?</label>
+          <select id="f-hur" name="bevattning"><option value="">Välj</option><option>Bevattningskanon eller slangvagn</option><option>Ramp</option><option>Droppbevattning</option><option>Annat</option><option>Vattnar inte än</option></select></div>
+        <div class="fld full"><label for="f-msg">Meddelande</label><textarea id="f-msg" name="meddelande" placeholder="Hur ser dammen ut, och vad vill du ha koll på?"></textarea></div>
+        <div class="form-foot"><small>Formuläret öppnar ett färdigt mejl till info@limna.se. Vi använder bara uppgifterna för att höra av oss om Limna.</small><button class="btn" type="submit">Skicka till Limna <span class="arrow" aria-hidden="true">→</span></button></div>
+        <p class="sent" id="sent" hidden role="status">Tack! Ditt mejlprogram bör ha öppnats med texten ifylld. Hände inget? Mejla <a class="ul" href="mailto:info@limna.se">info@limna.se</a> direkt.</p>
+      </form>
     </div>
   </section>
+</main>
 
-  <footer>
-    <div class="wrap foot">
+<footer>
+  <div class="wrap">
+    <span class="bigmark" role="img" aria-label="Limna"></span>
+    <div class="foot">
       <span>Ett projekt på LTH · <a class="ul" href="mailto:info@limna.se">info@limna.se</a></span>
       <nav aria-label="Sidfot">
         <a class="ul" href="app/">Demo-app</a>
-        <a class="ul" href="#top">Till toppen</a>
+        <a class="ul" href="#kontakt">Kontakt</a>
       </nav>
       <span>© 2026 Limna</span>
     </div>
-  </footer>
   </div>
-</main>
+</footer>
 
 <script>
 (() => {
