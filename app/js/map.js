@@ -64,9 +64,9 @@ function mix(a, b, t) {
  *   bad  → red     behöver vatten nu
  */
 export function needColour(status, dryness) {
-  if (status === 'bad') return mix('#e8562c', '#b3151a', (dryness - 1) / 0.35);
-  if (status === 'warn') return mix('#f6d51f', '#f2a01c', (dryness - 0.6) / 0.4);
-  return mix('#1f9d55', '#a3cf3e', dryness / 0.8);
+  if (status === 'bad') return mix('#c2603a', '#8e2f20', (dryness - 1) / 0.35);
+  if (status === 'warn') return mix('#e3c567', '#d69a3a', (dryness - 0.6) / 0.4);
+  return mix('#3f8a5a', '#93b65a', dryness / 0.8);
 }
 
 // --- Geometry, in metres ---------------------------------------------------
@@ -215,7 +215,7 @@ function pondShape(g, s, selected) {
     <path d="${blob(cx, cy, r * 1.3, r * 0.82, 'bank')}" fill="#6f6b49"/>
     <path d="${blob(cx, cy, r * 1.3 * water, r * 0.82 * water, 'bank')}" fill="url(#map-water)"/>
     <path class="map-edge" d="${blob(cx, cy, r * 1.3, r * 0.82, 'bank')}"/>
-    <circle cx="${n1(cx + r * 0.2)}" cy="${n1(cy - r * 0.1)}" r="3.200" fill="#d6b25c" stroke="#12302b" stroke-width="1"/>
+    <circle cx="${n1(cx + r * 0.2)}" cy="${n1(cy - r * 0.1)}" r="3.200" fill="#e3c567" stroke="#1d4743" stroke-width="1"/>
   </g>`;
 }
 

@@ -11,10 +11,11 @@ import {
   dateShort, dateLong, relNight, clock, ago, escapeHtml as esc,
 } from './util.js';
 
-const INK = '#1c3d38';
-const TEAL = '#17675d';
-const BLUE = '#2a62b5';
-const ORANGE = '#b86e00';
+// Chart lines in the limna.se palette: ink, water teal, a quiet blue for irrigation, gold-brown for the dry forecast.
+const INK = '#1d4743';
+const TEAL = '#3d8a81';
+const BLUE = '#3a6ea5';
+const ORANGE = '#b07a1e';
 
 const STATUS_WORD = { ok: 'Bra', warn: 'Håll koll', bad: 'Åtgärd krävs' };
 

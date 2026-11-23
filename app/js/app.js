@@ -7,7 +7,7 @@ import { DEMO_DATE, SCENARIOS } from './defaults.js';
 import { CROPS } from './crops.js';
 import { clearCharts, mountCharts } from './charts.js';
 import { mountMap } from './map.js';
-import { icon, logo } from './icons.js';
+import { icon } from './icons.js';
 import { clock, ago, escapeHtml } from './util.js';
 import * as views from './views.js';
 
@@ -44,14 +44,14 @@ function renderShell(snapshot, route) {
   const scenario = SCENARIOS[state.demo.scenario];
 
   document.getElementById('top').innerHTML = `
-    <a class="brand" href="#/oversikt" aria-label="LIMNA, till översikten">${logo(30)}<span>LIMN<b>A</b></span></a>
+    <a class="brand" href="#/oversikt" aria-label="LIMNA, till översikten"><i class="brand__ic" aria-hidden="true"></i><i class="brand__wm" aria-hidden="true"></i></a>
     <span class="top__farm">${escapeHtml(snapshot.farm.name)}</span>
     <a class="iconbtn" href="#/larm" aria-label="Larm${alarmCount ? `, ${alarmCount} aktiva` : ''}"${route === 'larm' ? ' aria-current="page"' : ''}>
       ${icon('bell')}${alarmCount ? `<span class="badge">${alarmCount}</span>` : ''}</a>
     <a class="iconbtn" href="#/installningar" aria-label="Inställningar"${route === 'installningar' ? ' aria-current="page"' : ''}>${icon('settings')}</a>`;
 
   document.getElementById('nav').innerHTML = `
-    <a class="brand brand--side" href="#/oversikt">${logo(34)}<span>LIMN<b>A</b></span></a>
+    <a class="brand brand--side" href="#/oversikt" aria-label="LIMNA, till översikten"><i class="brand__ic" aria-hidden="true"></i><i class="brand__wm" aria-hidden="true"></i></a>
     <span class="nav__farm">${escapeHtml(snapshot.farm.name)}</span>
     ${NAV.map((n) => `<a class="nav__item${n.extra ? ' nav__item--extra' : ''}" href="#/${n.route}"${n.route === route ? ' aria-current="page"' : ''}>
       ${icon(n.icon)}<span>${n.label}</span>${n.route === 'larm' && alarmCount ? `<span class="badge">${alarmCount}</span>` : ''}
