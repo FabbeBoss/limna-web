@@ -148,7 +148,9 @@ function blob(cx, cy, rx, ry, seed) {
 
 const PHOTO = {
   // Prototype source. For production: Lantmäteriet's ortofoto (open data, free API key).
-  url: (z, x, y) => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`,
+  // A page can point the tiles elsewhere (window.LIMNA_TILES), e.g. a preview that may not load other sites.
+  url: (z, x, y) => globalThis.LIMNA_TILES?.(z, x, y)
+    ?? `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`,
   credit: 'Bild: Esri, Maxar, Earthstar Geographics',
   zoom: 17,
 };
