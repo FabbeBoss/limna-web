@@ -31,9 +31,10 @@ and `web-design-guidelines/LICENSE` (upstream states MIT only in its README).
   a few times while its checks FAIL, then gives up by design. `node <skill>/scripts/gate.mjs --done "<reason>"`
   ends a build. No extra `settings.json` is needed: the folder is named `design-taste-frontend` so the hook's
   `$CLAUDE_PROJECT_DIR/.claude/skills/design-taste-frontend/...` path resolves.
-- **taste-skill's own taste vs. Limna's.** It pushes "real photographs", "one section per screen" and
-  "scroll scenes only for tech sites". Limna's filmed-field scroll scene is a deliberate choice by the team;
-  where the skill's rules clash with it, the team's direction wins (waive in `.taste-skill/waivers.json`).
+- **taste-skill's own taste vs. Limna's.** Since 2026-11-23 the site follows a light editorial style
+  (off-white ground, dark teal type, big headline with photos between the lines, underlined links, one solid
+  button); the old filmed-field scroll scene is dropped. Where the skill's rules clash with the team's
+  direction, the team's direction wins (waive in `.taste-skill/waivers.json`).
 - **Network use (reviewed).** No telemetry. Scripts only reach: local headless Chrome (127.0.0.1),
   Wikimedia Commons / picsum.photos (`photos.mjs`, stock photos), jsDelivr icon sets (`icons.mjs`),
   Google Fonts (`start.mjs`). playwright-cli output goes to `.playwright-cli/` (git-ignored; may hold cookies).
