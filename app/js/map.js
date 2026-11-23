@@ -138,6 +138,119 @@ function blob(cx, cy, rx, ry, seed) {
   return `${d}Z`;
 }
 
+// --- Satellite photo -------------------------------------------------------
+//
+// When the farm has a location and its fields have boundaries (lat/lon rings,
+// for example Jordbruksverket's jordbruksblock), the map lies on an aerial
+// photo instead. Everything stays in metres around the farm, so pan, zoom,
+// labels and the scale bar work the same as on the drawn map. Tiles are
+// Web Mercator; over a farm the error of a flat projection is far below a metre.
+
+const PHOTO = {
+  // Prototype source. For production: Lantmäteriet's ortofoto (open data, free API key).
+  url: (z, x, y) => `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${x}`,
+  credit: 'Bild: Esri, Maxar, Earthstar Geographics',
+  zoom: 17,
+};
+
+function projector(lat0, lon0) {
+  const kx = 111320 * Math.cos((lat0 * Math.PI) / 180);
+  const ky = 110574;
+  return {
+    toXY: ([lat, lon]) => [(lon - lon0) * kx, -(lat - lat0) * ky],
+    toLatLon: ([x, y]) => [lat0 - y / ky, lon0 + x / kx],
+  };
+}
+
+const tileLon = (x, z) => (x / 2 ** z) * 360 - 180;
+const tileLat = (y, z) => (Math.atan(Math.sinh(Math.PI * (1 - (2 * y) / 2 ** z))) * 180) / Math.PI;
+const lonTile = (lon, z) => Math.floor(((lon + 180) / 360) * 2 ** z);
+const latTile = (lat, z) => {
+  const r = (lat * Math.PI) / 180;
+  return Math.floor(((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * 2 ** z);
+};
+
+/** Photo geometry, or null when the farm has no location or no field has a boundary. */
+function photoGeometry(s) {
+  const loc = s.config.farm.location;
+  const withShape = s.config.fields.filter((f) => Array.isArray(f.polygon) && f.polygon.length >= 3);
+  if (!loc || !withShape.length) return null;
+  const pr = projector(loc.lat, loc.lon);
+
+  const parcels = withShape.map((f) => {
+    const points = f.polygon.map(pr.toXY);
+    const xs = points.map((q) => q[0]);
+    const ys = points.map((q) => q[1]);
+    // Area-weighted centroid keeps the label inside an odd-shaped field.
+    let a = 0; let cx = 0; let cy = 0;
+    for (let i = 0; i < points.length; i++) {
+      const [x0, y0] = points[i];
+      const [x1, y1] = points[(i + 1) % points.length];
+      const c = x0 * y1 - x1 * y0;
+      a += c; cx += (x0 + x1) * c; cy += (y0 + y1) * c;
+    }
+    return { id: f.id, points, cx: cx / (3 * a), cy: cy / (3 * a), w: Math.max(...xs) - Math.min(...xs) };
+  });
+  const pondAt = s.config.pond.location ? pr.toXY(s.config.pond.location) : null;
+
+  const all = parcels.flatMap((p) => p.points).concat(pondAt ? [pondAt] : []);
+  const minX = Math.min(...all.map((q) => q[0])) - 40;
+  const maxX = Math.max(...all.map((q) => q[0])) + 40;
+  const minY = Math.min(...all.map((q) => q[1])) - 40;
+  const maxY = Math.max(...all.map((q) => q[1])) + 40;
+  const world = { x: minX, y: minY, w: maxX - minX, h: maxY - minY };
+
+  // A coarse layer wide enough that panning at the widest view never shows an edge,
+  // and a sharp layer over the farm itself. About a hundred tiles in all.
+  const tilesFor = (z, margin) => {
+    const [north, west] = pr.toLatLon([world.x - margin, world.y - margin]);
+    const [south, east] = pr.toLatLon([world.x + world.w + margin, world.y + world.h + margin]);
+    const out = [];
+    for (let ty = latTile(north, z); ty <= latTile(south, z); ty++) {
+      for (let tx = lonTile(west, z); tx <= lonTile(east, z); tx++) {
+        const [x0, y0] = pr.toXY([tileLat(ty, z), tileLon(tx, z)]);
+        const [x1, y1] = pr.toXY([tileLat(ty + 1, z), tileLon(tx + 1, z)]);
+        out.push({ href: PHOTO.url(z, tx, ty), x: x0, y: y0, w: x1 - x0, h: y1 - y0 });
+      }
+    }
+    return out;
+  };
+  const tiles = [
+    ...tilesFor(PHOTO.zoom - 1, Math.max(world.w, world.h) * 0.6),
+    ...tilesFor(PHOTO.zoom, 0),
+  ];
+  const missing = s.config.fields.length - withShape.length;
+  return { world, parcels, pond: pondAt && { cx: pondAt[0], cy: pondAt[1] }, tiles, missing };
+}
+
+function photoLayer(g, s, ui) {
+  const byId = new Map(s.fields.map((f) => [f.id, f]));
+  const pts = (p) => p.points.map((q) => q.map(n1).join(',')).join(' ');
+  // Half a pixel of overlap hides the seams between tiles.
+  const tiles = g.tiles.map((t) => `<image href="${t.href}" x="${n1(t.x - 0.3)}" y="${n1(t.y - 0.3)}" width="${n1(t.w + 0.6)}" height="${n1(t.h + 0.6)}" preserveAspectRatio="none"/>`).join('');
+  const parcels = g.parcels.map((p) => {
+    const f = byId.get(p.id);
+    return `<g class="map-field map-field--photo${ui.mapSelected === f.id ? ' is-selected' : ''}" data-map-id="${f.id}" tabindex="0" role="button"
+        aria-label="${esc(f.name)}, ${esc(f.statusText.toLowerCase())}">
+      <polygon points="${pts(p)}" fill="${needColour(f.status, f.deficit / f.raw)}" fill-opacity="0.42"/>
+      <polygon class="map-edge" points="${pts(p)}"/>
+    </g>`;
+  }).join('');
+  const pond = g.pond ? `<g class="map-pond map-pond--photo${ui.mapSelected === 'pond' ? ' is-selected' : ''}" data-map-id="pond" tabindex="0" role="button"
+      aria-label="${esc(s.pond.name)}, ${fmt0(s.pond.usableShare * 100)} procent användbart vatten kvar">
+      <circle cx="${n1(g.pond.cx)}" cy="${n1(g.pond.cy)}" r="16" fill="#3d8a81" fill-opacity="0.35"/>
+      <circle class="map-edge" cx="${n1(g.pond.cx)}" cy="${n1(g.pond.cy)}" r="16"/>
+      <circle cx="${n1(g.pond.cx)}" cy="${n1(g.pond.cy)}" r="3.5" fill="#e3c567" stroke="#1d4743" stroke-width="1"/>
+    </g>` : '';
+  const labels = g.parcels.map((p) => {
+    const f = byId.get(p.id);
+    return label(p.cx, p.cy, p.w, [f.name, f.statusText]);
+  }).join('') + (g.pond ? label(g.pond.cx, g.pond.cy + 34, 120, ['Dammen', `${fmt0(s.pond.usableShare * 100)} % kvar`]) : '');
+  const e = Math.max(g.world.w, g.world.h) * 0.9;
+  return `<rect x="${n1(g.world.x - e)}" y="${n1(g.world.y - e)}" width="${n1(g.world.w + 2 * e)}" height="${n1(g.world.h + 2 * e)}" fill="#4c5a37"/>
+    <g class="map-photo">${tiles}</g>${parcels}${pond}${labels}`;
+}
+
 // --- Drawing ---------------------------------------------------------------
 
 function surroundings(g, seed) {
@@ -228,49 +341,59 @@ const label = (x, y, fit, lines, dy = 0) => {
   </g>`;
 };
 
-/** The map card for the fields view. */
-export function farmMap(s, ui) {
-  const g = geometry(s);
-  const heat = ui.mapHeat !== 'off';
+/** The drawn map: parcels laid out from the areas, with made-up surroundings. */
+function drawnLayer(g, s, ui) {
   const byId = new Map(s.fields.map((f) => [f.id, f]));
   const land = surroundings(g, s.farm.id);
   const pts = (p) => p.points.map((q) => q.map(n1).join(',')).join(' ');
+  const tone = (id) => needColour(byId.get(id).status, byId.get(id).deficit / byId.get(id).raw);
 
   const defs = `<defs>
     ${[0, 1, 2].map((i) => `<pattern id="rows-n${i}" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(${[4, 92, 47][i]})"><rect width="7" height="1.600" fill="#000" opacity="0.13"/></pattern>`).join('')}
     ${g.parcels.map((p) => `<pattern id="rows-${p.id}" width="5.500" height="5.500" patternUnits="userSpaceOnUse" patternTransform="rotate(${n1(p.angle)})"><rect width="5.500" height="1.400" fill="#000" opacity="0.2"/></pattern>
-      <radialGradient id="heat-${p.id}"><stop offset="0" stop-color="${needColour(byId.get(p.id).status, byId.get(p.id).deficit / byId.get(p.id).raw)}" stop-opacity="0.84"/><stop offset="1" stop-color="${needColour(byId.get(p.id).status, byId.get(p.id).deficit / byId.get(p.id).raw)}" stop-opacity="0.62"/></radialGradient>`).join('')}
+      <radialGradient id="heat-${p.id}"><stop offset="0" stop-color="${tone(p.id)}" stop-opacity="0.84"/><stop offset="1" stop-color="${tone(p.id)}" stop-opacity="0.62"/></radialGradient>`).join('')}
     <radialGradient id="map-water"><stop offset="0" stop-color="#2a6d78"/><stop offset="1" stop-color="#163f4a"/></radialGradient>
   </defs>`;
 
   const parcels = g.parcels.map((p) => {
     const f = byId.get(p.id);
     return `<g class="map-field${ui.mapSelected === f.id ? ' is-selected' : ''}" data-map-id="${f.id}" tabindex="0" role="button"
-        aria-label="${esc(f.name)}, ${esc(f.statusText.toLowerCase())}, markfukt ${fmt1(f.theta * 100)} procent">
+        aria-label="${esc(f.name)}, ${esc(f.statusText.toLowerCase())}">
       <polygon points="${pts(p)}" fill="${TONES[f.cropId] || '#5a7a3c'}"/>
       <polygon points="${pts(p)}" fill="url(#rows-${p.id})"/>
-      ${heat ? `<polygon points="${pts(p)}" fill="url(#heat-${p.id})"/>` : ''}
+      <polygon points="${pts(p)}" fill="url(#heat-${p.id})"/>
       <polygon class="map-edge" points="${pts(p)}"/>
     </g>`;
   }).join('');
 
   const labels = g.parcels.map((p) => {
     const f = byId.get(p.id);
-    return label(p.cx, p.cy, p.w, [f.name, `${fmt1(f.theta * 100)} %`, heat ? f.statusText : f.cropName.split(' ')[0]]);
+    return label(p.cx, p.cy, p.w, [f.name, f.statusText]);
   }).join('') + label(g.pond.cx, g.pond.cy + g.pond.r * 0.9, g.pond.r * 3.4, ['Dammen', `${fmt0(s.pond.usableShare * 100)} % kvar`], 24);
 
-  const svg = `<svg viewBox="${n1(g.world.x)} ${n1(g.world.y)} ${n1(g.world.w)} ${n1(g.world.h)}" preserveAspectRatio="xMidYMid slice"
-      role="group" aria-label="Karta över gården. ${s.fields.length} fält, färgade efter bevattningsbehov.">
-    ${defs}${land.out}
+  return `${defs}${land.out}
     <rect x="${n1(g.bw + 6)}" y="-26" width="${n1(g.side - 4)}" height="${n1(g.bh + 44)}" rx="14" fill="#56683c"/>
-    ${farmstead(g, land.crown)}${pondShape(g, s, ui.mapSelected === 'pond')}${parcels}${labels}
+    ${farmstead(g, land.crown)}${pondShape(g, s, ui.mapSelected === 'pond')}${parcels}${labels}`;
+}
+
+/** The map card for the fields view: a satellite photo when the farm has boundaries, else a drawing. */
+export function farmMap(s, ui) {
+  const photo = photoGeometry(s);
+  const usePhoto = Boolean(photo) && ui.mapView !== 'drawn';
+  const g = usePhoto ? photo : geometry(s);
+
+  const svg = `<svg viewBox="${n1(g.world.x)} ${n1(g.world.y)} ${n1(g.world.w)} ${n1(g.world.h)}" preserveAspectRatio="xMidYMid slice"
+      role="group" aria-label="${usePhoto ? 'Satellitbild' : 'Ritad karta'} över gården. Fälten är färgade efter bevattningsbehov.">
+    ${usePhoto ? photoLayer(g, s, ui) : drawnLayer(g, s, ui)}
   </svg>`;
 
+  const toggle = photo ? seg('mapView', usePhoto ? 'photo' : 'drawn', [['photo', 'Satellit'], ['drawn', 'Ritad']]) : '';
+  const missing = usePhoto && photo.missing
+    ? `<p class="hint">${photo.missing === 1 ? 'Ett fält' : `${photo.missing} fält`} saknar gräns och syns bara på den ritade kartan.</p>` : '';
+
   return `<section class="card mapcard">
-    <header class="card__head"><h2>${icon('map')}Karta över bevattningsbehov</h2>
-      <button type="button" class="switch" data-action="ui" data-key="mapHeat" data-value="${heat ? 'off' : 'on'}" aria-pressed="${heat}">
-        <i></i>Visa färger</button></header>
-    <div class="farmmap" data-map data-key="${n1(g.world.w)}x${n1(g.world.h)}" data-world="${[g.world.x, g.world.y, g.world.w, g.world.h].map(n1).join(' ')}">
+    <header class="card__head"><h2>${icon('map')}Fälten på kartan</h2>${toggle}</header>
+    <div class="farmmap${usePhoto ? ' farmmap--photo' : ''}" data-map data-key="${usePhoto ? 'photo' : 'drawn'}-${n1(g.world.w)}x${n1(g.world.h)}" data-world="${[g.world.x, g.world.y, g.world.w, g.world.h].map(n1).join(' ')}">
       ${svg}
       <div class="farmmap__tools">
         <button type="button" data-map-zoom="in" aria-label="Zooma in">${icon('plus')}</button>
@@ -278,20 +401,22 @@ export function farmMap(s, ui) {
         <button type="button" data-map-zoom="reset" aria-label="Visa hela gården">${icon('expand')}</button>
       </div>
       <div class="farmmap__scale" aria-hidden="true"><i></i><span></span></div>
-      <span class="farmmap__note">Illustrerad vy</span>
+      <span class="farmmap__note">${usePhoto ? PHOTO.credit : 'Ritad vy'}</span>
     </div>
-    ${heat ? `<div class="maplegend">
-      <div class="maplegend__bar"></div>
-      <ul>
-        <li>${icon('ok')}<span><b>Grönt</b> Behöver inte vatten</span></li>
-        <li>${icon('warn')}<span><b>Gult</b> Snart</span></li>
-        <li>${icon('bad')}<span><b>Rött</b> Behöver vatten nu</span></li>
-      </ul>
-    </div>` : ''}
+    <ul class="maplegend">
+      <li><i class="dot dot--bad" aria-hidden="true"></i>Vattna nu</li>
+      <li><i class="dot dot--warn" aria-hidden="true"></i>Snart</li>
+      <li><i class="dot dot--good" aria-hidden="true"></i>Bra</li>
+    </ul>
+    ${missing}
     ${mapInfo(s, ui)}
-    <p class="hint">Kartan är ritad efter arealerna i inställningarna, inte en riktig flygbild. Varje fält har en givare, så hela fältet får samma färg.</p>
   </section>`;
 }
+
+const seg = (key, current, options) =>
+  `<div class="seg seg--small" role="group" aria-label="Kartvy">${options
+    .map(([value, text]) => `<button type="button" class="seg__btn" data-action="ui" data-key="${key}" data-value="${value}" aria-pressed="${value === current}">${text}</button>`)
+    .join('')}</div>`;
 
 /** What is shown under the map for the field or pond that has been tapped. */
 function mapInfo(s, ui) {
@@ -306,7 +431,7 @@ function mapInfo(s, ui) {
   }
   const f = s.fields.find((x) => x.id === ui.mapSelected);
   if (!f) {
-    return `<div class="mapinfo mapinfo--empty">${icon('field')}<span>Tryck på ett fält för att se markfukt och råd. Dra för att flytta kartan, nyp eller använd knapparna för att zooma.</span></div>`;
+    return `<div class="mapinfo mapinfo--empty">${icon('field')}<span>Tryck på ett fält för att se rådet.</span></div>`;
   }
   return `<div class="mapinfo">
     <div class="mapinfo__head"><b>${esc(f.name)}</b><span class="pill pill--${f.status}">${icon(f.status)}<span>${esc(f.statusText)}</span></span></div>

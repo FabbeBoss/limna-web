@@ -650,7 +650,7 @@ details.behind--card summary { min-height: 30px; }
 .map-lbl__name { font-size: 12.500px; font-weight: 700; }
 .map-lbl__val { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .map-lbl__sub { font-size: 11px; font-weight: 600; }
-.map-lbl.is-compact .map-lbl__name { display: none; }
+.map-lbl.is-compact .map-lbl__val, .map-lbl.is-compact .map-lbl__sub { display: none; }
 .map-lbl.is-hidden { display: none; }
 
 .farmmap__tools { position: absolute; top: 8px; right: 8px; display: flex; gap: 6px; }
@@ -671,16 +671,17 @@ details.behind--card summary { min-height: 30px; }
 .farmmap__note { position: absolute; right: 10px; bottom: 10px; padding: 2px 8px; border-radius: 6px; background: rgba(8, 24, 20, 0.6); color: #fff; font-size: 0.7rem; pointer-events: none; }
 
 .maplegend { margin-top: 12px; }
-.maplegend__bar { height: 8px; border-radius: 2px; background: linear-gradient(90deg, #3f8a5a 0%, #93b65a 30%, #e3c567 42%, #d69a3a 60%, #c2603a 72%, #8e2f20 100%); }
-.maplegend ul { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
-.maplegend li { display: flex; gap: 6px; align-items: flex-start; font-size: 0.82rem; color: var(--ink-2); line-height: 1.25; }
-.maplegend li:nth-child(2) { justify-content: center; }
-.maplegend li:nth-child(3) { justify-content: flex-end; text-align: right; }
-.maplegend b { display: block; color: var(--ink); }
-.maplegend .icon { width: 18px; height: 18px; }
-.maplegend li:nth-child(1) .icon { color: var(--ok); }
-.maplegend li:nth-child(2) .icon { color: var(--warn); }
-.maplegend li:nth-child(3) .icon { color: var(--bad); }
+.maplegend { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 0.88rem; color: var(--ink-2); }
+.maplegend li { display: flex; align-items: center; gap: 7px; }
+.dot--good { background: #3f8a5a; border-color: #3f8a5a; }
+
+/* Satellite view: the photo carries the picture, the fields are a light tint with a clear edge */
+.farmmap--photo .map-edge { stroke: rgba(255, 255, 255, 0.85); stroke-width: 1.6; }
+.farmmap--photo .map-field:hover .map-edge, .farmmap--photo .map-pond:hover .map-edge { stroke: #fff; stroke-width: 2.6; }
+.farmmap--photo .is-selected .map-edge { stroke: var(--gold); stroke-width: 3.5; }
+.farmmap--photo .map-field polygon:first-child { transition: fill-opacity 0.2s; }
+.farmmap--photo .is-selected polygon:first-child { fill-opacity: 0.6; }
+.seg--small .seg__btn { min-height: 34px; padding: 0 12px; font-size: 0.86rem; }
 
 .mapinfo { margin-top: 14px; padding: 14px 0 0; border-top: 1px solid var(--line-strong); }
 .mapinfo p { margin-top: 6px; color: var(--ink-2); }

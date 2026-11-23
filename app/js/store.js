@@ -19,7 +19,11 @@ export function loadState() {
       for (const key of ['farm', 'pond', 'pump', 'prices', 'thresholds']) {
         state.config[key] = { ...state.config[key], ...saved.config[key] };
       }
-      state.config.fields = saved.config.fields;
+      // Boundaries came after the first version: a saved demo field keeps the default's outline.
+      state.config.fields = saved.config.fields.map((f) => {
+        const d = DEFAULT_CONFIG.fields.find((x) => x.id === f.id);
+        return f.polygon || !d?.polygon ? f : { ...f, polygon: d.polygon };
+      });
       state.log = Array.isArray(saved.log) ? saved.log : [];
       state.demo = { ...state.demo, ...saved.demo };
       if (!SCENARIOS[state.demo.scenario]) state.demo.scenario = DEFAULT_DEMO.scenario;
