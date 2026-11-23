@@ -8,13 +8,14 @@ import { chartSlot } from './charts.js';
 import { farmMap } from './map.js';
 import {
   DAY_MS, localMidnight, fmt0, fmt1, fmt2, fmtKr, fmtM3, fmtHours, weekdayShort,
-  dateShort, dateLong, relNight, clock, ago, escapeHtml as esc,
+  dateShort, dateLong, relNight, clock, ago, weekday, listAnd, escapeHtml as esc,
 } from './util.js';
 
-const INK = '#1c3d38';
-const TEAL = '#17675d';
-const BLUE = '#2a62b5';
-const ORANGE = '#b86e00';
+// Chart lines in the limna.se palette: ink, water teal, a quiet blue for irrigation, gold-brown for the dry forecast.
+const INK = '#1d4743';
+const TEAL = '#3d8a81';
+const BLUE = '#3a6ea5';
+const ORANGE = '#b07a1e';
 
 const STATUS_WORD = { ok: 'Bra', warn: 'Håll koll', bad: 'Åtgärd krävs' };
 
@@ -65,75 +66,92 @@ const facts = (rows) =>
 // --- Översikt --------------------------------------------------------------
 
 export function overview(s) {
-  const { pond: p, plan, economy: e, headline: h } = s;
-  const tonight = plan.tonight.passes;
-  const forecast = s.weather.forecast.slice(0, 5);
+  // One question: do I water tonight, and where? The answer and one button come first;
+  // everything else is a single line that leads on, and colour only where something needs doing.
+  const { pond: p, plan, headline: h } = s;
+  const tonight = plan.tonight;
+  const passes = tonight.passes;
+  const doneToday = plan.done.filter((d) => d.date === s.today);
 
-  const hero = `<section class="hero hero--${h.status}">
-    <div class="hero__icon">${icon(h.status)}</div>
-    <div class="hero__body">
-      <p class="eyebrow">Dagens råd</p>
-      <h1>${esc(h.title)}</h1>
-      <p class="hero__text">${esc(h.text)}</p>
-    </div>
-    ${tonight.length ? `<ul class="hero__list">${tonight.map((t) => {
+  // A dry-field alarm says the same as the answer when that field is watered tonight: show it once.
+  const planned = new Set(passes.map((t) => `dry-${t.fieldId}`));
+  const shown = s.alarms.filter((a) => !planned.has(a.id));
+  const alarms = shown.length ? `<ul class="alarms">${shown.map(alarmRow).join('')}</ul>` : '';
+
+  const doses = passes.length ? `<ul class="today__doses">${passes.map((t) => `<li><a href="#/aker/${t.fieldId}">
+      <b>${esc(t.fieldName)}</b><span>${fmt0(t.mm)} mm</span>${icon('chevron', 'icon--end')}</a></li>`).join('')}</ul>` : '';
+
+  const when = passes.length
+    ? `<p class="today__when">Starta pumpen ca <b>${passes[0].start}</b>. Klart ca <b>${passes[passes.length - 1].end}</b>.</p>`
+    : `<p class="today__when">${esc(h.text)}</p>`;
+  const warn = [
+    passes.length && h.status === 'bad' ? h.text : '',
+    tonight.windy ? `Hård vind i natt, ${fmt0(tonight.wind)} m/s. Vänta tills vinden mojnat.` : '',
+  ].filter(Boolean).map((t) => `<p class="today__warn">${icon('warn')}<span>${esc(t)}</span></p>`).join('');
+
+  const action = passes.length
+    ? `<button type="button" class="btn btn--primary btn--wide" data-action="done-tonight">${icon('check')}Klart, jag har vattnat</button>`
+    : '';
+  const done = doneToday.length
+    ? `<p class="today__done">${icon('check')}<span>Avbockat: ${esc(listAnd(doneToday.map((d) => `${d.fieldName} ${fmt0(d.mm)} mm`)))}.
+        <button type="button" class="linkbtn" data-action="undo-today">Ångra</button></span></p>`
+    : '';
+
+  const why = passes.length ? `<details class="behind"><summary>Varför?</summary>
+    <ul class="today__why">${passes.map((t) => {
       const f = s.fields.find((x) => x.id === t.fieldId);
-      return `<li>
-        <div><b>${esc(t.fieldName)}</b><span>${esc(f.advice.short || '')}</span></div>
-        <div class="hero__dose"><b>${fmt0(t.mm)} mm</b><span>${fmtHours(t.hours)}</span></div>
-      </li>`;
-    }).join('')}</ul>` : ''}
-    <a class="btn btn--primary" href="#/plan">Visa bevattningsplanen ${icon('chevron')}</a>
+      return `<li><b>${esc(t.fieldName)}.</b> ${esc(f.advice.reason || '')}</li>`;
+    }).join('')}
+      <li>${fmtM3(tonight.totalM3)} m³ ur dammen. Kvar efter i natt: ${fmtM3(plan.usableAfterTonightM3)} m³.</li>
+      ${tonight.windy ? '' : `<li>Svag vind i natt, ${fmt0(tonight.wind)} m/s. Natten är bäst: minst vind och avdunstning.</li>`}
+    </ul></details>` : '';
+
+  const answer = `<section class="today today--${passes.length ? h.status : 'calm'}">
+    <p class="eyebrow">${passes.length ? 'I natt' : 'I dag'}</p>
+    <h1>${esc(h.title)}</h1>
+    ${when}${doses}${warn}${action}${done}${why}
   </section>`;
 
-  const pondCard = `<a class="card card--link" href="#/damm">
-    <header class="card__head"><h2>${icon('pond')}Dammen</h2>${pill(p.status)}</header>
-    <p class="big">${fmtM3(p.usable)} <small>m³ användbart vatten</small></p>
-    ${pondBar(p)}
-    <p class="card__line"><b>${fmt0(p.usableShare * 100)} %</b> kvar. ${pondDaysText(p)}.</p>
-  </a>`;
+  const glance = `<ul class="glance">
+    ${glanceRow('#/damm', p.status, 'Dammen', pondGlance(p))}
+    ${glanceRow('#/aker', worst(s.fields.map((f) => f.status)), 'Fälten', fieldsGlance(s.fields))}
+    ${glanceRow(null, 'ok', 'Väder', weatherGlance(s.weather.forecast))}
+  </ul>`;
 
-  const fieldsCard = `<section class="card">
-    <header class="card__head"><h2>${icon('field')}Åkern</h2>${fieldsPill(s.fields)}</header>
-    <ul class="rows">${s.fields.map((f) => `<li><a class="row" href="#/aker/${f.id}">
-      <div class="row__main">
-        <div class="row__title"><b>${esc(f.name)}</b><span>${esc(f.cropName)}</span></div>
-        ${moistureBar(f)}
-      </div>
-      <div class="row__side"><b>${pct1(f.theta)} %</b>${pill(f.status, f.statusText)}</div>
-    </a></li>`).join('')}</ul>
-    <p class="hint">Strecket i stapeln visar torrgränsen. Under den börjar grödan ta skada.</p>
-  </section>`;
+  return `<div class="home">${alarms}${answer}${glance}</div>`;
+}
 
-  const weatherCard = `<section class="card">
-    <header class="card__head"><h2>${icon('sun')}Väder, fem dygn</h2></header>
-    <ol class="wx">${forecast.map((w, i) => `<li class="${w.rain >= 3 ? 'wx--rain' : ''}">
-      <span class="wx__day">${i === 0 ? 'i dag' : weekdayShort(w.date)}</span>
-      ${weatherIcon(w.rain)}
-      <b>${fmt0(w.tMax)}°</b>
-      <span class="wx__rain">${w.rain >= 0.5 ? `${fmt0(w.rain)} mm` : '–'}</span>
-    </li>`).join('')}</ol>
-  </section>`;
+const worst = (list) => (list.includes('bad') ? 'bad' : list.includes('warn') ? 'warn' : 'ok');
 
-  const valueCard = `<a class="card card--link" href="#/ekonomi">
-    <header class="card__head"><h2>${icon('money')}Grödornas värde</h2></header>
-    <p class="big">${fmtKr(e.totalValueKr)}</p>
-    <p class="card__line">${e.totalRiskKr >= 500
-      ? `<b>${fmtKr(e.totalRiskKr)}</b> i riskzonen om inget vattnas på sju dygn.`
-      : 'Inget värde i riskzonen den närmaste veckan.'}</p>
-    <p class="hint">Uppskattning på areal, förväntad skörd och dagens pris.</p>
-  </a>`;
+function glanceRow(href, status, label, text) {
+  const inner = `<i class="dot dot--${status}" aria-hidden="true"></i><b>${label}</b><span>${esc(text)}</span>`;
+  return href
+    ? `<li><a class="glance__row" href="${href}">${inner}${icon('chevron', 'icon--end')}</a></li>`
+    : `<li><div class="glance__row">${inner}</div></li>`;
+}
 
-  const statusCard = `<section class="card">
-    <header class="card__head"><h2>${icon('bell')}Larm och status</h2>${s.alarms.length ? '' : pill('ok', 'Inga larm')}</header>
-    ${s.alarms.length ? `<ul class="alarms">${s.alarms.map(alarmRow).join('')}</ul>` : ''}
-    <ul class="statuslist">
-      <li>${icon(p.latest.silent ? 'nosignal' : 'signal')}<span>Senaste mätning <b>${clock(p.latest.t)}</b>, ${ago(p.latest.ageMin)}</span></li>
-      <li>${icon('battery')}<span>Bojens batteri <b>${fmt0(p.latest.batt)} %</b></span></li>
-    </ul>
-  </section>`;
+function pondGlance(p) {
+  if (!Number.isFinite(p.daysLeft) || p.daysLeft > 90) return 'Gott om vatten';
+  const d = Math.floor(p.daysLeft);
+  return d < 1 ? 'Räcker mindre än ett dygn' : `Räcker ca ${fmt0(d)} dygn`;
+}
 
-  return `<div class="grid grid--overview">${hero}${pondCard}${fieldsCard}${weatherCard}${valueCard}${statusCard}</div>`;
+function fieldsGlance(fields) {
+  const bad = fields.filter((f) => f.status === 'bad').length;
+  const soon = fields.filter((f) => f.status === 'warn').length;
+  const parts = [];
+  if (bad) parts.push(`${bad} ${bad === 1 ? 'torrt' : 'torra'}`);
+  if (soon) parts.push(`${soon} snart ${soon === 1 ? 'torrt' : 'torra'}`);
+  return parts.length ? parts.join(', ') : 'Alla har vatten';
+}
+
+function weatherGlance(forecast) {
+  const i = forecast.findIndex((w) => w.rain >= 1);
+  if (i < 0) return 'Inget regn i sikte';
+  const mm = `${fmt0(forecast[i].rain)} mm`;
+  if (i === 0) return `Regn i dag, ${mm}`;
+  if (i === 1) return `Regn i morgon, ${mm}`;
+  return `Regn på ${weekday(forecast[i].date)}, ${mm}`;
 }
 
 function fieldsPill(fields) {

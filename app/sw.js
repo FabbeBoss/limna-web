@@ -2,11 +2,12 @@
 // Network first, so a new version always wins when there is a connection;
 // the cached copy is only used when the network does not answer.
 
-const CACHE = 'limna-v2';
+const CACHE = 'limna-v3';
 const SHELL = [
   './', 'index.html', 'css/limna.css', 'icon.svg', 'manifest.webmanifest',
   'js/app.js', 'js/views.js', 'js/model.js', 'js/calc.js', 'js/sim.js', 'js/crops.js',
   'js/defaults.js', 'js/store.js', 'js/charts.js', 'js/map.js', 'js/icons.js', 'js/util.js',
+  '../fonts/albert-latin.woff2', '../fonts/albert-latin-ext.woff2', '../img/limna-ikon.png', '../img/limna-ord.png',
 ];
 
 self.addEventListener('install', (event) => {

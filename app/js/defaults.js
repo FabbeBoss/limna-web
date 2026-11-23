@@ -12,7 +12,10 @@ export const LATITUDE = 55.7;
 export const FORECAST_DAYS = 7;
 
 export const DEFAULT_CONFIG = {
-  farm: { id: 'farm-1', name: 'Ekeby gård' },
+  // The demo farm is made up. Its location and field boundaries are a stand-in on
+  // open farmland in Skåne, so the satellite map has something to show until the
+  // pilot farm's own boundaries (Jordbruksverket's jordbruksblock) are loaded.
+  farm: { id: 'farm-1', name: 'Ekeby gård', location: { lat: 55.6775, lon: 13.3115 } },
   pond: {
     id: 'pond-1',
     name: 'Bevattningsdammen',
@@ -22,12 +25,17 @@ export const DEFAULT_CONFIG = {
     depth: 3.5,    // level when full, m
     hMin: 0.6,     // lowest level the pump can draw from, m
     table: null,   // optional [[level, volume], ...]
+    location: [55.679611, 13.318239],
   },
   fields: [
-    { id: 'f1', name: 'Hemåkern', areaHa: 3, crop: 'potatis', sowDate: '2026-05-02', soil: 'mo', yieldTHa: 40, sensorId: 'LIMNA-S01' },
-    { id: 'f2', name: 'Dammskiftet', areaHa: 2, crop: 'gronsaker', sowDate: '2026-05-10', soil: 'sand', yieldTHa: 55, sensorId: 'LIMNA-S02' },
-    { id: 'f3', name: 'Norrgärdet', areaHa: 9, crop: 'varkorn', sowDate: '2026-04-15', soil: 'lattlera', yieldTHa: 5.5, sensorId: 'LIMNA-S03' },
-    { id: 'f4', name: 'Backen', areaHa: 6, crop: 'sockerbetor', sowDate: '2026-04-12', soil: 'mellanlera', yieldTHa: 70, sensorId: 'LIMNA-S04' },
+    { id: 'f1', name: 'Hemåkern', areaHa: 3, crop: 'potatis', sowDate: '2026-05-02', soil: 'mo', yieldTHa: 40, sensorId: 'LIMNA-S01',
+      polygon: [[55.675965, 13.30418], [55.676026, 13.306806], [55.674172, 13.307826], [55.674049, 13.30418]] },
+    { id: 'f2', name: 'Dammskiftet', areaHa: 2, crop: 'gronsaker', sowDate: '2026-05-10', soil: 'sand', yieldTHa: 55, sensorId: 'LIMNA-S02',
+      polygon: [[55.682702, 13.318084], [55.682826, 13.319969], [55.680662, 13.319969], [55.680786, 13.318455]] },
+    { id: 'f3', name: 'Norrgärdet', areaHa: 9, crop: 'varkorn', sowDate: '2026-04-15', soil: 'lattlera', yieldTHa: 5.5, sensorId: 'LIMNA-S03',
+      polygon: [[55.679302, 13.312522], [55.679735, 13.316076], [55.679302, 13.317466], [55.676212, 13.316725], [55.675717, 13.312152]] },
+    { id: 'f4', name: 'Backen', areaHa: 6, crop: 'sockerbetor', sowDate: '2026-04-12', soil: 'mellanlera', yieldTHa: 70, sensorId: 'LIMNA-S04',
+      polygon: [[55.674049, 13.303562], [55.67411, 13.308815], [55.67272, 13.308938], [55.672503, 13.3035]] },
   ],
   pump: {
     flowM3h: 100,

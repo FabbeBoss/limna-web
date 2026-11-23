@@ -42,9 +42,3 @@ export function weatherIcon(rainMm) {
   return icon('sun');
 }
 
-/** The LIMNA mark: rings on water around the buoy. */
-export const logo = (size = 30) =>
-  `<svg class="logo" viewBox="0 0 32 32" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="1.600" aria-hidden="true">
-    <circle cx="16" cy="16" r="14"/><circle cx="16" cy="16" r="9.500"/><circle cx="16" cy="16" r="5"/>
-    <circle cx="16" cy="16" r="1.500" fill="currentColor" stroke="none"/>
-  </svg>`;
