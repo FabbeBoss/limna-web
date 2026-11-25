@@ -220,9 +220,8 @@ section{position:relative}
 /* team */
 .team .h2{grid-column:1 / 7}
 .team .intro{grid-column:1 / 6;grid-row:2;margin-top:32px;font-size:var(--lead);color:var(--ink-2);max-width:28em}
-.team .diary{grid-column:1 / 6;grid-row:3;margin-top:20px;color:var(--ink-2)}
-.team .p6{grid-column:1 / 5;grid-row:4;aspect-ratio:3/2;margin-top:56px}
-.team ul{grid-column:7 / 13;grid-row:1 / 5;align-self:center}
+.team .p6{grid-column:1 / 5;grid-row:3;aspect-ratio:3/2;margin-top:56px}
+.team ul{grid-column:7 / 13;grid-row:1 / 4;align-self:center}
 .team li{padding:18px 0 20px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr auto;column-gap:20px;row-gap:6px;align-items:center}
 .team li:last-child{border-bottom:1px solid var(--line)}
 .team li b{font-weight:400;font-size:clamp(28px,3vw,44px);letter-spacing:-.03em;line-height:1.1}
@@ -301,6 +300,24 @@ section{position:relative}
 .done p{font-size:var(--lead);color:var(--ink-2);max-width:28em}
 .err{font-size:14px;color:#9C3B27;min-height:0}
 
+
+/* dagboken: the latest posts, as lines */
+.log{padding-top:0}
+.log .kicker{grid-column:1 / 13;padding-top:clamp(56px,7vw,96px);border-top:1px solid var(--line)}
+.log .h2{grid-column:1 / 8}
+.log .intro{grid-column:8 / 13;align-self:end;font-size:var(--lead);color:var(--ink-2);max-width:24em}
+.log .feat{grid-column:1 / 5;grid-row:3;margin-top:clamp(40px,5vw,72px);display:block;align-self:start}
+.log .feat .ph{display:block;aspect-ratio:4/5}
+.log .side{grid-column:6 / 13;grid-row:3;margin-top:clamp(40px,5vw,72px)}
+.log .posts a{display:grid;grid-template-columns:8.5em 1fr auto;gap:8px 24px;align-items:baseline;padding:20px 0 22px;border-top:1px solid var(--line);text-decoration:none}
+.log .posts li:last-child a{border-bottom:1px solid var(--line)}
+.log .posts time{color:var(--muted);font-size:15px}
+.log .posts b{font-weight:400;font-size:clamp(24px,2.4vw,36px);letter-spacing:-.025em;line-height:1.12}
+.log .posts .arrow{font-size:20px}
+.log .posts a:hover .arrow{transform:translateX(6px)}
+.log .posts a:hover b{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.18em}
+.log .all{margin-top:28px}
+
 /* footer: the name set large */
 footer{padding:18px 0 22px;border-top:1px solid var(--line)}
 .foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 28px;font-size:15px;color:var(--muted)}
@@ -353,7 +370,12 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
   .gains ul{grid-template-columns:minmax(0,1fr);margin-top:48px;row-gap:32px}
   .app .phone-col{grid-column:1 / 13;order:2;margin-top:56px}
   .app .text{grid-column:1 / 13}
-  .team .h2,.team .intro,.team .diary,.team ul{grid-column:1 / 13;grid-row:auto}
+  .team .h2,.team .intro,.team ul{grid-column:1 / 13;grid-row:auto}
+  .log .h2,.log .intro,.log .side{grid-column:1 / 13;grid-row:auto}
+  .log .intro{margin-top:28px}
+  .log .feat{grid-column:1 / 9;grid-row:auto}
+  .log .posts a{grid-template-columns:1fr auto}
+  .log .posts time{grid-column:1 / 3}
   .team ul{margin-top:44px}
   .team .p6{grid-column:1 / 10;grid-row:auto;margin-top:44px}
   .join .h2,.join .intro,.join .mail{grid-column:1 / 13}
@@ -383,6 +405,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
       <a href="#bojen">Bojen</a>
       <a href="#appen">Appen</a>
       <a href="#om-oss">Om oss</a>
+      <a href="#dagbok">Dagbok</a>
     </nav>
     <a class="mark" href="#top" aria-label="Limna, till början av sidan"><i class="ic" aria-hidden="true"></i><i class="wm" aria-hidden="true"></i></a>
     <div class="nav-r">
@@ -396,6 +419,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
   <a href="#bojen">Bojen</a>
   <a href="#appen">Appen</a>
   <a href="#om-oss">Om oss</a>
+  <a href="#dagbok">Dagbok</a>
   <a href="#var-med">Var med</a>
   <a class="small ul" href="app/" style="align-self:flex-start">Testa demo-appen</a>
 </div>
@@ -499,7 +523,6 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
     <div class="wrap grid">
       <h2 class="h2" id="h-team"><span class="ln"><span>Ett projekt</span></span><span class="ln"><span>från LTH.</span></span></h2>
       <p class="intro rise">Fyra personer som tycker att lantbruket förtjänar bättre verktyg. Vi började med vattnet, eftersom det är där vi har hört att det skaver mest.</p>
-      <p class="diary rise"><a class="ul" href="dagbok/">Läs vår dagbok</a> och se hur det går för oss <span class="arrow" aria-hidden="true">→</span></p>
       <figure class="ph p6"><img src="img/vete.webp" width="1200" height="798" alt="En knippe torkat vete mot mörk bakgrund" loading="lazy"></figure>
       <ul>
         <li class="rise"><b>Sean Banegas</b><a class="in" href="https://se.linkedin.com/in/seanbanegas" target="_blank" rel="noopener" aria-label="Sean Banegas på LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a><span class="role">Affär och utveckling</span></li>
@@ -507,6 +530,19 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
         <li class="rise"><b>Egon Artberger</b><a class="in" href="https://www.linkedin.com/in/egon-artberger-00600529a/" target="_blank" rel="noopener" aria-label="Egon Artberger på LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a><span class="role">Prototyp, hemsida och app</span></li>
         <li class="rise"><b>Fabian Bertilsson</b><a class="in" href="https://se.linkedin.com/in/fabian-bertilsson-420015263" target="_blank" rel="noopener" aria-label="Fabian Bertilsson på LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a><span class="role">Prototyp, hemsida och app</span></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="sec log" id="dagbok" aria-labelledby="h-log">
+    <div class="wrap grid">
+      <p class="kicker rise">Dagboken</p>
+      <h2 class="h2" id="h-log"><span class="ln"><span>Hur går det,</span></span><span class="ln soft"><span>då?</span></span></h2>
+      <p class="intro rise">Vad vi har gjort, vad vi håller på med och vad som står på tur. Med bilder, och inte alltid så seriöst.</p>
+      <a class="feat rise" id="logFeat" href="dagbok/" aria-hidden="true" tabindex="-1"><span class="ph"><img src="dagbok/bilder/esp32-pa-bordet.webp" width="1200" height="1600" alt="" loading="lazy"></span></a>
+      <div class="side">
+      <ol class="posts" id="logList"></ol>
+      <p class="all rise"><a class="ul" href="dagbok/">Läs hela dagboken</a> <span class="arrow" aria-hidden="true">→</span></p>
+      </div>
     </div>
   </section>
 
@@ -549,6 +585,27 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
   </div>
 </footer>
 
+<script src="dagbok/inlagg.js"></script>
+<script>
+/* dagboken: the latest posts, from dagbok/inlagg.js */
+(() => {
+  const D = window.DAGBOK; const list = document.getElementById("logList");
+  if (!D || !list) return;
+  const MAN = ["jan","feb","mar","apr","maj","jun","jul","aug","sep","okt","nov","dec"];
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const posts = [...D.inlagg].sort((a, b) => b.datum.localeCompare(a.datum));
+  list.innerHTML = posts.slice(0, 4).map(p => {
+    const [y, m, d] = p.datum.split("-").map(Number);
+    return `<li class="rise"><a href="dagbok/#d-${esc(p.datum)}"><time datetime="${esc(p.datum)}">${d ? d + " " : ""}${MAN[m - 1]} ${y}</time><b>${esc(p.rubrik)}</b><span class="arrow" aria-hidden="true">→</span></a></li>`;
+  }).join("");
+  const pic = posts.find(p => p.bilder && p.bilder.length);
+  if (pic) {
+    const src = pic.bilder[0].src;
+    document.querySelector("#logFeat img").src = src.startsWith("../") ? src.slice(3) : "dagbok/" + src;
+    document.getElementById("logFeat").href = "dagbok/#d-" + pic.datum;
+  }
+})();
+</script>
 <script>
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
