@@ -34,7 +34,8 @@
       "email": "info@limna.se",
       "description": "Limna utvecklar en solcellsdriven mätboj som mäter vattennivå och vattenkvalitet i bevattningsdammar. Ett studentprojekt på LTH, Lunds tekniska högskola.",
       "foundingLocation": "Lund",
-      "areaServed": "SE"
+      "areaServed": "SE",
+      "sameAs": ["https://www.linkedin.com/company/limnaa"]
     },
     {
       "@type": "WebSite",
@@ -224,7 +225,9 @@ section{position:relative}
 .team li{padding:18px 0 20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
 .team li:last-child{border-bottom:1px solid var(--line)}
 .team li b{font-weight:400;font-size:clamp(28px,3vw,44px);letter-spacing:-.03em;line-height:1.1}
-.team li span{color:var(--muted);font-size:15px}
+.team li .meta{display:inline-flex;align-items:baseline;gap:22px;font-size:15px}
+.team li .meta>span{color:var(--muted)}
+.team li .in{color:var(--ink)}
 
 /* join: pick how to help, then that path's questions */
 .join{scroll-margin-top:calc(88px - clamp(80px,10vw,150px))}
@@ -497,10 +500,10 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
       <p class="intro rise">Fyra personer som tycker att lantbruket förtjänar bättre verktyg. Vi började med vattnet, eftersom det är där vi har hört att det skaver mest.</p>
       <figure class="ph p6"><img src="img/vete.webp" width="1200" height="798" alt="En knippe torkat vete mot mörk bakgrund" loading="lazy"></figure>
       <ul>
-        <li class="rise"><b>Sean Banegas</b><span>Affär och utveckling</span></li>
-        <li class="rise"><b>Vilmer Kullberg</b><span>Teknik och CAD</span></li>
-        <li class="rise"><b>Egon Artberger</b><span>Prototyp, hemsida och app</span></li>
-        <li class="rise"><b>Fabian Bertilsson</b><span>Prototyp, hemsida och app</span></li>
+        <li class="rise"><b>Sean Banegas</b><span class="meta"><span>Affär och utveckling</span><a class="ul in" href="https://se.linkedin.com/in/seanbanegas" target="_blank" rel="noopener" aria-label="Sean Banegas på LinkedIn">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></span></li>
+        <li class="rise"><b>Vilmer Kullberg</b><span class="meta"><span>Teknik och CAD</span><a class="ul in" href="https://se.linkedin.com/in/vilmer-kullberg-ekberg-57579a397" target="_blank" rel="noopener" aria-label="Vilmer Kullberg på LinkedIn">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></span></li>
+        <li class="rise"><b>Egon Artberger</b><span class="meta"><span>Prototyp, hemsida och app</span><a class="ul in" href="https://www.linkedin.com/in/egon-artberger-00600529a/" target="_blank" rel="noopener" aria-label="Egon Artberger på LinkedIn">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></span></li>
+        <li class="rise"><b>Fabian Bertilsson</b><span class="meta"><span>Prototyp, hemsida och app</span><a class="ul in" href="https://se.linkedin.com/in/fabian-bertilsson-420015263" target="_blank" rel="noopener" aria-label="Fabian Bertilsson på LinkedIn">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></span></li>
       </ul>
     </div>
   </section>
@@ -510,7 +513,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
       <p class="kicker rise">Bli en del av teamet</p>
       <h2 class="h2" id="h-join"><span class="ln"><span>Vi behöver</span></span><span class="ln"><span>din hjälp.</span></span></h2>
       <p class="intro rise">Limna byggs av fyra studenter, och vi kommer inte långt utan folk som kan lantbruk, vatten och teknik. Välj hur du vill vara med, så får du bara de frågor som gäller dig. Det tar ett par minuter.</p>
-      <p class="mail rise">Hellre ett mejl? Skriv till <a class="ul" href="mailto:info@limna.se">info@limna.se</a></p>
+      <p class="mail rise">Hellre ett mejl? Skriv till <a class="ul" href="mailto:info@limna.se">info@limna.se</a>, eller följ oss på <a class="ul" href="https://www.linkedin.com/company/limnaa" target="_blank" rel="noopener">LinkedIn</a>.</p>
       <div class="flow" id="flow">
         <ul class="paths" aria-label="Hur vill du vara med?">
           <li class="rise"><button class="path" type="button" data-path="team"><span class="n">01</span><b>Gå med i teamet</b><span class="arrow" aria-hidden="true">→</span><span class="d">Som teammedlem, i ett exjobb, en projektkurs eller praktik.</span></button></li>
@@ -535,6 +538,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
       <nav aria-label="Sidfot">
         <a class="ul" href="app/">Demo-app</a>
         <a class="ul" href="#var-med">Var med</a>
+        <a class="ul" href="https://www.linkedin.com/company/limnaa" target="_blank" rel="noopener">LinkedIn</a>
         <a class="ul" href="integritet.html">Integritetspolicy</a>
       </nav>
       <span>© 2026 Limna</span>
