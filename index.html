@@ -497,6 +497,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
       <nav aria-label="Sidfot">
         <a class="ul" href="app/">Demo-app</a>
         <a class="ul" href="#var-med">Var med</a>
+        <a class="ul" href="integritet.html">Integritetspolicy</a>
       </nav>
       <span>© 2026 Limna</span>
     </div>
@@ -671,7 +672,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
     $("#qsCount").textContent = `Steg ${idx + 1} av ${st.length}`;
     bar.innerHTML = st.map((_, i) => `<i class="${i <= idx ? "on" : ""}"></i>`).join("");
     body.innerHTML = `<div class="step${anim && !reduce ? " anim" : ""}"><h3 tabindex="-1">${s.h}</h3>${s.p ? `<p>${s.p}</p>` : ""}${s.q.map(field).join("")}` +
-      (s.last ? `<div class="consent q" data-k="ok"><label class="opt"><input type="checkbox" name="ok"${vals.ok ? " checked" : ""}><span class="mk" aria-hidden="true"></span><span><b>Jag godkänner att Limna sparar mina svar</b><small>Vi sparar dem bara för att kontakta dig om det du valt. Uppgifterna delas inte utanför teamet och raderas när du ber om det, eller senast två år efter vår senaste kontakt. Mejla <a class="ul" href="mailto:info@limna.se">info@limna.se</a> för att få dem raderade.</small></span></label><span class="err" id="e-ok"></span></div>` : "") +
+      (s.last ? `<div class="consent q" data-k="ok"><label class="opt"><input type="checkbox" name="ok"${vals.ok ? " checked" : ""}><span class="mk" aria-hidden="true"></span><span><b>Jag godkänner att Limna sparar mina svar</b><small>Vi sparar dem bara för att kontakta dig om det du valt. De lagras hos Google och i vår mejl, och bara vi i teamet läser dem. Vi raderar dem när du ber om det, eller senast två år efter vår senaste kontakt. Läs mer i vår <a class="ul" href="integritet.html" target="_blank" rel="noopener">integritetspolicy</a>.</small></span></label><span class="err" id="e-ok"></span></div>` : "") +
       `<div class="nav-q"><small>${s.last ? "Svaren går direkt till oss i teamet." : "Du kan gå tillbaka och ändra när som helst."}</small><button class="btn" type="submit">${s.last ? "Skicka" : "Nästa"} <span class="arrow" aria-hidden="true">→</span></button></div></div>`;
     limit();
   };

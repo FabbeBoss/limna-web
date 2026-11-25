@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Integritetspolicy · Limna</title>
+<meta name="description" content="Hur Limna hanterar personuppgifter från formuläret och vad som händer när du besöker limna.se.">
+<meta name="theme-color" content="#F2EFE7">
+<link rel="icon" href="img/limna-ikon.png" type="image/png">
+<link rel="preload" href="fonts/albert-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Albert Sans";font-style:normal;font-weight:300 700;font-display:swap;src:url(fonts/albert-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Albert Sans";font-style:normal;font-weight:300 700;font-display:swap;src:url(fonts/albert-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{--bg:#F2EFE7;--ink:#1D4743;--ink-2:#2D5955;--muted:#5E7774;--line:rgba(29,71,67,.22);--gold:#E3C567;--deep:#163A37;--gut:clamp(16px,4vw,56px);--ease:cubic-bezier(.22,.8,.18,1)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Albert Sans",ui-sans-serif,system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,p,ul{margin:0;padding:0}
+a{color:inherit}
+::selection{background:var(--gold);color:var(--deep)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:2px}
+.ul{text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;padding-bottom:2px}
+.wrap{width:100%;max-width:calc(1320px + 2*var(--gut));margin:0 auto;padding:0 var(--gut)}
+.top{display:flex;justify-content:space-between;align-items:center;height:72px}
+.mark{display:inline-flex;align-items:center;gap:10px;text-decoration:none;padding:8px 0}
+.mark i{display:block;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.mark .ic{--m:url(img/limna-ikon.png);width:26px;height:26px}
+.mark .wm{--m:url(img/limna-ord.png);width:86px;height:19px}
+.back{padding:10px 0}
+main{padding:clamp(48px,9vw,120px) 0 clamp(64px,10vw,140px)}
+h1{font-size:clamp(48px,8vw,112px);line-height:.95;letter-spacing:-.04em;font-weight:400;max-width:10em}
+.lead{font-size:clamp(18px,1.45vw,21px);color:var(--ink-2);max-width:36em;margin-top:28px}
+.date{font-size:15px;color:var(--muted);margin-top:18px}
+.body{max-width:40em;margin-top:clamp(48px,7vw,96px)}
+section{padding:32px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(22px,2vw,28px);line-height:1.2;letter-spacing:-.015em;font-weight:500;margin-bottom:12px}
+section p+p,section p+ul,section ul+p{margin-top:12px}
+section ul{list-style:none}
+section li{padding-left:18px;position:relative}
+section li+li{margin-top:6px}
+section li::before{content:"";position:absolute;left:0;top:.8em;width:8px;height:1px;background:currentColor}
+footer{padding:18px 0 22px;border-top:1px solid var(--line)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 28px;font-size:15px;color:var(--muted)}
+.foot a{padding:10px 0;display:inline-block}
+</style>
+</head>
+<body>
+<header class="wrap top">
+  <a class="mark" href="./" aria-label="Limna, till startsidan"><i class="ic" aria-hidden="true"></i><i class="wm" aria-hidden="true"></i></a>
+  <a class="ul back" href="./">Till startsidan</a>
+</header>
+
+<main class="wrap">
+  <h1>Så hanterar vi dina uppgifter</h1>
+  <p class="lead">Limna är ett studentprojekt på LTH. Vi samlar bara in det du själv skriver i formuläret "Vi behöver din hjälp", och vi använder det bara för att höra av oss till dig.</p>
+  <p class="date">Senast uppdaterad 25 november 2026</p>
+
+  <div class="body">
+    <section>
+      <h2>Vem som ansvarar</h2>
+      <p>Personuppgiftsansvarig är Fabian Bertilsson, för Limna-teamet. Limna är inget bolag ännu. Frågor om dina uppgifter mejlar du till <a class="ul" href="mailto:info@limna.se">info@limna.se</a>.</p>
+    </section>
+
+    <section>
+      <h2>Vad vi sparar</h2>
+      <p>När du skickar formuläret sparar vi:</p>
+      <ul>
+        <li>ditt namn och din e-postadress</li>
+        <li>ditt telefonnummer, om du skriver ett</li>
+        <li>vad du vill göra (till exempel gå med i teamet eller låna ut en plats för pilot) och dina svar på frågorna</li>
+        <li>när du skickade svaren</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Varför, och med vilken rätt</h2>
+      <p>Vi använder uppgifterna för att kontakta dig om det du valt i formuläret, och till inget annat. Vi skickar inga nyhetsbrev eller reklam och säljer aldrig uppgifterna vidare.</p>
+      <p>Vi sparar dem med ditt samtycke, som du ger med kryssrutan innan du skickar (artikel 6.1 a i dataskyddsförordningen). Du kan när som helst ta tillbaka ditt samtycke genom att mejla oss. Då raderar vi dina uppgifter.</p>
+    </section>
+
+    <section>
+      <h2>Vem som kan se dem</h2>
+      <p>Bara vi fyra i teamet läser svaren: Sean Banegas, Vilmer Kullberg, Egon Artberger och Fabian Bertilsson.</p>
+      <p>Svaren lagras i ett Google Kalkylark, och vi får en kopia som mejl till info@limna.se. Det betyder att Google (Google LLC) och vår e-posttjänst lagrar uppgifterna åt oss. Google kan lagra data i USA. Google är anslutet till EU–US Data Privacy Framework, som EU-kommissionen har godkänt för överföringar till USA.</p>
+    </section>
+
+    <section>
+      <h2>Hur länge</h2>
+      <p>Vi raderar dina uppgifter när du ber om det, eller senast två år efter vår senaste kontakt med dig. Det gäller både kalkylarket och mejlen.</p>
+    </section>
+
+    <section>
+      <h2>Dina rättigheter</h2>
+      <p>Du har rätt att:</p>
+      <ul>
+        <li>få veta vilka uppgifter vi har om dig och få en kopia av dem</li>
+        <li>få fel rättade</li>
+        <li>få uppgifterna raderade</li>
+        <li>begränsa hur vi använder dem</li>
+        <li>få dem i ett format du kan ta med dig</li>
+        <li>ta tillbaka ditt samtycke</li>
+      </ul>
+      <p>Mejla <a class="ul" href="mailto:info@limna.se">info@limna.se</a>, så svarar vi inom en månad. Om du tycker att vi hanterar dina uppgifter fel kan du klaga hos <a class="ul" href="https://www.imy.se/">Integritetsskyddsmyndigheten (IMY)</a>.</p>
+    </section>
+
+    <section>
+      <h2>När du besöker limna.se</h2>
+      <p>Vi använder inga cookies, ingen besöksstatistik och ingen spårning. Typsnitten och bilderna ligger på vår egen sida.</p>
+      <p>Sidan drivs av GitHub Pages (GitHub, USA), som tekniskt behöver ta emot din IP-adress för att visa sidan och kan spara den en kort tid i loggar för att skydda tjänsten.</p>
+      <p>Demo-appen sparar dina inställningar bara i din egen webbläsare, så att de finns kvar nästa gång. De skickas inte till oss. Kartan i appen hämtar satellitbilder från Esri, som då tar emot din IP-adress.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Ett projekt på LTH · <a class="ul" href="mailto:info@limna.se">info@limna.se</a></span>
+    <span>© 2026 Limna</span>
+  </div>
+</footer>
+</body>
+</html>
