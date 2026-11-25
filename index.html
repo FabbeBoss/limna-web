@@ -189,40 +189,70 @@ section{position:relative}
 .team li b{font-weight:400;font-size:clamp(28px,3vw,44px);letter-spacing:-.03em;line-height:1.1}
 .team li span{color:var(--muted);font-size:15px}
 
-/* contact */
-.contact .h2{grid-column:1 / 9}
-.contact .left{grid-column:1 / 6;grid-row:2}
-.contact .intro{margin-top:32px;font-size:var(--lead);color:var(--ink-2);max-width:28em}
-.contact .mail{margin-top:28px;font-size:var(--lead)}
-.contact form{grid-column:7 / 13;grid-row:2;margin-top:32px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px 28px}
-.fld{display:flex;flex-direction:column;gap:4px}
-.fld.full{grid-column:1 / -1}
-.fld label{font-size:14px;color:var(--muted)}
-.fld input,.fld select,.fld textarea{font:inherit;font-size:18px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:10px 0 10px;min-height:46px;transition:border-color .3s;-webkit-appearance:none;appearance:none}
-.fld select{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231D4743' stroke-width='1.4'/%3E%3C/svg%3E") right 2px center/12px 8px no-repeat;padding-right:24px}
-.fld textarea{min-height:110px;resize:vertical}
-.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-bottom-color:var(--ink)}
-.fld input:focus-visible,.fld select:focus-visible,.fld textarea:focus-visible{box-shadow:0 1px 0 0 var(--ink)}
-/* custom select: the native one stays in the form, hidden, and keeps the value */
-.sel{position:relative}
-.sel select{position:absolute;left:0;right:0;bottom:0;opacity:0;pointer-events:none;height:1px}
-.sel-btn{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;font:inherit;font-size:18px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:10px 0;min-height:46px;text-align:left;cursor:pointer;transition:border-color .3s}
-.sel-btn .ph-txt{color:var(--muted)}
-.sel-btn svg{flex:none;transition:transform .4s var(--ease)}
-.sel-btn[aria-expanded="true"]{border-bottom-color:var(--ink)}
-.sel-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
-.sel-btn:focus-visible{outline:none;box-shadow:0 1px 0 0 var(--ink)}
-.sel-list{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:20;margin:0;padding:6px 0;background:var(--bg);border:1px solid var(--line);border-radius:2px;box-shadow:0 18px 40px -24px rgba(29,71,67,.35);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .25s var(--ease),transform .35s var(--ease),visibility 0s .35s;max-height:300px;overflow:auto;overscroll-behavior:contain}
-.sel-list:focus{outline:none}
-.sel.open .sel-list{opacity:1;visibility:visible;transform:none;transition:opacity .25s var(--ease),transform .35s var(--ease)}
-.sel-list li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 16px;min-height:44px;font-size:17px;cursor:pointer;color:var(--ink-2);transition:background-color .2s,color .2s}
-.sel-list li.active{background:rgba(29,71,67,.07);color:var(--ink)}
-.sel-list li[aria-selected="true"]{color:var(--ink)}
-.sel-list li[aria-selected="true"]::after{content:"";width:12px;height:7px;border-left:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(-45deg) translateY(-2px)}
+/* join: pick how to help, then that path's questions */
+.join .kicker{grid-column:1 / 13}
+.join .h2{grid-column:1 / 9;grid-row:2}
+.join .intro{grid-column:1 / 6;grid-row:3;margin-top:32px;font-size:var(--lead);color:var(--ink-2);max-width:28em}
+.join .mail{grid-column:1 / 6;grid-row:4;margin-top:24px;font-size:15px;color:var(--muted)}
+[hidden]{display:none!important}
+.flow{grid-column:7 / 13;grid-row:2 / 6;position:relative}
+.paths{margin:0;padding:0;list-style:none;border-bottom:1px solid var(--line)}
+.paths li{border-top:1px solid var(--line)}
+.path{width:100%;display:grid;grid-template-columns:44px 1fr auto;gap:2px 12px;align-items:baseline;padding:22px 0 24px;background:none;border:0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.path .n{font-size:15px;color:var(--muted);font-variant-numeric:tabular-nums}
+.path b{font-weight:400;font-size:clamp(26px,2.5vw,36px);letter-spacing:-.03em;line-height:1.08}
+.path span.d{grid-column:2;color:var(--muted);font-size:16px;max-width:30em}
+.path .arrow{grid-row:1;grid-column:3;font-size:22px;transition:transform .5s var(--ease)}
+.path b{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .6s var(--ease)}
+.path:hover b,.path:focus-visible b{background-size:100% 1px}
+.path:hover .arrow{transform:translateX(6px)}
+.path:focus-visible{outline-offset:-2px}
+.qs{display:none}
+.flow.on .paths{display:none}
+.flow.on .qs{display:block}
+.qs-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--ink);font-size:15px;color:var(--muted)}
+.qs-top b{font-weight:500;color:var(--ink);font-size:17px}
+.qs-top .back{background-color:transparent;border:0;font:inherit;color:var(--ink);cursor:pointer;padding:10px 0}
+.bar{display:flex;gap:6px;margin-top:14px}
+.bar i{flex:1;height:2px;background:var(--line);transition:background-color .5s var(--ease)}
+.bar i.on{background:var(--ink)}
+.step{padding-top:28px}
+.step.anim{animation:stepIn .7s var(--ease) both}
+@keyframes stepIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.step h3{font-weight:400;font-size:clamp(28px,2.6vw,38px);letter-spacing:-.03em;line-height:1.05;margin:0 0 8px}
+.step>p{color:var(--ink-2);margin:0 0 8px;max-width:32em}
+.q{border:0;margin:30px 0 0;padding:0;min-width:0}
+.q legend,.q>label{display:block;font-size:18px;color:var(--ink);padding:0;margin-bottom:6px}
+.q .hint{display:block;font-size:14px;color:var(--muted);margin:-2px 0 6px}
+.q .opt-req{color:var(--muted);font-size:14px}
+.q input[type=text],.q input[type=email],.q input[type=tel],.q textarea{width:100%;font:inherit;font-size:18px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:10px 0;min-height:46px;transition:border-color .3s;-webkit-appearance:none;appearance:none}
+.q textarea{min-height:96px;resize:vertical}
+.q input:focus,.q textarea:focus{outline:none;border-bottom-color:var(--ink)}
+.opts{border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr);column-gap:28px}
+.opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.opt{display:flex;gap:14px;align-items:center;padding:11px 0;min-height:48px;border-bottom:1px solid var(--line);cursor:pointer;color:var(--ink-2);transition:color .2s}
+.opt input{position:absolute;opacity:0;width:1px;height:1px}
+.opt .mk{flex:none;width:18px;height:18px;border:1.4px solid var(--ink);border-radius:50%;position:relative;transition:background-color .25s}
+.opt .mk::after{content:"";position:absolute;inset:3.5px;border-radius:50%;background:var(--ink);transform:scale(0);transition:transform .3s var(--ease)}
+.opt input[type=checkbox]+.mk{border-radius:2px}
+.opt input[type=checkbox]+.mk::after{inset:auto;left:5px;top:1.5px;width:5px;height:9px;border-radius:0;background:none;border:solid var(--bg);border-width:0 1.6px 1.6px 0;transform:rotate(45deg) scale(0)}
+.opt input:checked+.mk::after{transform:scale(1)}
+.opt input[type=checkbox]:checked+.mk{background:var(--ink)}
+.opt input[type=checkbox]:checked+.mk::after{transform:rotate(45deg) scale(1)}
+.opt:hover,.opt:has(input:checked){color:var(--ink)}
+.opt:has(input:focus-visible) .mk{outline:2px solid var(--ink);outline-offset:3px}
+.opt.off{opacity:.4;cursor:default}
+.q .err{display:block;margin-top:6px}
+.consent{margin-top:34px}
+.consent .opt{align-items:flex-start;border:0;font-size:15px;color:var(--ink-2);line-height:1.5}
+.consent .opt .mk{margin-top:2px}
+.nav-q{display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center;justify-content:space-between;margin-top:36px}
+.nav-q small{font-size:14px;color:var(--muted)}
+.btn[disabled]{opacity:.6;cursor:progress}
+.done{padding-top:28px}
+.done h3{font-weight:400;font-size:clamp(34px,3.4vw,52px);letter-spacing:-.035em;line-height:1;margin:0 0 18px}
+.done p{font-size:var(--lead);color:var(--ink-2);max-width:28em}
 .err{font-size:14px;color:#9C3B27;min-height:0}
-.form-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center;justify-content:space-between}
-.form-foot small{font-size:14px;color:var(--muted);max-width:30em}
-.sent{grid-column:1 / -1;font-size:var(--lead)}
 
 /* footer: the name set large */
 footer{padding:18px 0 22px;border-top:1px solid var(--line)}
@@ -241,8 +271,8 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
   .buoy .text{grid-column:1 / 7}
   .app .phone-col{grid-column:1 / 6}
   .team ul{grid-column:6 / 13}
-  .contact form{grid-column:1 / 13;grid-row:auto;margin-top:56px}
-  .contact .left{grid-column:1 / 10}
+  .join .intro,.join .mail{grid-column:1 / 10}
+  .flow{grid-column:1 / 13;grid-row:auto;margin-top:48px}
   .gains li{grid-column:span 3}
   .gains li:last-child{grid-column:1 / -1}
 }
@@ -280,10 +310,11 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
   .team ul{margin-top:44px}
   .team li{flex-direction:column;align-items:flex-start;gap:2px}
   .team .p6{grid-column:1 / 10;grid-row:auto;margin-top:44px}
-  .contact .h2,.contact .left{grid-column:1 / 13}
+  .join .h2,.join .intro,.join .mail{grid-column:1 / 13}
   .gains li,.gains li:last-child,.gains li:nth-child(-n+2){grid-column:auto}
-  .contact form{grid-template-columns:minmax(0,1fr);gap:24px}
-  .form-foot .btn{width:100%}
+  .opts.two{grid-template-columns:minmax(0,1fr)}
+  .path{grid-template-columns:34px 1fr auto}
+  .nav-q .btn{width:100%}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -309,7 +340,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
     </nav>
     <a class="mark" href="#top" aria-label="Limna, till början av sidan"><i class="ic" aria-hidden="true"></i><i class="wm" aria-hidden="true"></i></a>
     <div class="nav-r">
-      <a class="ul cta" href="#kontakt">Skriv till oss</a>
+      <a class="ul cta" href="#var-med">Var med</a>
       <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="sheet">Meny</button>
     </div>
   </div>
@@ -319,7 +350,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
   <a href="#bojen">Bojen</a>
   <a href="#appen">Appen</a>
   <a href="#om-oss">Om oss</a>
-  <a href="#kontakt">Kontakt</a>
+  <a href="#var-med">Var med</a>
   <a class="small ul" href="app/" style="align-self:flex-start">Testa demo-appen</a>
 </div>
 
@@ -335,7 +366,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
       <div class="copy rise">
         <p class="lead">Limna är en solcellsdriven mätboj för bevattningsdammar. Den ska mäta vattennivå och vattenkvalitet dygnet runt, så att du kan planera bevattningen efter siffror i stället för efter känsla.</p>
         <div class="acts">
-          <a class="btn" href="#kontakt">Skriv till oss <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn" href="#var-med">Bli en del av teamet <span class="arrow" aria-hidden="true">→</span></a>
           <a class="ul" href="app/">Testa demo-appen med en påhittad damm</a>
         </div>
         <p class="note">Ett projekt på LTH. Vi söker gårdar att testa med.</p>
@@ -431,26 +462,25 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
     </div>
   </section>
 
-  <section class="sec contact" id="kontakt" aria-labelledby="h-kontakt">
+  <section class="sec join" id="var-med" aria-labelledby="h-join">
     <div class="wrap grid">
-      <h2 class="h2" id="h-kontakt"><span class="ln"><span>Har du en</span></span><span class="ln"><span>bevattningsdamm?</span></span></h2>
-      <div class="left">
-        <p class="intro rise">Vi vill gärna prata med lantbrukare och med folk som anlägger dammar. Berätta hur din damm ser ut och hur du vattnar i dag, så hör vi av oss.</p>
-        <p class="mail rise">Eller mejla <a class="ul" href="mailto:info@limna.se">info@limna.se</a></p>
+      <p class="kicker rise">Bli en del av teamet</p>
+      <h2 class="h2" id="h-join"><span class="ln"><span>Vi behöver</span></span><span class="ln"><span>din hjälp.</span></span></h2>
+      <p class="intro rise">Limna byggs av fyra studenter, och vi kommer inte långt utan folk som kan lantbruk, vatten och teknik. Välj hur du vill vara med, så får du bara de frågor som gäller dig. Det tar ett par minuter.</p>
+      <p class="mail rise">Hellre ett mejl? Skriv till <a class="ul" href="mailto:info@limna.se">info@limna.se</a></p>
+      <div class="flow" id="flow">
+        <ul class="paths" aria-label="Hur vill du vara med?">
+          <li class="rise"><button class="path" type="button" data-path="team"><span class="n">01</span><b>Gå med i teamet</b><span class="arrow" aria-hidden="true">→</span><span class="d">Som teammedlem, i ett exjobb, en projektkurs eller praktik.</span></button></li>
+          <li class="rise"><button class="path" type="button" data-path="pilot"><span class="n">02</span><b>Låna ut en plats för pilot</b><span class="arrow" aria-hidden="true">→</span><span class="d">En gård eller damm där vi kan testa bojen säsongen 2027.</span></button></li>
+          <li class="rise"><button class="path" type="button" data-path="bollplank"><span class="n">03</span><b>Vara bollplank</b><span class="arrow" aria-hidden="true">→</span><span class="d">Vi hör av oss med en konkret fråga 2–3 gånger per termin. Max 15 minuter.</span></button></li>
+          <li class="rise"><button class="path" type="button" data-path="folj"><span class="n">04</span><b>Följa projektet</b><span class="arrow" aria-hidden="true">→</span><span class="d">Få uppdateringar om hur det går några gånger per termin.</span></button></li>
+        </ul>
+        <form class="qs" id="qs" novalidate aria-live="polite">
+          <div class="qs-top"><b id="qsPath"></b><span id="qsCount"></span><button class="back ul" type="button" id="qsBack">Tillbaka</button></div>
+          <div class="bar" id="qsBar" aria-hidden="true"></div>
+          <div id="qsBody"></div>
+        </form>
       </div>
-      <form id="form" novalidate>
-        <div class="fld"><label for="f-namn">Namn</label><input id="f-namn" name="namn" autocomplete="name" required aria-describedby="e-namn"><span class="err" id="e-namn" aria-live="polite"></span></div>
-        <div class="fld"><label for="f-mail">E-post</label><input id="f-mail" name="epost" type="email" autocomplete="email" inputmode="email" spellcheck="false" required aria-describedby="e-mail"><span class="err" id="e-mail" aria-live="polite"></span></div>
-        <div class="fld"><label for="f-gard">Gård eller företag</label><input id="f-gard" name="gard" autocomplete="organization"></div>
-        <div class="fld"><label for="f-ort">Ort</label><input id="f-ort" name="ort" autocomplete="address-level2"></div>
-        <div class="fld"><label for="f-storlek">Dammens storlek</label>
-          <select id="f-storlek" name="storlek"><option value="">Välj</option><option>Under 5 000 m³</option><option>5 000–20 000 m³</option><option>20 000–50 000 m³</option><option>Över 50 000 m³</option><option>Vet inte</option></select></div>
-        <div class="fld"><label for="f-hur">Hur vattnar du i dag?</label>
-          <select id="f-hur" name="bevattning"><option value="">Välj</option><option>Bevattningskanon eller slangvagn</option><option>Ramp</option><option>Droppbevattning</option><option>Annat</option><option>Vattnar inte än</option></select></div>
-        <div class="fld full"><label for="f-msg">Meddelande</label><textarea id="f-msg" name="meddelande" placeholder="Hur ser dammen ut, och vad vill du ha koll på?"></textarea></div>
-        <div class="form-foot"><small>Formuläret öppnar ett färdigt mejl till info@limna.se. Vi använder bara uppgifterna för att höra av oss om Limna.</small><button class="btn" type="submit">Skicka till Limna <span class="arrow" aria-hidden="true">→</span></button></div>
-        <p class="sent" id="sent" hidden role="status">Tack! Ditt mejlprogram bör ha öppnats med texten ifylld. Hände inget? Mejla <a class="ul" href="mailto:info@limna.se">info@limna.se</a> direkt.</p>
-      </form>
     </div>
   </section>
 </main>
@@ -461,7 +491,7 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
       <span>Ett projekt på LTH · <a class="ul" href="mailto:info@limna.se">info@limna.se</a></span>
       <nav aria-label="Sidfot">
         <a class="ul" href="app/">Demo-app</a>
-        <a class="ul" href="#kontakt">Kontakt</a>
+        <a class="ul" href="#var-med">Var med</a>
       </nav>
       <span>© 2026 Limna</span>
     </div>
@@ -553,66 +583,139 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
   const fit = () => { const s = scr.clientWidth / 390; fr.style.transform = `scale(${s})`; fr.style.height = (scr.clientHeight / s) + "px"; };
   new ResizeObserver(fit).observe(scr); fit();
 
-  /* nicer selects: a button and a listbox in place of the native popup */
-  $$(".fld select").forEach((sel, n) => {
-    const fld = sel.parentElement; fld.classList.add("sel");
-    const label = fld.querySelector("label");
-    if (!label.id) label.id = "lb" + n;
-    const btn = document.createElement("button"); btn.type = "button"; btn.className = "sel-btn"; btn.id = "sb" + n;
-    const lid = "sl" + n;
-    btn.setAttribute("aria-haspopup", "listbox"); btn.setAttribute("aria-expanded", "false"); btn.setAttribute("aria-controls", lid);
-    btn.setAttribute("aria-labelledby", label.id + " " + btn.id);
-    label.htmlFor = btn.id;
-    const list = document.createElement("ul"); list.className = "sel-list"; list.id = lid; list.setAttribute("role", "listbox"); list.tabIndex = -1;
-    list.setAttribute("aria-labelledby", label.id);
-    const opts = [...sel.options].filter(o => o.value !== "");
-    const items = opts.map((o, i) => { const li = document.createElement("li"); li.setAttribute("role", "option"); li.id = lid + "-" + i; li.textContent = o.text; li.setAttribute("aria-selected", "false"); list.append(li); return li; });
-    const chev = '<svg width="12" height="8" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>';
-    const paint = () => {
-      const o = sel.selectedOptions[0], empty = !o || sel.value === "";
-      btn.innerHTML = `<span class="${empty ? "ph-txt" : ""}">${empty ? "Välj" : o.text}</span>` + chev;
-      items.forEach((li, i) => li.setAttribute("aria-selected", String(!empty && opts[i] === o)));
-    };
-    let act = -1;
-    const setAct = i => { act = Math.max(0, Math.min(items.length - 1, i)); items.forEach((li, k) => li.classList.toggle("active", k === act)); list.setAttribute("aria-activedescendant", items[act].id); items[act].scrollIntoView({ block: "nearest" }); };
-    const open = () => { $$(".sel.open").forEach(o => o !== fld && o.closeSel()); fld.classList.add("open"); btn.setAttribute("aria-expanded", "true"); const cur = opts.indexOf(sel.selectedOptions[0]); setAct(cur < 0 ? 0 : cur); list.focus({ preventScroll: true }); };
-    const close = (focus = true) => { fld.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); if (focus) btn.focus({ preventScroll: true }); };
-    fld.closeSel = () => close(false);
-    const pick = i => { sel.value = opts[i].value; sel.dispatchEvent(new Event("change", { bubbles: true })); paint(); close(); };
-    btn.addEventListener("click", () => fld.classList.contains("open") ? close() : open());
-    btn.addEventListener("keydown", e => { if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); open(); } });
-    list.addEventListener("keydown", e => {
-      if (e.key === "ArrowDown") { e.preventDefault(); setAct(act + 1); }
-      else if (e.key === "ArrowUp") { e.preventDefault(); setAct(act - 1); }
-      else if (e.key === "Home") { e.preventDefault(); setAct(0); }
-      else if (e.key === "End") { e.preventDefault(); setAct(items.length - 1); }
-      else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(act); }
-      else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); close(); }
-      else if (e.key === "Tab") close(false);
+  /* "Vi behöver din hjälp": pick a path, then only that path's questions (mirrors the Microsoft Forms form) */
+  const ENDPOINT = ""; /* paste the Google Apps Script web app URL here; empty = fall back to a ready email */
+  const R = true;
+  const Q = {
+    lockar: { t: "radio", l: "Vad lockar mest?", r: R, o: ["Att vara teammedlem", "Examensarbete eller kandidatarbete", "Projektkurs eller praktik", "Vet inte än"] },
+    tid: { t: "radio", l: "Hur mycket tid kan du lägga?", r: R, two: 1, o: ["1–2 h/vecka", "3–5 h/vecka", "5–8 h/vecka", "Mer än 8 h/vecka", "Det varierar"] },
+    fran: { t: "radio", l: "Från när?", r: R, two: 1, o: ["Så fort som möjligt", "VT 2027", "HT 2027", "Senare"] },
+    varfor: { t: "area", l: "Varför vill du vara med?", h: "Två eller tre meningar räcker.", r: R },
+    bidra: { t: "check", l: "Inom vad kan du bidra?", h: "Välj så många du vill.", o: ["Bevattning och vattenhushållning", "Dammar, våtmarker och vattenkvalitet", "Mark och markfukt", "Växtodling", "Lantbruksekonomi och stöd, till exempel investeringsstöd", "Elektronik, programmering eller data", "Kommunikation och marknad"] },
+    harPlats: { t: "radio", l: "Har du, eller någon du känner, en gård eller plats där vi skulle kunna testa systemet säsongen 2027?", r: R, o: ["Ja, min eller familjens", "Ja, någon jag känner", "Nej"] },
+    relation: { t: "radio", l: "Din relation till platsen", r: R, two: 1, o: ["Jag äger eller driver den", "Familjens", "Jag jobbar där", "Jag känner ägaren"] },
+    ort: { t: "text", l: "Var ligger den?", h: "Ort eller kommun.", r: R, ac: "address-level2" },
+    produceras: { t: "check", l: "Vad produceras?", r: R, two: 1, o: ["Frilandsgrönsaker", "Frukt eller bär", "Potatis", "Spannmål eller oljeväxter", "Plantskola eller växthus"] },
+    vatten: { t: "radio", l: "Varifrån kommer bevattningsvattnet?", r: R, two: 1, o: ["Egen damm", "Brunn", "Å, sjö eller bäck", "Kommunalt", "Bevattnar inte i dag"] },
+    areal: { t: "radio", l: "Ungefär hur stor areal bevattnas?", two: 1, o: ["Under 10 ha", "10–50 ha", "50–200 ha", "Över 200 ha", "Vet inte"] },
+    beslut: { t: "radio", l: "Vem fattar investeringsbeslutet?", o: ["Jag", "En förälder eller släkting till mig", "Någon annan"] },
+    vidare: { t: "radio", l: "Hur går vi vidare?", r: R, o: ["Jag introducerar er för den som bestämmer", "Kontakta mig så tar vi det därifrån", "Jag vill veta mer själv först"] },
+    platsMer: { t: "area", l: "Något mer vi borde veta om platsen?" },
+    namn: { t: "text", l: "Namn", r: R, ac: "name" },
+    epost: { t: "email", l: "E-post", r: R, ac: "email" },
+    telefon: { t: "tel", l: "Telefon", h: "Om du hellre vill bli uppringd.", ac: "tel" },
+    gor: { t: "check", l: "Vad gör du?", h: "Välj högst två.", r: R, max: 2, o: ["Pluggar på SLU", "Forskar eller jobbar på SLU", "Jobbar i eller driver lantbruk", "Något annat"] },
+    program: { t: "text", l: "Program och årskurs", show: v => (v.gor || []).includes("Pluggar på SLU") },
+    koppling: { t: "radio", l: "Din koppling till lantbruket", r: R, o: ["Driver eller äger en gård", "Familjen har en gård", "Har jobbat eller jobbar på gård", "Ingen koppling, men det är relevant för mig", "Ingen koppling, jag var bara nyfiken"] }
+  };
+  const S = {
+    team: { h: "Teamet", p: "Kul! Berätta lite om vad du är ute efter.", q: ["lockar", "tid", "fran", "varfor"] },
+    bidra: { h: "Vad kan du?", q: ["bidra"] },
+    plats: { h: "Plats för pilot", p: "Vi letar efter gårdar och dammar att testa på säsongen 2027.", q: ["harPlats"] },
+    pilot: { h: "Pilotplatsen", p: "Det här hjälper oss att se om platsen passar för ett första test.", q: ["relation", "ort", "produceras", "vatten", "areal", "beslut", "vidare", "platsMer"] },
+    om: { h: "Om dig", p: "Sist, vem är du och hur når vi dig?", q: ["namn", "epost", "telefon", "gor", "program", "koppling"], last: 1 }
+  };
+  const PATHS = {
+    team: { name: "Gå med i teamet", steps: ["team", "bidra", "plats", "om"] },
+    pilot: { name: "Låna ut en plats för pilot", steps: ["pilot", "om"] },
+    bollplank: { name: "Vara bollplank", steps: ["bidra", "plats", "om"] },
+    folj: { name: "Följa projektet", steps: ["plats", "om"] }
+  };
+  const flow = $("#flow"), qs = $("#qs"), body = $("#qsBody"), bar = $("#qsBar");
+  let path = null, idx = 0, vals = {};
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const steps = () => PATHS[path].steps.flatMap(k => k === "plats" && /^Ja/.test(vals.harPlats || "") ? ["plats", "pilot"] : [k]);
+  const field = (k) => {
+    const q = Q[k], id = "q-" + k, req = q.r ? "" : ' <span class="opt-req">(frivilligt)</span>';
+    const hint = q.h ? `<span class="hint" id="h-${k}">${q.h}</span>` : "";
+    const err = `<span class="err" id="e-${k}"></span>`;
+    if (q.t === "radio" || q.t === "check") {
+      const ty = q.t === "radio" ? "radio" : "checkbox", cur = vals[k];
+      const os = q.o.map(o => `<label class="opt"><input type="${ty}" name="${k}" value="${esc(o)}"${(ty === "radio" ? cur === o : (cur || []).includes(o)) ? " checked" : ""}><span class="mk" aria-hidden="true"></span><span>${esc(o)}</span></label>`).join("");
+      return `<fieldset class="q" data-k="${k}"${q.show && !q.show(vals) ? " hidden" : ""} aria-describedby="${q.h ? "h-" + k + " " : ""}e-${k}"><legend>${q.l}${req}</legend>${hint}<div class="opts${q.two ? " two" : ""}">${os}</div>${err}</fieldset>`;
+    }
+    const v = esc(vals[k] || "");
+    const inp = q.t === "area" ? `<textarea id="${id}" name="${k}">${v}</textarea>`
+      : `<input id="${id}" name="${k}" type="${q.t}" value="${v}"${q.ac ? ` autocomplete="${q.ac}"` : ""}${q.t === "email" ? ' inputmode="email" spellcheck="false"' : ""}>`;
+    return `<div class="q" data-k="${k}"${q.show && !q.show(vals) ? " hidden" : ""}><label for="${id}">${q.l}${req}</label>${hint}${inp}${err}</div>`;
+  };
+  const read = () => {
+    $$(".q", body).forEach(el => {
+      const k = el.dataset.k, q = Q[k];
+      if (!q) return;
+      if (q.t === "check") vals[k] = $$("input:checked", el).map(i => i.value);
+      else if (q.t === "radio") { const c = $("input:checked", el); if (c) vals[k] = c.value; }
+      else vals[k] = $("input,textarea", el).value.trim();
     });
-    items.forEach((li, i) => { li.addEventListener("click", () => pick(i)); li.addEventListener("mousemove", () => { if (act !== i) setAct(i); }); });
-    document.addEventListener("click", e => { if (!fld.contains(e.target)) close(false); });
-    sel.tabIndex = -1; sel.setAttribute("aria-hidden", "true");
-    fld.append(btn, list); paint();
+  };
+  const render = (anim = true) => {
+    const st = steps(), k = st[idx], s = S[k];
+    $("#qsPath").textContent = PATHS[path].name;
+    $("#qsCount").textContent = `Steg ${idx + 1} av ${st.length}`;
+    bar.innerHTML = st.map((_, i) => `<i class="${i <= idx ? "on" : ""}"></i>`).join("");
+    body.innerHTML = `<div class="step${anim && !reduce ? " anim" : ""}"><h3 tabindex="-1">${s.h}</h3>${s.p ? `<p>${s.p}</p>` : ""}${s.q.map(field).join("")}` +
+      (s.last ? `<div class="consent q" data-k="ok"><label class="opt"><input type="checkbox" name="ok"${vals.ok ? " checked" : ""}><span class="mk" aria-hidden="true"></span><span>Jag godkänner att Limna sparar mina svar för att kontakta mig om det jag valt. Uppgifterna delas inte utanför teamet och raderas när jag ber om det, eller senast två år efter vår senaste kontakt. Mejla <a class="ul" href="mailto:info@limna.se">info@limna.se</a> för att få dem raderade.</span></label><span class="err" id="e-ok"></span></div>` : "") +
+      `<div class="nav-q"><small>${s.last ? "Svaren går direkt till oss i teamet." : "Du kan gå tillbaka och ändra när som helst."}</small><button class="btn" type="submit">${s.last ? "Skicka" : "Nästa"} <span class="arrow" aria-hidden="true">→</span></button></div></div>`;
+    limit();
+  };
+  const limit = () => $$(".q", body).forEach(el => {
+    const q = Q[el.dataset.k]; if (!q || !q.max) return;
+    const n = $$("input:checked", el).length;
+    $$("input", el).forEach(i => { const off = !i.checked && n >= q.max; i.disabled = off; i.parentElement.classList.toggle("off", off); });
   });
-
-  /* contact form: builds a ready email */
-  const form = $("#form");
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    const fd = new FormData(form);
-    const name = (fd.get("namn") || "").trim(), mail = (fd.get("epost") || "").trim();
-    const eN = $("#e-namn"), eM = $("#e-mail");
-    eN.textContent = name ? "" : "Skriv ditt namn.";
-    eM.textContent = /^\S+@\S+\.\S+$/.test(mail) ? "" : "Skriv en e-postadress vi kan svara på.";
-    form.namn.setAttribute("aria-invalid", !name); form.epost.setAttribute("aria-invalid", !!eM.textContent);
-    if (!name) return form.namn.focus();
-    if (eM.textContent) return form.epost.focus();
-    const rows = [["Namn", name], ["E-post", mail], ["Gård/företag", fd.get("gard")], ["Ort", fd.get("ort")], ["Dammstorlek", fd.get("storlek")], ["Bevattning i dag", fd.get("bevattning")]].filter(r => r[1]).map(r => r[0] + ": " + r[1]);
-    const msg = (fd.get("meddelande") || "").trim();
-    const body = rows.join("\n") + (msg ? "\n\n" + msg : "");
-    location.href = "mailto:info@limna.se?subject=" + encodeURIComponent("Intresse för Limna – " + name) + "&body=" + encodeURIComponent(body);
-    $("#sent").hidden = false;
+  body.addEventListener("change", e => {
+    read(); limit();
+    $$(".q[data-k]", body).forEach(el => { const q = Q[el.dataset.k]; if (q && q.show) el.hidden = !q.show(vals); });
+    const er = e.target.closest(".q") && $(".err", e.target.closest(".q")); if (er) er.textContent = "";
+  });
+  const check = () => {
+    let first = null;
+    $$(".q", body).forEach(el => {
+      if (el.hidden) return;
+      const k = el.dataset.k, q = Q[k], v = vals[k], er = $(".err", el);
+      let m = "";
+      if (k === "ok") m = $("input", el).checked ? "" : "Vi behöver ditt godkännande för att spara svaren.";
+      else if (q.t === "email" && v && !/^\S+@\S+\.\S+$/.test(v)) m = "Skriv en e-postadress vi kan svara på.";
+      else if (q.r && (!v || (Array.isArray(v) && !v.length))) m = q.t === "radio" || q.t === "check" ? "Välj ett alternativ." : "Fyll i det här.";
+      er.textContent = m;
+      if (m && !first) first = el;
+    });
+    if (first) { const f = $("input:not([disabled]),textarea", first); f && f.focus(); first.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" }); }
+    return !first;
+  };
+  const top = () => { const r = flow.getBoundingClientRect(); if (r.top < 70 || r.top > innerHeight * 0.6) scrollTo({ top: scrollY + r.top - 96, behavior: reduce ? "auto" : "smooth" }); };
+  $$(".path", flow).forEach(b => b.addEventListener("click", () => {
+    path = b.dataset.path; idx = 0; flow.classList.add("on"); render(); top(); $("h3", body).focus({ preventScroll: true });
+  }));
+  $("#qsBack").addEventListener("click", () => {
+    read();
+    if (idx === 0) { flow.classList.remove("on"); $(`.path[data-path="${path}"]`, flow).focus(); path = null; return; }
+    idx--; render(); top(); $("h3", body).focus({ preventScroll: true });
+  });
+  qs.addEventListener("submit", async e => {
+    e.preventDefault(); read();
+    const okBox = $('input[name="ok"]', body); if (okBox) vals.ok = okBox.checked;
+    if (!check()) return;
+    const st = steps();
+    if (idx < st.length - 1) { idx++; render(); top(); $("h3", body).focus({ preventScroll: true }); return; }
+    /* one flat row, in question order, so it lands tidy in a sheet */
+    const row = { "Tidpunkt": new Date().toLocaleString("sv-SE"), "Vill": PATHS[path].name };
+    st.flatMap(k => S[k].q).forEach(k => { if (Q[k].show && !Q[k].show(vals)) return; const v = vals[k]; row[Q[k].l] = Array.isArray(v) ? v.join(", ") : (v || ""); });
+    row["Samtycke"] = "Ja";
+    const btn = $('button[type="submit"]', body);
+    btn.disabled = true; btn.firstChild.textContent = "Skickar ";
+    let sent = false;
+    if (ENDPOINT) {
+      try { const r = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(row) }); sent = r.ok; } catch (_) { sent = false; }
+    }
+    if (!sent) {
+      const txt = Object.entries(row).filter(([, v]) => v).map(([q, v]) => q + "\n" + v).join("\n\n");
+      location.href = "mailto:info@limna.se?subject=" + encodeURIComponent(PATHS[path].name + " – " + vals.namn) + "&body=" + encodeURIComponent(txt);
+    }
+    const first = esc((vals.namn || "").split(" ")[0]);
+    $(".qs-top", qs).hidden = true; bar.hidden = true;
+    body.innerHTML = `<div class="done${reduce ? "" : " step anim"}" role="status"><h3 tabindex="-1">Tack${first ? ", " + first : ""}.</h3><p>${sent ? "Vi har fått dina svar och hör av oss till " + esc(vals.epost) + " snart." : "Ditt mejlprogram bör ha öppnats med svaren ifyllda, tryck bara skicka. Hände inget? Mejla <a class=\"ul\" href=\"mailto:info@limna.se\">info@limna.se</a>."}</p></div>`;
+    $("h3", body).focus({ preventScroll: true });
   });
 })();
 </script>
