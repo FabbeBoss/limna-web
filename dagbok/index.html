@@ -79,6 +79,8 @@ h1 .soft{color:var(--muted)}
 .post{border-top:1px solid var(--line);padding:clamp(32px,4vw,48px) 0 clamp(72px,9vw,128px)}
 .post .when{grid-column:1 / 4;align-self:start;position:sticky;top:24px}
 .post .day{display:block;font-size:clamp(64px,7vw,112px);line-height:.85;letter-spacing:-.05em}
+.post .day.m{text-transform:capitalize}
+.post .tag{font-size:15px;color:var(--muted);letter-spacing:.02em;margin-bottom:12px}
 .post .mon{display:block;margin-top:10px;color:var(--muted);font-size:15px}
 .post .num{margin-top:clamp(28px,4vw,56px);max-width:11em}
 .post .num b{display:block;font-weight:400;font-size:clamp(40px,4vw,60px);line-height:1;letter-spacing:-.04em;color:var(--ink)}
@@ -231,12 +233,15 @@ dialog .x{position:absolute;top:14px;right:var(--gut);background:none;border:0;p
 
   $("#feed").innerHTML = posts.map(p => {
     const [y, m, d] = p.datum.split("-").map(Number);
+    const big = d ? d : MAN[m - 1].slice(0, 3);
+    const small = d ? `${MAN[m - 1]} ${y}` : `${y}`;
     const pics = (p.bilder || []).slice(0, 3);
     const num = p.siffra ? `<p class="num"><b>${esc(p.siffra[0])}</b><span>${esc(p.siffra[1])}</span></p>` : "";
     const fig = pics.map(b => `<figure class="pic"><button type="button" data-src="${esc(b.src)}" data-cap="${esc(b.text || "")}" aria-label="Visa bilden större: ${esc(b.alt)}"><img src="${esc(b.src)}" alt="${esc(b.alt)}" loading="lazy"></button>${b.text ? `<figcaption>${esc(b.text)}</figcaption>` : ""}</figure>`).join("");
     return `<article class="post grid" id="d-${esc(p.datum)}">
-      <div class="when rise"><time datetime="${esc(p.datum)}"><span class="day">${d}</span><span class="mon">${MAN[m - 1]} ${y}</span></time>${num}</div>
+      <div class="when rise"><time datetime="${esc(p.datum)}"><span class="day${d ? "" : " m"}">${big}</span><span class="mon">${small}</span></time>${num}</div>
       <div class="body">
+        ${p.etikett ? `<p class="tag rise">${esc(p.etikett)}</p>` : ""}
         <h3 class="rise">${esc(p.rubrik)}</h3>
         <div class="txt rise">${(p.text || []).map(t => `<p>${esc(t)}</p>`).join("")}</div>
         ${pics.length ? `<div class="pics n${pics.length}">${fig}</div>` : ""}

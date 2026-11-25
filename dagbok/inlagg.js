@@ -4,7 +4,8 @@
   Nytt inlägg: kopiera ett block i `inlagg` nedan och klistra in det ÖVERST
   i listan (nyast först). Det är det enda du behöver göra.
 
-    datum   "ÅÅÅÅ-MM-DD"
+    datum   "ÅÅÅÅ-MM-DD", eller "ÅÅÅÅ-MM" om bara månaden är känd
+    etikett valfri: ett litet ord ovanför rubriken, t.ex. "Pitch"
     rubrik  kort och gärna lite rolig
     text    en lista med stycken, ett stycke per rad med citattecken
     bilder  0–3 bilder. Lägg bildfilen i dagbok/bilder/ och skriv
@@ -64,6 +65,42 @@ window.DAGBOK = {
         { src: "bilder/jobb-vid-bordet.webp", alt: "En i teamet jobbar vid en bärbar dator, med en multimeter och lösa elektronikdelar på bordet", text: "Fasta tider, multimeter och total koncentration." }
       ],
       siffra: ["4", "i teamet"]
+    },
+
+    {
+      datum: "2026-05",
+      etikett: "Finansiering",
+      rubrik: "Leapfrogs sa ja",
+      text: [
+        "Vi har fått ett Leapfrogs-bidrag (då hette vi HydroVault). Pengarna ska hjälpa oss att verifiera både tekniken och affären under 2026.",
+        "I praktiken betyder det fler och längre samtal med kunder, rådgivning kring regler och förberedelser inför en pilot. Och en lite lättare känsla i magen när vi beställer komponenter."
+      ],
+      bilder: [],
+      siffra: ["1", "bidrag beviljat"]
+    },
+
+    {
+      datum: "2026-02",
+      etikett: "Partnerskap",
+      rubrik: "LU Innovation är med hela 2026",
+      text: [
+        "Samarbetet med LU Innovation är nu formaliserat för hela 2026.",
+        "Det ger oss stöd i affärsutvecklingen, ett nätverk och tillgång till Lunds universitets innovationsinfrastruktur. Plötsligt har vi folk att fråga när vi inte vet. Vilket händer oftare än man kan tro."
+      ],
+      bilder: [],
+      siffra: ["12", "månader med LU Innovation"]
+    },
+
+    {
+      datum: "2025-05",
+      etikett: "Pitch",
+      rubrik: "Draknästet, lokalt",
+      text: [
+        "Vi spolar tillbaka lite. Sean ställde sig framför en jury av investerare och entreprenörer i en lokal Draknäste-tävling och pitchade idén. Då hette vi HydroVault.",
+        "Namnet har bytts sedan dess. Idén har vi kvar."
+      ],
+      bilder: [],
+      siffra: ["1", "jury av investerare och entreprenörer"]
     }
 
   ]
