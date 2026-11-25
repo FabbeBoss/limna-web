@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dagboken · Limna</title>
+<meta name="description" content="Limnas dagbok: vad vi har gjort, vad vi håller på med och vad som står på tur i bygget av en mätboj för bevattningsdammar. Ett projekt på LTH.">
+<link rel="canonical" href="https://limna.se/dagbok/">
+<meta name="theme-color" content="#F2EFE7">
+<meta property="og:site_name" content="Limna">
+<meta property="og:locale" content="sv_SE">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://limna.se/dagbok/">
+<meta property="og:title" content="Dagboken · Limna">
+<meta property="og:description" content="Hur det går för oss, med bilder. Vad vi har gjort, vad vi gör och vad som står på tur.">
+<meta property="og:image" content="https://limna.se/img/delning.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../img/favicon-96.png" type="image/png" sizes="96x96">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="preload" href="../fonts/albert-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Albert Sans";font-style:normal;font-weight:300 700;font-display:swap;src:url(../fonts/albert-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Albert Sans";font-style:normal;font-weight:300 700;font-display:swap;src:url(../fonts/albert-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{--bg:#F2EFE7;--ink:#1D4743;--ink-2:#2D5955;--muted:#5E7774;--line:rgba(29,71,67,.22);--gold:#E3C567;--deep:#163A37;--gut:clamp(16px,4vw,56px);--ease:cubic-bezier(.22,.8,.18,1);--ease-io:cubic-bezier(.7,0,.2,1);--lead:clamp(18px,1.45vw,21px)}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Albert Sans",ui-sans-serif,system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,p,ul,ol,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+h1,h2{text-wrap:balance}
+p{text-wrap:pretty}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit}
+::selection{background:var(--gold);color:var(--deep)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:2px}
+.ul{text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;padding-bottom:2px}
+.ul:hover{animation:redraw .7s var(--ease)}
+@keyframes redraw{0%{background-size:100% 1px;background-position:100% 100%}45%{background-size:0 1px;background-position:100% 100%}46%{background-position:0 100%}100%{background-size:100% 1px;background-position:0 100%}}
+.arrow{display:inline-block;transition:transform .5s var(--ease)}
+a:hover .arrow{transform:translateX(4px)}
+.wrap{width:100%;max-width:calc(1320px + 2*var(--gut));margin:0 auto;padding:0 var(--gut)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(12px,2vw,28px)}
+
+.top{display:flex;justify-content:space-between;align-items:center;height:72px}
+.mark{display:inline-flex;align-items:center;gap:10px;text-decoration:none;padding:8px 0}
+.mark i{display:block;background:currentColor;-webkit-mask:var(--m) center/contain no-repeat;mask:var(--m) center/contain no-repeat}
+.mark .ic{--m:url(../img/limna-ikon.png);width:26px;height:26px;transition:transform .8s var(--ease)}
+.mark .wm{--m:url(../img/limna-ord.png);width:86px;height:19px}
+.mark:hover .ic{transform:rotate(90deg)}
+.top .ul{padding:10px 0 2px}
+
+/* hero */
+.hero{padding-block:clamp(56px,10vw,140px) clamp(56px,8vw,112px)}
+.kicker{font-size:15px;color:var(--muted);letter-spacing:.02em}
+h1{font-size:clamp(60px,11vw,168px);line-height:.92;letter-spacing:-.045em;font-weight:400;margin-top:18px}
+h1 .soft{color:var(--muted)}
+.ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.ln>span{display:inline-block;transform:translateY(108%);transition:transform 1.25s var(--ease)}
+.ln:nth-child(2)>span{transition-delay:.09s}
+.go .ln>span{transform:none}
+.hero .lead{font-size:var(--lead);color:var(--ink-2);max-width:31em;margin-top:clamp(28px,4vw,44px)}
+
+/* läget: just nu + agenda */
+.now{border-top:1px solid var(--line);padding-block:28px clamp(64px,9vw,128px);row-gap:28px}
+.now h2{font-size:15px;font-weight:400;color:var(--muted);letter-spacing:.02em;margin-bottom:12px}
+.now .nu{grid-column:1 / 6}
+.now .nu p{font-size:clamp(24px,2.4vw,34px);line-height:1.22;letter-spacing:-.02em;max-width:15em}
+.now .ag{grid-column:7 / 13}
+.now ol li{display:grid;grid-template-columns:7.5em 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.now ol li:last-child{border-bottom:1px solid var(--line)}
+.now ol b{font-weight:500}
+.now ol span{color:var(--ink-2)}
+
+/* inlägg */
+.feed-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:20px}
+.feed-h h2{font-size:clamp(40px,6.2vw,96px);line-height:.95;letter-spacing:-.04em;font-weight:400}
+.feed-h span{color:var(--muted);font-size:15px;white-space:nowrap}
+.post{border-top:1px solid var(--line);padding:clamp(32px,4vw,48px) 0 clamp(72px,9vw,128px)}
+.post .when{grid-column:1 / 4;align-self:start;position:sticky;top:24px}
+.post .day{display:block;font-size:clamp(64px,7vw,112px);line-height:.85;letter-spacing:-.05em}
+.post .mon{display:block;margin-top:10px;color:var(--muted);font-size:15px}
+.post .num{margin-top:clamp(28px,4vw,56px);max-width:11em}
+.post .num b{display:block;font-weight:400;font-size:clamp(40px,4vw,60px);line-height:1;letter-spacing:-.04em;color:var(--ink)}
+.post .num span{display:block;margin-top:6px;color:var(--muted);font-size:15px;line-height:1.35}
+.post .body{grid-column:4 / 13}
+.post h3{font-size:clamp(30px,3.6vw,54px);line-height:1.04;letter-spacing:-.03em;font-weight:400;max-width:16em}
+.post .txt{margin-top:24px;max-width:34em;font-size:var(--lead);color:var(--ink-2)}
+.post .txt p+p{margin-top:14px}
+
+/* bilder: 1 bred, 2 förskjutna, 3 en stor och två små */
+.pics{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));column-gap:clamp(12px,2vw,28px);row-gap:clamp(12px,2vw,28px);margin-top:clamp(32px,4vw,56px)}
+.pic{margin:0}
+.pic button{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;overflow:hidden;position:relative;clip-path:inset(100% 0 0 0);transition:clip-path 1.3s var(--ease)}
+.pic img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);transition:transform 1.8s var(--ease)}
+.pic button:hover img{transform:scale(1.03)}
+.pic.go button{clip-path:inset(0 0 0 0)}
+.pic.go img{transform:scale(1)}
+.pic.go button:hover img{transform:scale(1.03)}
+.pic figcaption{margin-top:10px;font-size:14px;color:var(--muted)}
+.n1 .pic{grid-column:1 / 9}
+.n1 .pic button{aspect-ratio:16/10}
+.n2 .pic:nth-child(1){grid-column:1 / 6}
+.n2 .pic:nth-child(1) button{aspect-ratio:4/5}
+.n2 .pic:nth-child(2){grid-column:6 / 10;margin-top:clamp(64px,12vw,180px)}
+.n2 .pic:nth-child(2) button{aspect-ratio:1/1}
+.n3 .pic:nth-child(1){grid-column:1 / 10}
+.n3 .pic:nth-child(1) button{aspect-ratio:16/9}
+.n3 .pic:nth-child(2){grid-column:1 / 5}
+.n3 .pic:nth-child(2) button{aspect-ratio:1/1}
+.n3 .pic:nth-child(3){grid-column:6 / 10;margin-top:clamp(40px,8vw,120px)}
+.n3 .pic:nth-child(3) button{aspect-ratio:4/5}
+
+.rise{opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease),transform 1s var(--ease)}
+.rise.go{opacity:1;transform:none}
+
+.now,.end{border-top:0;background:linear-gradient(var(--line),var(--line)) var(--gut) 0/calc(100% - 2*var(--gut)) 1px no-repeat}
+/* slut */
+.end{border-top:1px solid var(--line);padding-block:clamp(56px,8vw,112px) clamp(72px,10vw,140px)}
+.end h2{grid-column:1 / 8;font-size:clamp(40px,6.2vw,96px);line-height:.95;letter-spacing:-.04em;font-weight:400}
+.end .side{grid-column:8 / 13;align-self:end}
+.end p{color:var(--ink-2);font-size:var(--lead);max-width:24em}
+.btn{display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:0 24px;margin-top:28px;background:var(--ink);color:var(--bg);border-radius:2px;font-size:17px;font-weight:500;text-decoration:none;position:relative;overflow:hidden;isolation:isolate;transition:transform .2s}
+.btn::before{content:"";position:absolute;inset:0;background:var(--deep);transform:translateY(101%);transition:transform .5s var(--ease-io);z-index:-1}
+.btn:hover::before{transform:none}
+.btn:active{transform:scale(.97)}
+
+footer{padding:18px 0 22px;border-top:1px solid var(--line)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 28px;font-size:15px;color:var(--muted)}
+.foot nav{display:flex;flex-wrap:wrap;gap:6px 24px}
+.foot a{padding:10px 0;display:inline-block}
+
+/* storbild */
+dialog{border:0;padding:0;max-width:100vw;max-height:100vh;width:100vw;height:100vh;background:rgba(242,239,231,.97);color:var(--ink)}
+dialog::backdrop{background:transparent}
+dialog figure{height:100%;display:grid;grid-template-rows:1fr auto;gap:12px;padding:64px var(--gut) 24px}
+dialog img{width:100%;height:100%;object-fit:contain;min-height:0}
+dialog figcaption{font-size:15px;color:var(--muted);text-align:center;min-height:1.6em}
+dialog .x{position:absolute;top:14px;right:var(--gut);background:none;border:0;padding:10px 0 2px;cursor:pointer;font-size:17px}
+
+@media (max-width:900px){
+  .now .nu,.now .ag{grid-column:1 / 13}
+  .post .when{grid-column:1 / 13;position:static;display:flex;align-items:flex-end;flex-wrap:wrap;gap:4px 18px;margin-bottom:28px}
+  .post .mon{margin:0 0 4px}
+  .post .num{margin:0 0 0 auto;text-align:right;display:flex;align-items:baseline;gap:10px;max-width:none}
+  .post .num b{font-size:34px}
+  .post .num span{margin:0;max-width:9em;text-align:left}
+  .post .body{grid-column:1 / 13}
+  .end h2,.end .side{grid-column:1 / 13}
+  .end .side{margin-top:28px}
+}
+@media (max-width:560px){
+  .feed-h span{display:none}
+  .now ol li{grid-template-columns:6.5em 1fr;gap:12px}
+  .post .num{margin:12px 0 0;text-align:left;width:100%}
+  .n2 .pic:nth-child(1),.n2 .pic:nth-child(2),.n3 .pic:nth-child(2),.n3 .pic:nth-child(3){grid-column:1 / 10;margin-top:0}
+  .n2 .pic:nth-child(2){grid-column:3 / 10}
+  .n3 .pic:nth-child(2){grid-column:1 / 6}
+  .n3 .pic:nth-child(3){grid-column:4 / 10}
+}
+@media (prefers-reduced-motion:reduce){
+  .ln>span,.rise,.pic button,.pic img{transition:none!important;transform:none!important;opacity:1!important;clip-path:none!important}
+}
+</style>
+</head>
+<body>
+<header class="wrap top">
+  <a class="mark" href="../" aria-label="Limna, till startsidan"><i class="ic" aria-hidden="true"></i><i class="wm" aria-hidden="true"></i></a>
+  <a class="ul" href="../">Till startsidan</a>
+</header>
+
+<main>
+  <section class="wrap hero" id="hero">
+    <p class="kicker">Limnas dagbok</p>
+    <h1><span class="ln"><span>Hur går det,</span></span><span class="ln soft"><span>då?</span></span></h1>
+    <p class="lead rise">Här skriver vi om vad vi har gjort, vad vi håller på med och vad som står på tur. Med bilder, ärliga misslyckanden och ibland lite för mycket entusiasm över en sensor.</p>
+  </section>
+
+  <section class="wrap grid now" aria-label="Läget just nu">
+    <div class="nu rise"><h2>Just nu</h2><p id="justNu"></p></div>
+    <div class="ag rise"><h2>På agendan</h2><ol id="agenda"></ol></div>
+  </section>
+
+  <section class="wrap" aria-labelledby="h-feed">
+    <div class="feed-h"><h2 id="h-feed">Det vi har gjort</h2><span id="count"></span></div>
+    <div id="feed"></div>
+    <noscript><p style="padding:32px 0">Dagboken behöver JavaScript för att visa inläggen.</p></noscript>
+  </section>
+
+  <section class="wrap grid end" aria-labelledby="h-end">
+    <h2 id="h-end">Vill du hänga med på riktigt?</h2>
+    <div class="side">
+      <p>Vi letar efter folk som kan lantbruk, vatten och teknik, och efter gårdar som vill testa bojen säsongen 2027.</p>
+      <a class="btn" href="../#var-med">Var med <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Ett projekt på LTH · <a class="ul" href="mailto:info@limna.se">info@limna.se</a></span>
+    <nav aria-label="Sidfot">
+      <a class="ul" href="../">Startsidan</a>
+      <a class="ul" href="../app/">Demo-app</a>
+      <a class="ul" href="https://www.linkedin.com/company/limnaa" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="ul" href="../integritet.html">Integritetspolicy</a>
+    </nav>
+    <span>© 2026 Limna</span>
+  </div>
+</footer>
+
+<dialog id="big" aria-label="Bild i stort format">
+  <button class="x ul" type="button" id="bigX">Stäng</button>
+  <figure><img id="bigImg" alt=""><figcaption id="bigCap"></figcaption></figure>
+</dialog>
+
+<script src="inlagg.js"></script>
+<script>
+(() => {
+  const D = window.DAGBOK || { inlagg: [], agenda: [] };
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  const MAN = ["januari","februari","mars","april","maj","juni","juli","augusti","september","oktober","november","december"];
+
+  $("#justNu").textContent = D.justNu || "";
+  $("#agenda").innerHTML = (D.agenda || []).map(a => `<li><b>${esc(a.nar)}</b><span>${esc(a.vad)}</span></li>`).join("");
+
+  const posts = [...(D.inlagg || [])].sort((a, b) => b.datum.localeCompare(a.datum));
+  $("#count").textContent = posts.length === 1 ? "1 inlägg" : `${posts.length} inlägg`;
+
+  $("#feed").innerHTML = posts.map(p => {
+    const [y, m, d] = p.datum.split("-").map(Number);
+    const pics = (p.bilder || []).slice(0, 3);
+    const num = p.siffra ? `<p class="num"><b>${esc(p.siffra[0])}</b><span>${esc(p.siffra[1])}</span></p>` : "";
+    const fig = pics.map(b => `<figure class="pic"><button type="button" data-src="${esc(b.src)}" data-cap="${esc(b.text || "")}" aria-label="Visa bilden större: ${esc(b.alt)}"><img src="${esc(b.src)}" alt="${esc(b.alt)}" loading="lazy"></button>${b.text ? `<figcaption>${esc(b.text)}</figcaption>` : ""}</figure>`).join("");
+    return `<article class="post grid" id="d-${esc(p.datum)}">
+      <div class="when rise"><time datetime="${esc(p.datum)}"><span class="day">${d}</span><span class="mon">${MAN[m - 1]} ${y}</span></time>${num}</div>
+      <div class="body">
+        <h3 class="rise">${esc(p.rubrik)}</h3>
+        <div class="txt rise">${(p.text || []).map(t => `<p>${esc(t)}</p>`).join("")}</div>
+        ${pics.length ? `<div class="pics n${pics.length}">${fig}</div>` : ""}
+      </div>
+    </article>`;
+  }).join("");
+
+  // in på skärmen
+  requestAnimationFrame(() => $("#hero").classList.add("go"));
+  const els = document.querySelectorAll(".rise,.pic");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("go"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+    els.forEach(el => io.observe(el));
+  } else els.forEach(el => el.classList.add("go"));
+
+  // storbild
+  const dlg = $("#big");
+  document.addEventListener("click", e => {
+    const b = e.target.closest(".pic button");
+    if (!b || !dlg.showModal) return;
+    $("#bigImg").src = b.dataset.src;
+    $("#bigImg").alt = b.querySelector("img").alt;
+    $("#bigCap").textContent = b.dataset.cap;
+    dlg.showModal();
+  });
+  $("#bigX").addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", e => { if (e.target.tagName !== "IMG" && e.target.id !== "bigX") dlg.close(); });
+})();
+</script>
+</body>
+</html>
