@@ -68,6 +68,20 @@ window.DAGBOK = {
     },
 
     {
+      datum: "2026-08",
+      etikett: "Mässa",
+      rubrik: "Grillat på TechBBQ",
+      text: [
+        "I slutet av augusti var vi på TechBBQ, en nordisk mässa för tech och startups. Det betyder mycket folk, mycket kaffe och mycket ord som slutar på -tech.",
+        "Vi fick sitta på scenen också. Grillen såg vi inte till, men namnet lovade ingenting."
+      ],
+      bilder: [
+        { src: "bilder/techbbq.webp", alt: "Fyra personer sitter på en scen under en stor skylt med texten TechBBQ", text: "TechBBQ, slutet av augusti." }
+      ],
+      siffra: ["1", "nordisk startupmässa"]
+    },
+
+    {
       datum: "2026-05",
       etikett: "Finansiering",
       rubrik: "Leapfrogs sa ja. Och sen blev det sommar.",
@@ -85,7 +99,7 @@ window.DAGBOK = {
     },
 
     {
-      datum: "2026-04",
+      datum: "2026-06-20",
       etikett: "Tävling",
       rubrik: "Vilmer kom hem med två diplom",
       text: [
