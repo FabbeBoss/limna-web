@@ -190,6 +190,7 @@ section{position:relative}
 .team li span{color:var(--muted);font-size:15px}
 
 /* join: pick how to help, then that path's questions */
+.join{scroll-margin-top:calc(88px - clamp(80px,10vw,150px))}
 .join .kicker{grid-column:1 / 13}
 .join .h2{grid-column:1 / 9;grid-row:2}
 .join .intro{grid-column:1 / 6;grid-row:3;margin-top:32px;font-size:var(--lead);color:var(--ink-2);max-width:28em}
@@ -569,6 +570,18 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
   addEventListener("resize", onScroll);
   if (reduce) words.forEach(w => w.classList.add("on"));
   onScroll();
+
+  /* "Var med" links: land so the heading and all four choices fit on screen */
+  const join = $("#var-med");
+  $$('a[href="#var-med"]').forEach(a => a.addEventListener("click", e => {
+    if (innerWidth < 760) return;
+    e.preventDefault();
+    const top = $(".kicker", join).getBoundingClientRect().top + scrollY - 88;
+    const bottom = $(".paths", join).getBoundingClientRect().bottom + scrollY;
+    const y = bottom - top > innerHeight - 120 ? bottom - innerHeight + 32 : top;
+    scrollTo({ top: y, behavior: reduce ? "auto" : "smooth" });
+    history.replaceState(null, "", "#var-med");
+  }));
 
   /* phone menu */
   const mb = $("#menuBtn");
