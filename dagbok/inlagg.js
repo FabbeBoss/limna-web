@@ -60,7 +60,9 @@ window.DAGBOK = {
         "Fabian och Egon har gått med i teamet, och nu är vi fyra. De håller fortfarande på att lära sig var kaffet står, men har redan byggt både hemsida och app.",
         "Vi har också börjat jobba regelbundet, med fasta tider varje vecka. Det låter kanske inte så spännande, men det är där saker faktiskt blir gjorda."
       ],
-      bilder: [],
+      bilder: [
+        { src: "bilder/jobb-vid-bordet.webp", alt: "En i teamet jobbar vid en bärbar dator, med en multimeter och lösa elektronikdelar på bordet", text: "Fasta tider, multimeter och total koncentration." }
+      ],
       siffra: ["4", "i teamet"]
     }
 

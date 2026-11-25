@@ -99,7 +99,8 @@ h1 .soft{color:var(--muted)}
 .pic.go button:hover img{transform:scale(1.03)}
 .pic figcaption{margin-top:10px;font-size:14px;color:var(--muted)}
 .n1 .pic{grid-column:1 / 9}
-.n1 .pic button{aspect-ratio:16/10}
+.n1 .pic button{width:fit-content;max-width:100%}
+.n1 .pic img{width:auto;max-width:100%;height:auto;max-height:82vh}
 .n2 .pic:nth-child(1){grid-column:1 / 6}
 .n2 .pic:nth-child(1) button{aspect-ratio:4/5}
 .n2 .pic:nth-child(2){grid-column:6 / 10;margin-top:clamp(64px,12vw,180px)}
@@ -116,7 +117,7 @@ h1 .soft{color:var(--muted)}
 
 .now,.end{border-top:0;background:linear-gradient(var(--line),var(--line)) var(--gut) 0/calc(100% - 2*var(--gut)) 1px no-repeat}
 /* slut */
-.end{border-top:1px solid var(--line);padding-block:clamp(56px,8vw,112px) clamp(72px,10vw,140px)}
+.end{padding-block:clamp(56px,8vw,112px) clamp(72px,10vw,140px)}
 .end h2{grid-column:1 / 8;font-size:clamp(40px,6.2vw,96px);line-height:.95;letter-spacing:-.04em;font-weight:400}
 .end .side{grid-column:8 / 13;align-self:end}
 .end p{color:var(--ink-2);font-size:var(--lead);max-width:24em}
