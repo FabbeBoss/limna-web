@@ -16,54 +16,52 @@
 */
 window.DAGBOK = {
 
-  justNu: "Vi ritar på hur bojen ska se ut, och letar efter gårdar som vill låna ut en damm till våren.",
+  justNu: "Vi väntar på sensorer, och kopplar under tiden ihop allt vi kan med det som redan har kommit.",
 
   agenda: [
-    { nar: "December", vad: "Välja form på bojen. Flyta ska den, det är vi överens om." },
-    { nar: "Vintern",  vad: "Testa sensorer på labbänken innan de får blöta fötter." },
-    { nar: "Våren",    vad: "Hitta pilotgårdar inför säsongen 2027." }
+    { nar: "Snart",              vad: "Sean och Vilmer håller lunchföreläsning på SLU. Kom och ät smörgås med oss." },
+    { nar: "När paketen kommer", vad: "Koppla in sensorerna och se om de mäter något vettigt. Eller något alls." },
+    { nar: "Våren",              vad: "Hitta gårdar som vill testa bojen säsongen 2027." }
   ],
 
   inlagg: [
 
     {
       datum: "2026-11-25",
-      rubrik: "Vi behöver din hjälp. På riktigt.",
+      rubrik: "Delarna har börjat trilla in",
       text: [
-        "Ett studentprojekt kommer bara så långt på kaffe och goda föresatser. Så nu finns det ett formulär på startsidan där du kan gå med i teamet, låna ut en damm för pilot, vara bollplank eller bara följa med.",
-        "Vi har också skaffat en LinkedIn-sida, vilket betyder att vi officiellt är vuxna nu. Typ."
+        "Vi har beställt sensorer och elektronik, och de första delarna har kommit. Det betyder att vi har en ESP32 som blinkar blått på bordet och ser väldigt nöjd ut med sig själv.",
+        "Sensorerna är fortfarande på väg. Under tiden har vi ritat upp hur allt ska kopplas ihop på whiteboarden. Dödskallen på kretskortet är inte en varning. Tror vi."
       ],
       bilder: [
-        { src: "../img/gard.webp", alt: "En gård med en damm bakom ett fält", text: "Tillfällig bild tills vi har egna." }
+        { src: "bilder/esp32-pa-bordet.webp", alt: "Ett litet kretskort, en ESP32, kopplat med sladd till en bärbar dator på ett vitt bord", text: "Första delen på plats. Den blinkar." },
+        { src: "bilder/whiteboard-kopplingsschema.webp", alt: "En whiteboard med ett kopplingsschema i rött och grönt runt en ESP32 med en dödskalle ritad på", text: "Kopplingsschemat, version whiteboard." }
       ],
-      siffra: ["4", "sätt att vara med"]
+      siffra: ["1", "kretskort som blinkar. Resten är på posten."]
     },
 
     {
       datum: "2026-11-23",
-      rubrik: "Hemsidan bytte kläder",
+      rubrik: "En hemsida och en app, innan bojen",
       text: [
-        "Vi hade en hemsida där man åkte ut över en filmad åker när man skrollade. Den var häftig. Den var också lite som att läsa en broschyr på en karusell.",
-        "Nu är den ljus, lugn och lätt att läsa. Det är den sjätte versionen, och vi lovar att den får stanna ett tag."
+        "Bojen finns inte än, men hemsidan gör det. Och en demo-app med en påhittad damm, så att man kan klicka runt och se nivå, syre och temperatur redan nu.",
+        "Det kan låta bakvänt. Men det är mycket lättare att fråga en lantbrukare vad den vill se i mobilen när man har en mobil att visa. Hemsidan har för övrigt hunnit byta stil några gånger. Den här får stanna, lovar vi."
       ],
       bilder: [
-        { src: "../img/majs.webp", alt: "Majsfält i motljus", text: "Tillfällig bild." },
-        { src: "../img/droppar.webp", alt: "Vattendroppar på ett blad" }
+        { src: "bilder/teammote-hemsidan.webp", alt: "Två i teamet vid ett mötesbord, med limna.se öppen på en bärbar dator i förgrunden", text: "Veckomöte. Hemsidan i förgrunden, en brasa på tv:n av oklar anledning." }
       ],
-      siffra: ["6", "versioner av hemsidan"]
+      siffra: ["1", "app för en boj som inte finns än"]
     },
 
     {
-      datum: "2026-11-18",
-      rubrik: "Appen hann före bojen",
+      datum: "2026-11-10",
+      rubrik: "Två nya i båten",
       text: [
-        "Bojen finns inte än, men appen gör det. Vi byggde en demo med en påhittad damm, så att man kan klicka runt och se nivå, syre och temperatur redan nu.",
-        "Det kan låta bakvänt. Men det är mycket lättare att fråga en lantbrukare vad den vill se i mobilen när man har en mobil att visa."
+        "Fabian och Egon har gått med i teamet, och nu är vi fyra. De håller fortfarande på att lära sig var kaffet står, men har redan byggt både hemsida och app.",
+        "Vi har också börjat jobba regelbundet, med fasta tider varje vecka. Det låter kanske inte så spännande, men det är där saker faktiskt blir gjorda."
       ],
-      bilder: [
-        { src: "../img/sjo.webp", alt: "En stilla damm omgiven av vass", text: "Tillfällig bild." }
-      ],
-      siffra: ["0", "bojar i vattnet hittills"]
+      bilder: [],
+      siffra: ["4", "i teamet"]
     }
 
   ]
