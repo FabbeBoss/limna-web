@@ -70,13 +70,32 @@ window.DAGBOK = {
     {
       datum: "2026-05",
       etikett: "Finansiering",
-      rubrik: "Leapfrogs sa ja",
+      rubrik: "Leapfrogs sa ja. Och sen blev det sommar.",
       text: [
-        "Vi har fått ett Leapfrogs-bidrag (då hette vi HydroVault). Pengarna ska hjälpa oss att verifiera både tekniken och affären under 2026.",
-        "I praktiken betyder det fler och längre samtal med kunder, rådgivning kring regler och förberedelser inför en pilot. Och en lite lättare känsla i magen när vi beställer komponenter."
+        "Vi har fått ett Leapfrogs-bidrag (då hette vi HydroVault). Pengarna ska hjälpa oss att verifiera både tekniken och affären under 2026. I praktiken betyder det fler och längre samtal med kunder, rådgivning kring regler och förberedelser inför en pilot.",
+        "Sen blev det sommar, och sommaren gick till en whiteboard som till slut inte hade en enda vit fläck kvar. Red Bull sponsrade oss, vilket kanske förklarar en del av whiteboarden.",
+        "Det lönade sig. Vi vann Best Summer Progress i Leapfrogs 2026, och priset var ett års medlemskap i Connect Syd."
       ],
-      bilder: [],
-      siffra: ["1", "bidrag beviljat"]
+      bilder: [
+        { src: "bilder/sommarplanering-whiteboard.webp", alt: "Två i teamet framför en whiteboard full med anteckningar, i ett ljust rum med fönster mot grönska", text: "Sommarplanering. Whiteboarden gav upp före oss." },
+        { src: "bilder/red-bull-selfie.webp", alt: "Selfie med två i teamet framför en hög med burkar Red Bull", text: "Sponsringen har landat." },
+        { src: "bilder/red-bull-burkar.webp", alt: "Två i teamet håller fram var sin burk Red Bull, fotat uppifrån" }
+      ],
+      siffra: ["1", "år i Connect Syd, för Best Summer Progress"]
+    },
+
+    {
+      datum: "2026-04",
+      etikett: "Tävling",
+      rubrik: "Vilmer kom hem med två diplom",
+      text: [
+        "Vilmer tävlade i Emax Challenge 2026 by LF Kalmar, och kom hem med två diplom: Bästa pitch och Logo challenge.",
+        "Pitcha kan han, uppenbarligen. Rita logga också."
+      ],
+      bilder: [
+        { src: "bilder/emax-vilmer.webp", alt: "Vilmer i kavaj håller upp två inramade diplom från Emax Challenge 2026", text: "Ett diplom i varje hand." }
+      ],
+      siffra: ["2", "diplom, en Vilmer"]
     },
 
     {
