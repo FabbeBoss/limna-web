@@ -48,7 +48,7 @@ window.DAGBOK = {
         "Det kan låta bakvänt. Men det är mycket lättare att fråga en lantbrukare vad den vill se i mobilen när man har en mobil att visa. Hemsidan har för övrigt hunnit byta stil några gånger. Den här får stanna, lovar vi."
       ],
       bilder: [
-        { src: "bilder/teammote-hemsidan.webp", alt: "Två i teamet vid ett mötesbord, med limna.se öppen på en bärbar dator i förgrunden", text: "Veckomöte. Hemsidan i förgrunden, en brasa på tv:n av oklar anledning." }
+        { src: "bilder/teammote-hemsidan.webp", alt: "Två i teamet vid ett mötesbord, med limna.se öppen på en bärbar dator i förgrunden", text: "Veckomöte. Hemsidan i förgrunden, och en sprakande brasa på tv:n för att maximera stämningen." }
       ],
       siffra: ["1", "app för en boj som inte finns än"]
     },
