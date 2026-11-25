@@ -222,12 +222,13 @@ section{position:relative}
 .team .intro{grid-column:1 / 6;grid-row:2;margin-top:32px;font-size:var(--lead);color:var(--ink-2);max-width:28em}
 .team .p6{grid-column:1 / 5;grid-row:3;aspect-ratio:3/2;margin-top:56px}
 .team ul{grid-column:7 / 13;grid-row:1 / 4;align-self:center}
-.team li{padding:18px 0 20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap}
+.team li{padding:18px 0 20px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr auto;column-gap:20px;row-gap:6px;align-items:center}
 .team li:last-child{border-bottom:1px solid var(--line)}
 .team li b{font-weight:400;font-size:clamp(28px,3vw,44px);letter-spacing:-.03em;line-height:1.1}
-.team li .meta{display:inline-flex;align-items:baseline;gap:22px;font-size:15px}
-.team li .meta>span{color:var(--muted)}
-.team li .in{color:var(--ink)}
+.team li .role{grid-column:1;color:var(--muted);font-size:15px}
+.team li .in{grid-column:2;grid-row:1;display:grid;place-items:center;width:44px;height:44px;margin:-10px -10px -10px 0;color:var(--ink);opacity:.85;transition:opacity .3s,transform .4s var(--ease)}
+.team li .in svg{width:22px;height:22px}
+.team li .in:hover{opacity:1;transform:translateY(-2px)}
 
 /* join: pick how to help, then that path's questions */
 .join{scroll-margin-top:calc(88px - clamp(80px,10vw,150px))}
@@ -353,7 +354,6 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
   .app .text{grid-column:1 / 13}
   .team .h2,.team .intro,.team ul{grid-column:1 / 13;grid-row:auto}
   .team ul{margin-top:44px}
-  .team li{flex-direction:column;align-items:flex-start;gap:2px}
   .team .p6{grid-column:1 / 10;grid-row:auto;margin-top:44px}
   .join .h2,.join .intro,.join .mail{grid-column:1 / 13}
   .gains li,.gains li:last-child,.gains li:nth-child(-n+2){grid-column:auto}
@@ -500,10 +500,10 @@ footer{padding:18px 0 22px;border-top:1px solid var(--line)}
       <p class="intro rise">Fyra personer som tycker att lantbruket förtjänar bättre verktyg. Vi började med vattnet, eftersom det är där vi har hört att det skaver mest.</p>
       <figure class="ph p6"><img src="img/vete.webp" width="1200" height="798" alt="En knippe torkat vete mot mörk bakgrund" loading="lazy"></figure>
       <ul>
-        <li class="rise"><b>Sean Banegas</b><span class="meta"><span>Affär och utveckling</span><a class="ul in" href="https://se.linkedin.com/in/seanbanegas" target="_blank" rel="noopener" aria-label="Sean Banegas på LinkedIn">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></span></li>
-        <li class="rise"><b>Vilmer Kullberg</b><span class="meta"><span>Teknik och CAD</span><a class="ul in" href="https://se.linkedin.com/in/vilmer-kullberg-ekberg-57579a397" target="_blank" rel="noopener" aria-label="Vilmer Kullberg på LinkedIn">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></span></li>
-        <li class="rise"><b>Egon Artberger</b><span class="meta"><span>Prototyp, hemsida och app</span><a class="ul in" href="https://www.linkedin.com/in/egon-artberger-00600529a/" target="_blank" rel="noopener" aria-label="Egon Artberger på LinkedIn">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></span></li>
-        <li class="rise"><b>Fabian Bertilsson</b><span class="meta"><span>Prototyp, hemsida och app</span><a class="ul in" href="https://se.linkedin.com/in/fabian-bertilsson-420015263" target="_blank" rel="noopener" aria-label="Fabian Bertilsson på LinkedIn">LinkedIn <span class="arrow" aria-hidden="true">↗</span></a></span></li>
+        <li class="rise"><b>Sean Banegas</b><a class="in" href="https://se.linkedin.com/in/seanbanegas" target="_blank" rel="noopener" aria-label="Sean Banegas på LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a><span class="role">Affär och utveckling</span></li>
+        <li class="rise"><b>Vilmer Kullberg</b><a class="in" href="https://se.linkedin.com/in/vilmer-kullberg-ekberg-57579a397" target="_blank" rel="noopener" aria-label="Vilmer Kullberg på LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a><span class="role">Teknik och CAD</span></li>
+        <li class="rise"><b>Egon Artberger</b><a class="in" href="https://www.linkedin.com/in/egon-artberger-00600529a/" target="_blank" rel="noopener" aria-label="Egon Artberger på LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a><span class="role">Prototyp, hemsida och app</span></li>
+        <li class="rise"><b>Fabian Bertilsson</b><a class="in" href="https://se.linkedin.com/in/fabian-bertilsson-420015263" target="_blank" rel="noopener" aria-label="Fabian Bertilsson på LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a><span class="role">Prototyp, hemsida och app</span></li>
       </ul>
     </div>
   </section>
